@@ -1,0 +1,18 @@
+# IDE
+.vscode
+.idea
+.history
+
+# CI/CD
+.github
+
+# Source code
+src
+
+# Configs
+.editorconfig
+.eslintignore
+.eslintrc.js
+.prettierc.js
+jest.config.js
+tsconfig.json
