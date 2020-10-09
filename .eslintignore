@@ -7,4 +7,5 @@ dist/
 
 # Testing
 coverage/
+example/
 raw/

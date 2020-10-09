@@ -1,0 +1,14 @@
+{
+  "name": "lottie-js-example",
+  "version": "1.0.0",
+  "description": "Test lottie-js",
+  "main": "index.js",
+  "scripts": {
+    "example": "node ./index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@lottiefiles/lottie-js": "^0.0.4"
+  }
+}

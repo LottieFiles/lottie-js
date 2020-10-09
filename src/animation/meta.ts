@@ -19,7 +19,7 @@ export class Meta {
   /**
    * Generator.
    */
-  public generator = '__GENERATOR__';
+  public generator = process.env.GENERATOR;
 
   /**
    * Description.

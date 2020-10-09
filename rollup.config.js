@@ -36,10 +36,10 @@ export default [
       // Build
       esbuild({
         minify: process.env.NODE_ENV === 'production',
-        target: 'esnext', // default, or 'es20XX', 'esnext'
+        target: 'es2015', // default, or 'es20XX', 'esnext'
 
         define: {
-          __GENERATOR__: `'${pkg.name} ${pkg.version}'`,
+          'process.env.GENERATOR': `'${pkg.name} ${pkg.version}'`,
         },
       }),
     ],
