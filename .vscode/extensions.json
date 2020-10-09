@@ -1,0 +1,14 @@
+{
+	// See http://go.microsoft.com/fwlink/?LinkId=827846
+	// for the documentation about the extensions.json format
+	"recommendations": [
+		"visualstudioexptteam.vscodeintellicode",
+		"dskwrk.vscode-generate-getter-setter",
+		"hediet.realtime-debugging",
+		"esbenp.prettier-vscode",
+		"liamhammett.inline-parameters",
+		"dbaeumer.vscode-eslint",
+		"editorconfig.editorconfig",
+		"coenraads.bracket-pair-colorizer"
+	]
+}

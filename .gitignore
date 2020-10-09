@@ -37,7 +37,6 @@ jspm_packages/
 
 # IDEs
 **/.idea
-**/.vscode
 **/.history
 **/.VSCodeCounter
 
