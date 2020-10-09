@@ -8,6 +8,7 @@
   "repository": "https://github.com/LottieFiles/lottie-js",
   "license": "UNLICENSED",
   "keywords": [],
+  "author": "Jawish Hameed <jawish@lottiefiles.com>",
   "scripts": {
     "build": "rollup -c",
     "docs": "typedoc src",
@@ -18,14 +19,15 @@
   "engines": {
     "node": ">=8.9"
   },
-  "dependencies": {},
+  "dependencies": {
+    "cross-fetch": "^3.0.6"
+  },
   "devDependencies": {
     "@rollup/plugin-strip": "2.0.0",
     "@types/jest": "26.0.14",
     "@types/node": "14.11.2",
     "@typescript-eslint/eslint-plugin": "4.2.0",
     "@typescript-eslint/parser": "4.2.0",
-    "cross-fetch": "3.0.6",
     "esbuild": "0.7.13",
     "eslint": "7.10.0",
     "eslint-config-prettier": "6.12.0",

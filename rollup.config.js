@@ -3,27 +3,31 @@ import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const package_ = require('./package.json');
+const pkg = require('./package.json');
 
 export default [
   {
     input: './src/index.ts',
     output: [
       {
-        file: package_.main,
+        file: pkg.main,
         format: 'umd',
         name: 'Lottie',
         exports: 'named',
         sourcemap: true,
+
+        globals: {
+          'cross-fetch': 'Cross Fetch',
+        },
       },
       {
-        file: package_.module,
+        file: pkg.module,
         format: 'es',
         sourcemap: true,
       },
     ],
 
-    external: Object.keys(package_.dependencies || {}),
+    external: Object.keys(pkg.dependencies || {}),
 
     plugins: [
       // Remove debugger statements and console.log calls
@@ -35,7 +39,7 @@ export default [
         target: 'esnext', // default, or 'es20XX', 'esnext'
 
         define: {
-          __GENERATOR__: `'${package_.name} ${package_.version}'`,
+          __GENERATOR__: `'${pkg.name} ${pkg.version}'`,
         },
       }),
     ],

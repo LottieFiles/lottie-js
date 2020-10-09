@@ -18,11 +18,9 @@ yarn add @lottiefiles/lottie-js@0.0.1
 import { Lottie } from '@lottiefiles/lottie-js';
 
 async function loadAnimation() {
-  const result = await fetch('https://assets1.lottiefiles.com/packages/lf20_u4j3xm6r.json');
-  const json = await result.json();
-
-  // Create Lottie instance
-  const anim = Animation.fromJSON(json);
+  // Create Lottie instance 
+  // (you can also use Animation.fromJSON method if you already have the Lottie JSON loaded)
+  const anim = Animation.fromURL('https://assets1.lottiefiles.com/packages/lf20_u4j3xm6r.json');
 
   // Print some data of the animation
   console.log('Frame Rate', anim.frameRate);

@@ -1,3 +1,5 @@
+import fetch from 'cross-fetch';
+
 import { Asset, createAssetFromJSON } from '../assets';
 import { PropertyType } from '../constants';
 import { createLayerFromJSON, Layer } from '../layers';
@@ -37,7 +39,7 @@ export class Animation {
    */
   public static fromJSON(json: Record<string, any>): Animation {
     if (Animation.isLottie(json) === false) {
-      throw new Error(`The given object is not a valid Lottie JSON structure.`);
+      throw new Error(`The given object is not a valid Lottie JSON structure`);
     }
 
     const animation = new Animation();
@@ -60,6 +62,34 @@ export class Animation {
     }
 
     return animation;
+  }
+
+  /**
+   * Create a class instance from the URL to the Lottie JSON.
+   *
+   * @param url     URL string
+   * @returns       Animation instance
+   */
+  public static async fromURL(url: string): Promise<Animation> {
+    if (typeof url !== 'string') {
+      throw new Error(`The url value must be a string`);
+    }
+
+    let json;
+
+    try {
+      // Try construct an absolute URL from the src URL
+      const srcUrl: URL = new URL(url);
+
+      // Fetch the JSON file from the URL
+      const result = await fetch(srcUrl.toString());
+      json = await result.json();
+    } catch (err) {
+      throw new Error(`An error occurred while trying to load the Lottie file from URL`);
+    }
+
+    // Parse the JSON and return animation
+    return Animation.fromJSON(json);
   }
 
   /**
