@@ -1,5 +1,5 @@
 {
-  "name": "lottie-js",
+  "name": "@lottiefiles/lottie-js",
   "version": "0.0.1",
   "description": "Lottie JSON model for Javascript/Typescript",
   "main": "dist/index.js",
@@ -52,7 +52,7 @@
     "!**/__tests__"
   ],
   "publishConfig": {
-    "access": "restricted"
+    "registry": "https://npm.pkg.github.com/@lottiefiles"
   },
   "husky": {
     "hooks": {

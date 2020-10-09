@@ -7,6 +7,41 @@ This library is designed to help with serializing and deserializing a Lottie JSO
 ### Overview
 ---
 
+### Usage
+1. Install
+```
+yarn add @lottiefiles/lottie-js@0.0.1
+```
+
+2. Use
+```
+import { Lottie } from '@lottiefiles/lottie-js';
+
+async function loadAnimation() {
+  const result = await fetch('https://assets1.lottiefiles.com/packages/lf20_u4j3xm6r.json');
+  const json = await result.json();
+
+  // Create Lottie instance
+  const anim = Animation.fromJSON(json);
+
+  // Print some data of the animation
+  console.log('Frame Rate', anim.frameRate);
+  console.log('Number of Layers', anim.layers.length);
+  console.log(anim.getColors());
+
+  // Manipulate animation
+  anim.name = 'Woohoo';
+  anim.width = 512;
+  anim.height = 512;
+
+  // Get the new JSON
+  const woohooLottie = JSON.stringify(anim);
+  console.log(woohooLottie);
+}
+
+Promise.resolve(loadAnimation);
+```
+
 ### Documentation &amp; API
 ---
 The documenting system used is [TypeDoc](https://typedoc.org/).
