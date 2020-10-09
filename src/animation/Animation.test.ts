@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
 
-import { Animation } from './animation/animation';
+import { Animation } from './animation';
 function sortObjectKeys(object: Record<string, any>) {
   return Object.keys(object)
     .sort()
