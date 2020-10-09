@@ -33,24 +33,37 @@ export class Property {
    * @returns       ShapeLayer instance
    */
   public static fromJSON(type: PropertyType, json: Record<string, any>): Property {
-    const shape = new Property(type);
+    const property = new Property(type);
 
-    // This shape
-    shape.expression = json?.x;
-    shape.index = json.ix;
-    shape.isAnimated = json.a === 1;
+    // This property
+    property.expression = 'x' in json ? json.x : undefined;
+    property.index = json.ix;
+    property.isAnimated = json.a === 1;
 
-    if (shape.isAnimated === false) {
-      shape.values = [new KeyFrame(0, json.k)];
+    if (property.isAnimated === false) {
+      property.values = [new KeyFrame(0, json.k)];
     } else {
-      shape.values = json.k.map((v: Record<string, any>) => KeyFrame.fromJSON(v));
+      property.values = json.k.map((v: Record<string, any>) => KeyFrame.fromJSON(v));
     }
 
-    if (type === PropertyType.COLOR && json.p) {
-      shape.maxColors = json.p;
+    if (type === PropertyType.COLOR) {
+      if (json.p) {
+        property.maxColors = json.p;
+      }
+
+      property.values.forEach((kf: KeyFrame) => {
+        const colorParts = kf.value as [number, number, number, number];
+
+        kf.value = [
+          Math.round(colorParts[0] * 255),
+          Math.round(colorParts[1] * 255),
+          Math.round(colorParts[2] * 255),
+          colorParts[3] || 1,
+        ];
+      });
     }
 
-    return shape;
+    return property;
   }
 
   // ---------------------------------------------------------------------

@@ -4,6 +4,7 @@ import { Asset, createAssetFromJSON } from '../assets';
 import { PropertyType } from '../constants';
 import { createLayerFromJSON, Layer } from '../layers';
 import { Property } from '../properties';
+import { KeyFrame } from '../timeline';
 import { useRegistry } from '../utils/use-registry';
 import { Meta } from './meta';
 
@@ -139,18 +140,17 @@ export class Animation {
    * @returns Array of colors.
    */
   public getColors(): string[] {
-    const colorProperties = [...useRegistry().keys()]
+    const colors: Set<string> = new Set();
+
+    [...useRegistry().keys()]
+      // Filter color properties
       .filter((p: Property) => p.type === PropertyType.COLOR)
-      .map((cp: Property) => cp.values);
+      .forEach((cp: Property) => {
+        cp.values.forEach((v: KeyFrame) => {
+          colors.add(JSON.stringify(v.value));
+        });
+      });
 
-    const result: any = [];
-
-    for (let p = 0, pMax = colorProperties.length; p < pMax; p++) {
-      for (let v = 0, vMax = colorProperties[p].length; v < vMax; v++) {
-        result.push(colorProperties[p][v].value);
-      }
-    }
-
-    return result;
+    return Array.from(colors).map(c => JSON.parse(c));
   }
 }
