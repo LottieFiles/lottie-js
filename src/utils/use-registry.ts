@@ -6,7 +6,7 @@ import { Property } from '../properties';
 const registry: Map<Property, any> = new Map();
 
 /**
- * Returns the global instance of registry.
+ * Returns the instance of registry.
  */
 export function useRegistry(): Map<Property, any> {
   return registry;

@@ -1,8 +1,15 @@
 import { PropertyType, ShapeType } from '../constants';
 import { Property } from '../properties';
-import { Shape } from './Shape';
+import { Shape } from './shape';
 
+/**
+ * Path shape type.
+ */
 export class PathShape extends Shape {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   /**
    * Path shape type: sh
    */
@@ -12,6 +19,16 @@ export class PathShape extends Shape {
 
   public vertices: Property = new Property(PropertyType.SHAPE);
 
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       PathShape instance
+   */
   public static fromJSON(json: Record<string, any>): PathShape {
     const shape = new PathShape();
 
@@ -29,6 +46,17 @@ export class PathShape extends Shape {
     return shape;
   }
 
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
   public toJSON(): Record<string, any> {
     return {
       ty: this.type,

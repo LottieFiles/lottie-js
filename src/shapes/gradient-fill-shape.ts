@@ -1,11 +1,15 @@
-import { BlendMode } from '../constants/blend-mode';
-import { GradientFillType } from '../constants/GradientFillType';
-import { PropertyType } from '../constants/PropertyType';
-import { ShapeType } from '../constants/ShapeType';
-import { Property } from '../properties/property';
-import { Shape } from './Shape';
+import { BlendMode, GradientFillType, PropertyType, ShapeType } from '../constants';
+import { Property } from '../properties';
+import { Shape } from './shape';
 
+/**
+ * Gradient fill shape type.
+ */
 export class GradientFillShape extends Shape {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   /**
    * Gradient shape type: fl
    */
@@ -27,6 +31,16 @@ export class GradientFillShape extends Shape {
 
   public startPoint: Property = new Property(PropertyType.POSITION);
 
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       GradientFillShape instance
+   */
   public static fromJSON(json: Record<string, any>): GradientFillShape {
     const shape = new GradientFillShape();
 
@@ -52,6 +66,10 @@ export class GradientFillShape extends Shape {
 
     return shape;
   }
+
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.

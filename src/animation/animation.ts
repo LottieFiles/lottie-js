@@ -1,11 +1,18 @@
-import { PropertyType } from '.';
-import { Asset, createAssetFromJSON } from './assets';
-import { createLayerFromJSON, Layer } from './layers';
-import { Meta } from './Meta';
-import { Property } from './properties';
-import { useRegistry } from './utils/useRegistry';
+import { Asset, createAssetFromJSON } from '../assets';
+import { PropertyType } from '../constants';
+import { createLayerFromJSON, Layer } from '../layers';
+import { Property } from '../properties';
+import { useRegistry } from '../utils/use-registry';
+import { Meta } from './meta';
 
+/**
+ * Animation contains all the information about the Lottie animation.
+ */
 export class Animation {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   public assets: Asset[] = [];
   public frameRate = 30;
   public height = 0;
@@ -15,9 +22,19 @@ export class Animation {
   public meta: Meta = new Meta();
   public name = '';
   public outPoint = 0;
-  public version = '';
+  public version = ``;
   public width = 0;
 
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       Animation instance
+   */
   public static fromJSON(json: Record<string, any>): Animation {
     if (Animation.isLottie(json) === false) {
       throw new Error(`The given object is not a valid Lottie JSON structure.`);
@@ -51,7 +68,7 @@ export class Animation {
    * This method checks for the presense of the mandatory fields 'v', 'ip', 'op', 'layers', 'fr', 'w' and 'h' in the object.
    *
    * @param json    Object
-   * @returns Boolean true if it is a valid Lottie
+   * @returns       Boolean true if it is a valid Lottie
    */
   public static isLottie(json: Record<string, any>): boolean {
     const mandatory = ['v', 'ip', 'op', 'layers', 'fr', 'w', 'h'];
@@ -59,6 +76,17 @@ export class Animation {
     return mandatory.every(field => Object.prototype.hasOwnProperty.call(json, field));
   }
 
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
   public toJSON(): Record<string, any> {
     return {
       assets: this.assets,
@@ -75,16 +103,21 @@ export class Animation {
     };
   }
 
+  /**
+   * Returns all the colors used in the animation.
+   *
+   * @returns Array of colors.
+   */
   public getColors(): string[] {
-    const colorProps = [...useRegistry().keys()]
+    const colorProperties = [...useRegistry().keys()]
       .filter((p: Property) => p.type === PropertyType.COLOR)
       .map((cp: Property) => cp.values);
 
     const result: any = [];
 
-    for (let p = 0, pMax = colorProps.length; p < pMax; p++) {
-      for (let v = 0, vMax = colorProps[p].length; v < vMax; v++) {
-        result.push(colorProps[p][v].value);
+    for (let p = 0, pMax = colorProperties.length; p < pMax; p++) {
+      for (let v = 0, vMax = colorProperties[p].length; v < vMax; v++) {
+        result.push(colorProperties[p][v].value);
       }
     }
 

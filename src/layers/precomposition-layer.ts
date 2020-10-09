@@ -1,14 +1,32 @@
 import { LayerType, PropertyType } from '../constants';
 import { Property } from '../properties';
-import { Layer } from './Layer';
+import { Layer } from './layer';
 
-export class ImageLayer extends Layer {
-  public readonly type = LayerType.IMAGE;
+/**
+ * Precomposition layer type.
+ */
+export class PrecompositionLayer extends Layer {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+  public readonly type = LayerType.PRECOMPOSITION;
 
-  public refId!: string;
+  public refId?: string;
 
-  public static fromJSON(json: Record<string, any>): ImageLayer {
-    const layer = new ImageLayer();
+  public timeRemap: any;
+
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       PrecompositionLayer instance
+   */
+  public static fromJSON(json: Record<string, any>): PrecompositionLayer {
+    const layer = new PrecompositionLayer();
 
     // Base layer props
     layer.autoOrient = json.ao === 1;
@@ -40,11 +58,19 @@ export class ImageLayer extends Layer {
     return layer;
   }
 
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
   public toJSON(): Record<string, any> {
     return {
-      ty: this.type,
-
-      // Base layer props
       ao: this.autoOrient ? 1 : 0,
       bm: this.blendMode,
       cl: this.classNames,
@@ -64,12 +90,11 @@ export class ImageLayer extends Layer {
       nm: this.name,
       op: this.outPoint,
       parent: this.parent,
+      refId: this.refId,
       sr: this.timeStretch,
       st: this.startTime,
+      ty: this.type,
       w: this.width,
-
-      // This layer props
-      refId: this.refId,
     };
   }
 }

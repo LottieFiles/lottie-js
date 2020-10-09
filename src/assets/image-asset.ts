@@ -1,18 +1,22 @@
-import { MaskMode } from '../constants';
+import { Asset } from './asset';
 
 /**
- * Mask.
+ * Image asset type.
  */
-export class Mask {
+export class ImageAsset extends Asset {
   // ---------------------------------------------------------------------
   // Public Properties
   // ---------------------------------------------------------------------
 
-  public isInverted = false;
-  public name = '';
-  public opacity: any;
-  public points: any;
-  public mode: MaskMode = MaskMode.Add;
+  public data?: string;
+
+  public id?: string;
+
+  public height!: number;
+
+  public path?: string;
+
+  public width!: number;
 
   // ---------------------------------------------------------------------
   // Public Static Methods
@@ -22,22 +26,22 @@ export class Mask {
    * Convert the Lottie JSON object to class instance.
    *
    * @param json    JSON object
-   * @returns       Mask instance
+   * @returns       ImageAsset instance
    */
-  public static fromJSON(json: Record<string, any>): Mask {
-    const mask = new Mask();
+  public static fromJSON(json: Record<string, any>): ImageAsset {
+    const asset = new ImageAsset();
 
-    mask.isInverted = json.inv;
-    mask.mode = json.mode;
-    mask.name = json.nm;
-    mask.points = json.pt;
-    mask.opacity = json.o;
+    asset.data = json.p;
+    asset.id = json.id;
+    asset.height = json.h;
+    asset.path = json.u;
+    asset.width = json.w;
 
-    return mask;
+    return asset;
   }
 
   // ---------------------------------------------------------------------
-  // Public Methods
+  // Public Properties
   // ---------------------------------------------------------------------
 
   /**
@@ -49,11 +53,11 @@ export class Mask {
    */
   public toJSON(): Record<string, any> {
     return {
-      inv: this.isInverted,
-      mode: this.mode,
-      nm: this.name,
-      o: this.opacity,
-      pt: this.points,
+      h: this.height,
+      i: this.id,
+      p: this.data,
+      u: this.path,
+      w: this.width,
     };
   }
 }

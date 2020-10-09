@@ -1,13 +1,13 @@
-import { ShapeType } from '../constants/ShapeType';
-import { EllipseShape } from './EllipseShape';
-import { FillShape } from './FillShape';
-import { GradientFillShape } from './GradientFillShape';
-import { GroupShape } from './GroupShape';
-import { PathShape } from './PathShape';
-import { RectangleShape } from './RectangleShape';
-import { Shape } from './Shape';
-import { StrokeShape } from './StrokeShape';
-import { TrimShape } from './TrimShape';
+import { ShapeType } from '../constants';
+import { EllipseShape } from './ellipse-shape';
+import { FillShape } from './fill-shape';
+import { GradientFillShape } from './gradient-fill-shape';
+import { GroupShape } from './group-shape';
+import { PathShape } from './path-shape';
+import { RectangleShape } from './rectangle-shape';
+import { Shape } from './shape';
+import { StrokeShape } from './stroke-shape';
+import { TrimShape } from './trim-shape';
 
 export function createShape(type: string): Shape {
   if (type === ShapeType.PATH) {

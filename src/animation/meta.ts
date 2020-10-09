@@ -1,18 +1,35 @@
-import { MaskMode } from '../constants';
-
 /**
- * Mask.
+ * Animation metadata information.
  */
-export class Mask {
+export class Meta {
   // ---------------------------------------------------------------------
   // Public Properties
   // ---------------------------------------------------------------------
 
-  public isInverted = false;
-  public name = '';
-  public opacity: any;
-  public points: any;
-  public mode: MaskMode = MaskMode.Add;
+  /**
+   * Author name.
+   */
+  public author?: string;
+
+  /**
+   * Keywords.
+   */
+  public keywords?: string;
+
+  /**
+   * Generator.
+   */
+  public generator = '__GENERATOR__';
+
+  /**
+   * Description.
+   */
+  public description?: string;
+
+  /**
+   * Theme color.
+   */
+  public themeColor?: string;
 
   // ---------------------------------------------------------------------
   // Public Static Methods
@@ -22,18 +39,18 @@ export class Mask {
    * Convert the Lottie JSON object to class instance.
    *
    * @param json    JSON object
-   * @returns       Mask instance
+   * @returns       Meta instance
    */
-  public static fromJSON(json: Record<string, any>): Mask {
-    const mask = new Mask();
+  public static fromJSON(json: Record<string, any>): Meta {
+    const meta = new Meta();
 
-    mask.isInverted = json.inv;
-    mask.mode = json.mode;
-    mask.name = json.nm;
-    mask.points = json.pt;
-    mask.opacity = json.o;
+    meta.author = json.a;
+    meta.keywords = json.k;
+    meta.generator = json.g;
+    meta.description = json.d;
+    meta.themeColor = json.tc;
 
-    return mask;
+    return meta;
   }
 
   // ---------------------------------------------------------------------
@@ -45,15 +62,15 @@ export class Mask {
    *
    * Called by Javascript when serializing object with JSON.stringify()
    *
-   * @returns       JSON object
+   * @returns JSON object
    */
   public toJSON(): Record<string, any> {
     return {
-      inv: this.isInverted,
-      mode: this.mode,
-      nm: this.name,
-      o: this.opacity,
-      pt: this.points,
+      a: this.author,
+      k: this.keywords,
+      g: this.generator,
+      d: this.description,
+      tc: this.themeColor,
     };
   }
 }

@@ -1,18 +1,23 @@
-import { MaskMode } from '../constants';
+import { AssetType } from '../constants/asset-type';
+import { createLayerFromJSON } from '../layers';
+import { Layer } from '../layers';
+import { Asset } from './asset';
 
 /**
- * Mask.
+ * Precomposition asset type.
  */
-export class Mask {
+export class PrecompositionAsset extends Asset {
   // ---------------------------------------------------------------------
   // Public Properties
   // ---------------------------------------------------------------------
 
-  public isInverted = false;
-  public name = '';
-  public opacity: any;
-  public points: any;
-  public mode: MaskMode = MaskMode.Add;
+  public readonly type = AssetType.PRECOMPOSITION;
+
+  public layers: Layer[] = [];
+
+  public id = '';
+
+  public timeRemap: any;
 
   // ---------------------------------------------------------------------
   // Public Static Methods
@@ -22,18 +27,18 @@ export class Mask {
    * Convert the Lottie JSON object to class instance.
    *
    * @param json    JSON object
-   * @returns       Mask instance
+   * @returns       PrecompositionAsset instance
    */
-  public static fromJSON(json: Record<string, any>): Mask {
-    const mask = new Mask();
+  public static fromJSON(json: Record<string, any>): PrecompositionAsset {
+    const layer = new PrecompositionAsset();
 
-    mask.isInverted = json.inv;
-    mask.mode = json.mode;
-    mask.name = json.nm;
-    mask.points = json.pt;
-    mask.opacity = json.o;
+    // This layer props
+    layer.id = json.id;
+    layer.timeRemap = json.tm;
 
-    return mask;
+    layer.layers = json.layers.map((jLayer: Record<string, any>) => createLayerFromJSON(jLayer)).filter(Boolean);
+
+    return layer;
   }
 
   // ---------------------------------------------------------------------
@@ -49,11 +54,9 @@ export class Mask {
    */
   public toJSON(): Record<string, any> {
     return {
-      inv: this.isInverted,
-      mode: this.mode,
-      nm: this.name,
-      o: this.opacity,
-      pt: this.points,
+      id: this.id,
+      layers: this.layers,
+      tm: this.timeRemap,
     };
   }
 }

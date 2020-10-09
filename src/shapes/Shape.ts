@@ -1,6 +1,13 @@
-import { ShapeType } from '../constants/ShapeType';
+import { ShapeType } from '../constants';
 
+/**
+ * Shape base class.
+ */
 export abstract class Shape {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   /**
    * Shape type
    */

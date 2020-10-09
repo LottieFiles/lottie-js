@@ -1,10 +1,27 @@
 import { LayerType, PropertyType } from '../constants';
 import { Property } from '../properties';
-import { Layer } from './Layer';
+import { Layer } from './layer';
 
+/**
+ * Group layer type.
+ */
 export class GroupLayer extends Layer {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   public readonly type = LayerType.GROUP;
 
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       GroupLayer instance
+   */
   public static fromJSON(json: Record<string, any>): GroupLayer {
     const layer = new GroupLayer();
 
@@ -35,6 +52,17 @@ export class GroupLayer extends Layer {
     return layer;
   }
 
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
   public toJSON(): Record<string, any> {
     return {
       // Base layer props

@@ -1,9 +1,15 @@
-import { PropertyType } from '../constants/PropertyType';
-import { ShapeType } from '../constants/ShapeType';
-import { Property } from '../properties/Property';
-import { Shape } from './Shape';
+import { PropertyType, ShapeType } from '../constants';
+import { Property } from '../properties';
+import { Shape } from './shape';
 
+/**
+ * Rectangle shape type.
+ */
 export class RectangleShape extends Shape {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   /**
    * Rectangle shape type: rc
    */
@@ -17,6 +23,16 @@ export class RectangleShape extends Shape {
 
   public size: Property = new Property(PropertyType.SIZE);
 
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       RectangleShape instance
+   */
   public static fromJSON(json: Record<string, any>): RectangleShape {
     const shape = new RectangleShape();
 
@@ -36,6 +52,17 @@ export class RectangleShape extends Shape {
     return shape;
   }
 
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
   public toJSON(): Record<string, any> {
     return {
       ty: this.type,

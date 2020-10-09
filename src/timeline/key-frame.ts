@@ -1,4 +1,11 @@
+/**
+ * Represents a keyframe in the timeline with the frame number and associated property value.
+ */
 export class KeyFrame {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   public frame: number;
   public value: number | number[];
   public frameInTangent?: [number, number];
@@ -6,6 +13,16 @@ export class KeyFrame {
   public valueInTangent?: [number, number];
   public valueOutTangent?: [number, number];
 
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       KeyFrame instance
+   */
   public static fromJSON(json: Record<string, any>): KeyFrame {
     const value: KeyFrame = new KeyFrame(json.t, json.s);
 
@@ -22,11 +39,28 @@ export class KeyFrame {
     return value;
   }
 
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Constructor.
+   *
+   * @param frame     Frame number
+   * @param value     Property value
+   */
   public constructor(frame: number, value: number | number[]) {
     this.frame = frame;
     this.value = value;
   }
 
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
   public toJSON(): Record<string, any> {
     const json: Record<string, any> = {
       // This shape

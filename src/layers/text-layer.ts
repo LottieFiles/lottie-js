@@ -1,16 +1,31 @@
 import { LayerType, PropertyType } from '../constants';
 import { Property } from '../properties';
-import { Layer } from './Layer';
+import { Layer } from './layer';
 
-export class SolidLayer extends Layer {
-  public readonly type = LayerType.SOLID;
+/**
+ * Text layer type.
+ */
+export class TextLayer extends Layer {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
 
-  public solidColor = '#000000';
-  public solidHeight = 1;
-  public solidWidth = 1;
+  public readonly type = LayerType.TEXT;
 
-  public static fromJSON(json: Record<string, any>): SolidLayer {
-    const layer = new SolidLayer();
+  public textData?: any;
+
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       TextLayer instance
+   */
+  public static fromJSON(json: Record<string, any>): TextLayer {
+    const layer = new TextLayer();
 
     // Base layer props
     layer.autoOrient = json.ao === 1;
@@ -37,15 +52,26 @@ export class SolidLayer extends Layer {
     layer.scale = Property.fromJSON(PropertyType.SCALE, json.ks.s);
 
     // This layer props
-    layer.solidColor = json.sc;
-    layer.solidHeight = json.sh;
-    layer.solidWidth = json.sw;
+    layer.textData = json.t;
 
     return layer;
   }
 
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
   public toJSON(): Record<string, any> {
     return {
+      ty: this.type,
+
       // Base layer props
       ao: this.autoOrient ? 1 : 0,
       bm: this.blendMode,
@@ -66,13 +92,12 @@ export class SolidLayer extends Layer {
       nm: this.name,
       op: this.outPoint,
       parent: this.parent,
-      sc: this.solidColor,
-      sh: this.solidHeight,
-      sw: this.solidWidth,
       sr: this.timeStretch,
       st: this.startTime,
-      ty: this.type,
       w: this.width,
+
+      // This layer props
+      t: this.textData,
     };
   }
 }

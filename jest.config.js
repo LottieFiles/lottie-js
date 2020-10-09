@@ -2,7 +2,7 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  modulePathIgnorePatterns: ['dist/', 'scripts/'],
+  roots: ['<rootDir>/src'],
   globals: {
     'ts-jest': {
       packageJson: 'package.json',

@@ -1,10 +1,15 @@
-import { PropertyType } from '../constants/PropertyType';
-import { Layer } from '../layers';
-import { Shape } from '../shapes';
-import { KeyFrame } from '../timeline/KeyFrame';
-import { useRegistry } from '../utils/useRegistry';
+import { PropertyType } from '../constants';
+import { KeyFrame } from '../timeline';
+import { useRegistry } from '../utils/use-registry';
 
+/**
+ * Represents animated properties of layers and shapes.
+ */
 export class Property {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   public readonly type: PropertyType;
 
   public expression?: string;
@@ -17,12 +22,16 @@ export class Property {
 
   public values: Array<KeyFrame> = [];
 
-  constructor(type: PropertyType, parent?: Layer | Shape) {
-    this.type = type;
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
 
-    useRegistry().set(this, parent);
-  }
-
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       ShapeLayer instance
+   */
   public static fromJSON(type: PropertyType, json: Record<string, any>): Property {
     const shape = new Property(type);
 
@@ -44,6 +53,29 @@ export class Property {
     return shape;
   }
 
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Constructor.
+   *
+   * @param type      Property type.
+   * @param parent    Parent instance the property belongs to.
+   */
+  constructor(type: PropertyType, parent?: any) {
+    this.type = type;
+
+    useRegistry().set(this, parent);
+  }
+
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
   public toJSON(): Record<string, any> {
     let value;
 

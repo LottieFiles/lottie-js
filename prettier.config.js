@@ -3,7 +3,6 @@ module.exports = {
   bracketSpacing: true,
   endOfLine: 'lf',
   insertPragma: false,
-  jsxBracketSameLine: false,
   printWidth: 120,
   proseWrap: 'always',
   requirePragma: false,
@@ -17,8 +16,8 @@ module.exports = {
       files: '*.json',
       options: {
         tabWidth: 2,
-        singleQuote: false
-      }
-    }
-  ]
+        singleQuote: false,
+      },
+    },
+  ],
 };

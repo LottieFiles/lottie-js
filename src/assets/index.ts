@@ -1,7 +1,7 @@
-import { AssetType } from '../constants/AssetType';
-import { Asset } from './Asset';
-import { ImageAsset } from './ImageAsset';
-import { PrecompositionAsset } from './PrecompositionAsset';
+import { AssetType } from '../constants/asset-type';
+import { Asset } from './asset';
+import { ImageAsset } from './image-asset';
+import { PrecompositionAsset } from './precomposition-asset';
 
 export function createAsset(type: AssetType): Asset {
   if (type === AssetType.PRECOMPOSITION) {

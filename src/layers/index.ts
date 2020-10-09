@@ -1,11 +1,11 @@
-import { LayerType } from '../constants/LayerType';
-import { GroupLayer } from './GroupLayer';
-import { ImageLayer } from './ImageLayer';
-import { Layer } from './Layer';
-import { PrecompositionLayer } from './PrecompositionLayer';
-import { ShapeLayer } from './ShapeLayer';
-import { SolidLayer } from './SolidLayer';
-import { TextLayer } from './TextLayer';
+import { LayerType } from '../constants';
+import { GroupLayer } from './group-layer';
+import { ImageLayer } from './image-layer';
+import { Layer } from './layer';
+import { PrecompositionLayer } from './precomposition-layer';
+import { ShapeLayer } from './shape-layer';
+import { SolidLayer } from './solid-layer';
+import { TextLayer } from './text-layer';
 
 export function createLayer(type: LayerType): Layer {
   if (type === LayerType.PRECOMPOSITION) {

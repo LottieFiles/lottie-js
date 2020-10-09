@@ -1,8 +1,14 @@
-import { BlendMode, PropertyType } from '../constants';
-import { LayerType } from '../constants';
-import { Property } from '../properties';
+import { BlendMode, LayerType, PropertyType } from '../constants';
+import { Property } from '../properties/property';
 
+/**
+ * Layer base class.
+ */
 export abstract class Layer {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   public abstract readonly type: LayerType;
 
   public autoOrient = false;

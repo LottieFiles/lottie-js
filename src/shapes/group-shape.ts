@@ -1,9 +1,16 @@
 import { BlendMode, PropertyType, ShapeType } from '../constants';
 import { Property } from '../properties';
 import { createShapeFromJSON } from '.';
-import { Shape } from './Shape';
+import { Shape } from './shape';
 
+/**
+ * Group shape type.
+ */
 export class GroupShape extends Shape {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   /**
    * Group shape type: gr
    */
@@ -33,6 +40,16 @@ export class GroupShape extends Shape {
 
   public skewAxis?: Property;
 
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       GroupShape instance
+   */
   public static fromJSON(json: Record<string, any>): GroupShape {
     const shape = new GroupShape();
 
@@ -69,7 +86,7 @@ export class GroupShape extends Shape {
           if (jShape.sa) {
             shape.skewAxis = Property.fromJSON(PropertyType.SKEW_AXIS, jShape.sa);
           }
-        } catch (err) {
+        } catch {
           // Swallow
         }
 
@@ -80,6 +97,17 @@ export class GroupShape extends Shape {
     return shape;
   }
 
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
   public toJSON(): Record<string, any> {
     const shapes = JSON.parse(JSON.stringify(this.shapes));
 

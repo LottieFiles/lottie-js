@@ -1,10 +1,15 @@
-import { BlendMode } from '../constants/blend-mode';
-import { PropertyType } from '../constants/PropertyType';
-import { ShapeType } from '../constants/ShapeType';
-import { Property } from '../properties/property';
-import { Shape } from './Shape';
+import { BlendMode, PropertyType, ShapeType } from '../constants';
+import { Property } from '../properties';
+import { Shape } from './shape';
 
+/**
+ * Trim shape type.
+ */
 export class TrimShape extends Shape {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   /**
    * Shape type
    */
@@ -18,6 +23,16 @@ export class TrimShape extends Shape {
 
   public trimStart: Property = new Property(PropertyType.NUMBER);
 
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       TrimShape instance
+   */
   public static fromJSON(json: Record<string, any>): TrimShape {
     const shape = new TrimShape();
 
@@ -36,6 +51,10 @@ export class TrimShape extends Shape {
 
     return shape;
   }
+
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.

@@ -1,14 +1,31 @@
 import { LayerType, PropertyType } from '../constants';
 import { Property } from '../properties';
-import { Layer } from './Layer';
+import { Layer } from './layer';
 
-export class TextLayer extends Layer {
-  public readonly type = LayerType.TEXT;
+/**
+ * Image layer type.
+ */
+export class ImageLayer extends Layer {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
 
-  public textData?: any;
+  public readonly type = LayerType.IMAGE;
 
-  public static fromJSON(json: Record<string, any>): TextLayer {
-    const layer = new TextLayer();
+  public refId!: string;
+
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       ImageLayer instance
+   */
+  public static fromJSON(json: Record<string, any>): ImageLayer {
+    const layer = new ImageLayer();
 
     // Base layer props
     layer.autoOrient = json.ao === 1;
@@ -35,11 +52,22 @@ export class TextLayer extends Layer {
     layer.scale = Property.fromJSON(PropertyType.SCALE, json.ks.s);
 
     // This layer props
-    layer.textData = json.t;
+    layer.refId = json.refId;
 
     return layer;
   }
 
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
   public toJSON(): Record<string, any> {
     return {
       ty: this.type,
@@ -69,7 +97,7 @@ export class TextLayer extends Layer {
       w: this.width,
 
       // This layer props
-      t: this.textData,
+      refId: this.refId,
     };
   }
 }

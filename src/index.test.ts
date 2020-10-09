@@ -1,19 +1,19 @@
 import fetch from 'cross-fetch';
 
-import { Animation } from './Animation';
-function sortObjectKeys(obj: Record<string, any>) {
-  return Object.keys(obj)
+import { Animation } from './animation/animation';
+function sortObjectKeys(object: Record<string, any>) {
+  return Object.keys(object)
     .sort()
-    .reduce((acc: Record<string, any>, key: string) => {
-      if (Array.isArray(obj[key])) {
-        acc[key] = obj[key].map(sortObjectKeys);
+    .reduce((accumulator: Record<string, any>, key: string) => {
+      if (Array.isArray(object[key])) {
+        accumulator[key] = object[key].map(sortObjectKeys);
       }
-      if (typeof obj[key] === 'object') {
-        acc[key] = sortObjectKeys(obj[key]);
+      if (typeof object[key] === 'object') {
+        accumulator[key] = sortObjectKeys(object[key]);
       } else {
-        acc[key] = obj[key];
+        accumulator[key] = object[key];
       }
-      return acc;
+      return accumulator;
     }, {});
 }
 

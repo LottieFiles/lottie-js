@@ -1,12 +1,15 @@
-import { BlendMode } from '../constants/blend-mode';
-import { LineCapType } from '../constants/LineCapType';
-import { LineJoinType } from '../constants/LineJoinType';
-import { PropertyType } from '../constants/PropertyType';
-import { ShapeType } from '../constants/ShapeType';
-import { Property } from '../properties/property';
-import { Shape } from './Shape';
+import { BlendMode, LineCapType, LineJoinType, PropertyType, ShapeType } from '../constants';
+import { Property } from '../properties';
+import { Shape } from './shape';
 
+/**
+ * Stroke shape type.
+ */
 export class StrokeShape extends Shape {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   /**
    * Shape type
    */
@@ -41,6 +44,16 @@ export class StrokeShape extends Shape {
 
   public width: Property = new Property(PropertyType.STROKE_WIDTH);
 
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       StrokeShape instance
+   */
   public static fromJSON(json: Record<string, any>): StrokeShape {
     const shape = new StrokeShape();
 
@@ -62,6 +75,10 @@ export class StrokeShape extends Shape {
 
     return shape;
   }
+
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.

@@ -1,19 +1,33 @@
 import { LayerType, PropertyType } from '../constants';
 import { Property } from '../properties';
-import { createShapeFromJSON, Shape } from '../shapes';
-import { Layer } from '.';
+import { Layer } from './layer';
 
-export class ShapeLayer extends Layer {
-  // Shape layer type = 4
-  public readonly type = LayerType.SHAPE;
+/**
+ * Solid layer type.
+ */
+export class SolidLayer extends Layer {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
 
-  public shapes: Shape[] = [];
+  public readonly type = LayerType.SOLID;
 
-  public skew?: Property;
-  public skewAxis?: Property;
+  public solidColor = '#000000';
+  public solidHeight = 1;
+  public solidWidth = 1;
 
-  public static fromJSON(json: Record<string, any>): ShapeLayer {
-    const layer = new ShapeLayer();
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       SolidLayer instance
+   */
+  public static fromJSON(json: Record<string, any>): SolidLayer {
+    const layer = new SolidLayer();
 
     // Base layer props
     layer.autoOrient = json.ao === 1;
@@ -40,21 +54,27 @@ export class ShapeLayer extends Layer {
     layer.scale = Property.fromJSON(PropertyType.SCALE, json.ks.s);
 
     // This layer props
-    if (json.ks.sk) {
-      layer.skew = Property.fromJSON(PropertyType.SKEW, json.ks.sk);
-    }
-
-    if (json.ks.sa) {
-      layer.skewAxis = Property.fromJSON(PropertyType.SKEW_AXIS, json.ks.sa);
-    }
-
-    layer.shapes = json.shapes.map((jShape: Record<string, any>) => createShapeFromJSON(jShape)).filter(Boolean);
+    layer.solidColor = json.sc;
+    layer.solidHeight = json.sh;
+    layer.solidWidth = json.sw;
 
     return layer;
   }
 
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
   public toJSON(): Record<string, any> {
     return {
+      // Base layer props
       ao: this.autoOrient ? 1 : 0,
       bm: this.blendMode,
       cl: this.classNames,
@@ -69,14 +89,14 @@ export class ShapeLayer extends Layer {
         p: this.position,
         r: this.rotation,
         s: this.scale,
-        sk: this.skew,
-        sa: this.skewAxis,
       },
-      shapes: this.shapes,
       ln: this.id,
       nm: this.name,
       op: this.outPoint,
       parent: this.parent,
+      sc: this.solidColor,
+      sh: this.solidHeight,
+      sw: this.solidWidth,
       sr: this.timeStretch,
       st: this.startTime,
       ty: this.type,

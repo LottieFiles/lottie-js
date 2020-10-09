@@ -1,11 +1,17 @@
-import { BlendMode } from '../constants/blend-mode';
-import { FillRuleType } from '../constants/fill-rule-type';
-import { PropertyType } from '../constants/PropertyType';
-import { ShapeType } from '../constants/ShapeType';
-import { Property } from '../properties/property';
-import { Shape } from './Shape';
+import { BlendMode, FillRuleType } from '../constants';
+import { PropertyType } from '../constants/property-type';
+import { ShapeType } from '../constants/shape-type';
+import { Property } from '../properties';
+import { Shape } from './shape';
 
+/**
+ * Fill shape type.
+ */
 export class FillShape extends Shape {
+  // ---------------------------------------------------------------------
+  // Public Properties
+  // ---------------------------------------------------------------------
+
   /**
    * Fill shape type: fl
    */
@@ -21,6 +27,16 @@ export class FillShape extends Shape {
 
   public opacity: Property = new Property(PropertyType.OPACITY);
 
+  // ---------------------------------------------------------------------
+  // Public Static Methods
+  // ---------------------------------------------------------------------
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       FillShape instance
+   */
   public static fromJSON(json: Record<string, any>): FillShape {
     const shape = new FillShape();
 
@@ -39,6 +55,10 @@ export class FillShape extends Shape {
 
     return shape;
   }
+
+  // ---------------------------------------------------------------------
+  // Public Methods
+  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.
