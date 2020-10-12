@@ -1,4 +1,5 @@
 import strip from '@rollup/plugin-strip';
+import del from 'rollup-plugin-delete';
 import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
 
@@ -30,6 +31,9 @@ export default [
     external: Object.keys(pkg.dependencies || {}),
 
     plugins: [
+      // Clean dist
+      del({ targets: 'dist/*' }),
+
       // Remove debugger statements and console.log calls
       !process.env.ROLLUP_WATCH && strip(),
 

@@ -43,6 +43,7 @@
     "prettier": "2.1.2",
     "release-it": "^14.0.4",
     "rollup": "2.29.0",
+    "rollup-plugin-delete": "^2.0.0",
     "rollup-plugin-dts": "1.4.13",
     "rollup-plugin-esbuild": "2.5.0",
     "ts-jest": "26.4.0",
