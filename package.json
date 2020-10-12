@@ -10,9 +10,10 @@
   "keywords": [],
   "author": "Jawish Hameed <jawish@lottiefiles.com>",
   "scripts": {
-    "build": "rollup -c",
+    "build:dev": "cross-env NODE_ENV=development rollup -c",
+    "build:prod": "cross-env NODE_ENV=production rollup -c",
     "docs": "typedoc src",
-    "prepublishOnly": "yarn run lint && npm run build",
+    "prepublishOnly": "yarn run lint && npm run build:prod",
     "lint": "eslint --fix --ext .ts,.js .",
     "test": "jest --watch --coverage"
   },
@@ -28,6 +29,7 @@
     "@types/node": "14.11.2",
     "@typescript-eslint/eslint-plugin": "4.2.0",
     "@typescript-eslint/parser": "4.2.0",
+    "cross-env": "^7.0.2",
     "esbuild": "0.7.13",
     "eslint": "7.10.0",
     "eslint-config-prettier": "6.12.0",
