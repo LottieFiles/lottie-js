@@ -1,6 +1,6 @@
 {
   "out": "docs",
-  "mode": "library",
+  "mode": "modules",
   "theme": "default",
   "includeVersion": true,
   "ignoreCompilerErrors": false,

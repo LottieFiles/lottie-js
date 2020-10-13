@@ -1,7 +1,7 @@
 import fetch from 'cross-fetch';
 
 import { Asset, createAssetFromJSON } from '../assets';
-import { PropertyType } from '../constants';
+import { LayerType, PropertyType } from '../constants';
 import { createLayerFromJSON, Layer } from '../layers';
 import { Property } from '../properties';
 import { KeyFrame } from '../timeline';
@@ -112,6 +112,53 @@ export class Animation {
   // ---------------------------------------------------------------------
 
   /**
+   * Returns all the colors used in the animation.
+   *
+   * @returns Array of colors.
+   */
+  public get colors(): string[] {
+    const colors: Set<string> = new Set();
+
+    [...useRegistry().keys()]
+      // Filter color properties
+      .filter((p: Property) => p.type === PropertyType.COLOR)
+      .forEach((cp: Property) => {
+        cp.values.forEach((v: KeyFrame) => {
+          colors.add(JSON.stringify(v.value));
+        });
+      });
+
+    return Array.from(colors).map(c => JSON.parse(c));
+  }
+
+  /**
+   * Returns the running time of the animation in seconds.
+   *
+   * @returns Number of seconds.
+   */
+  public get duration(): number {
+    return this.totalFrames / this.frameRate;
+  }
+
+  /**
+   * Returns the size of the Lottie JSON in bytes.
+   *
+   * @returns Number of bytes.
+   */
+  public get fileSize(): number {
+    return new TextEncoder().encode(JSON.stringify(this)).length;
+  }
+
+  /**
+   * Returns the total number of frames in the animation.
+   *
+   * @returns Number of frames.
+   */
+  public get totalFrames(): number {
+    return this.outPoint - this.inPoint;
+  }
+
+  /**
    * Convert the class instance to Lottie JSON object.
    *
    * Called by Javascript when serializing object with JSON.stringify()
@@ -135,22 +182,47 @@ export class Animation {
   }
 
   /**
-   * Returns all the colors used in the animation.
+   * Returns the layer with the given ID.
    *
-   * @returns Array of colors.
+   * @param id    Layer ID string.
+   * @returns     Layer instance.
    */
-  public getColors(): string[] {
-    const colors: Set<string> = new Set();
+  public getLayerById(id: string): Layer | undefined {
+    // Validate argument type
+    if (typeof id !== 'string') {
+      throw new Error(`ID value must be a string`);
+    }
 
-    [...useRegistry().keys()]
-      // Filter color properties
-      .filter((p: Property) => p.type === PropertyType.COLOR)
-      .forEach((cp: Property) => {
-        cp.values.forEach((v: KeyFrame) => {
-          colors.add(JSON.stringify(v.value));
-        });
-      });
+    return this.layers.find((layer: Layer) => layer.id === id);
+  }
 
-    return Array.from(colors).map(c => JSON.parse(c));
+  /**
+   * Returns the layers with the given class.
+   *
+   * @param className    Layer class name string.
+   * @returns            Array of layer instances.
+   */
+  public getLayersByClassName(className: string): Layer[] {
+    // Validate argument type
+    if (typeof className !== 'string') {
+      throw new Error(`Class name value must be a string`);
+    }
+
+    return this.layers.filter((layer: Layer) => layer.classNames.includes(className));
+  }
+
+  /**
+   * Returns the layers of the given type.
+   *
+   * @param type    LayerType value.
+   * @returns       Layer instance.
+   */
+  public getLayersByType(type: LayerType): Layer[] {
+    // Validate argument type
+    if (type in LayerType === false) {
+      throw new Error(`Type value must be a valid LayerType value`);
+    }
+
+    return this.layers.filter((layer: Layer) => layer.type === type);
   }
 }

@@ -24,7 +24,7 @@ test('Load an animation', async () => {
   const anim = Animation.fromJSON(json);
 
   // console.log([...useRegistry().keys()].filter((p: Property) => p.type === PropertyType.COLOR));
-  console.log(anim.getColors());
+  console.log(anim.colors);
 
   // console.log(inspect(anim, false, 20, true));
   // console.log(JSON.stringify(sortObject(anim)));

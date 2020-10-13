@@ -30,7 +30,6 @@ export class TextLayer extends Layer {
     // Base layer props
     layer.autoOrient = json.ao === 1;
     layer.blendMode = json.bm;
-    layer.classNames = json.cl;
     layer.effects = json.ef;
     layer.height = json.h;
     layer.id = json.ld;
@@ -43,6 +42,11 @@ export class TextLayer extends Layer {
     layer.startTime = json.st;
     layer.timeStretch = json.sr;
     layer.width = json.w;
+
+    // Split classnames into array
+    if ('cl' in json) {
+      layer.classNames = json.cl.split(' ');
+    }
 
     // Transforms
     layer.opacity = Property.fromJSON(PropertyType.OPACITY, json.ks.o);
@@ -75,7 +79,7 @@ export class TextLayer extends Layer {
       // Base layer props
       ao: this.autoOrient ? 1 : 0,
       bm: this.blendMode,
-      cl: this.classNames,
+      cl: this.classNames.join(' '),
       ddd: this.is3D ? 1 : 0,
       ef: this.effects,
       h: this.height,
