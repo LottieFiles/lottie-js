@@ -1,6 +1,9 @@
+// import clipboardy from 'clipboardy';
 import fetch from 'cross-fetch';
 
+// import { inspect } from 'util';
 import { Animation } from './animation';
+
 function sortObjectKeys(object: Record<string, any>) {
   return Object.keys(object)
     .sort()
@@ -18,20 +21,30 @@ function sortObjectKeys(object: Record<string, any>) {
 }
 
 test('Load an animation', async () => {
-  const result = await fetch('https://assets1.lottiefiles.com/packages/lf20_u4j3xm6r.json');
+  const result = await fetch('https://assets1.lottiefiles.com/packages/lf20_SUdZc0.json');
   const json = await result.json();
 
-  const anim = Animation.fromJSON(json);
+  const anim = await Animation.fromURL('https://assets1.lottiefiles.com/packages/lf20_SUdZc0.json');
 
-  // console.log([...useRegistry().keys()].filter((p: Property) => p.type === PropertyType.COLOR));
-  // console.log(anim.colors);
+  // console.log(inspect(anim.layers[0], false, 20, true));
+  // await clipboardy.write(JSON.stringify(anim));
 
-  // console.log(inspect(anim, false, 20, true));
-  // console.log(JSON.stringify(sortObject(anim)));
+  const sortedJson = sortObjectKeys(json);
+  const sortedAnim = sortObjectKeys(JSON.parse(JSON.stringify(anim)));
 
   /**
    * Sort the converted Lottie and the original lottie objects by key to make it easier to do a
    * simple string comparison.
    */
-  expect(sortObjectKeys(anim).toString()).toBe(sortObjectKeys(json).toString());
+  expect(sortedAnim).toEqual(sortedJson);
+});
+
+test('Get unique colors', async () => {
+  const anim = await Animation.fromURL('https://assets2.lottiefiles.com/private_files/lf30_k2c7t4.json');
+
+  expect(anim.colors).toEqual([
+    [255, 255, 255, 1],
+    [254, 184, 77, 1],
+    [205, 16, 16, 1],
+  ]);
 });

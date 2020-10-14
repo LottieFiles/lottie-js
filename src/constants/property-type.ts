@@ -3,6 +3,9 @@ export enum PropertyType {
   OPACITY = 'o',
   POSITION = 'p',
   ROTATION = 'r',
+  ROTATION_X = 'rx',
+  ROTATION_Y = 'ry',
+  ROTATION_Z = 'rz',
   SCALE = 's',
   SKEW_AXIS = 'sa',
   SKEW = 'sk',
@@ -15,4 +18,5 @@ export enum PropertyType {
   STROKE_WIDTH = 'sw',
   NUMBER = 'nu',
   COLOR = 'cl',
+  ORIENTATION = 'or',
 }

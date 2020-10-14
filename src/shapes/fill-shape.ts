@@ -8,10 +8,6 @@ import { Shape } from './shape';
  * Fill shape type.
  */
 export class FillShape extends Shape {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   /**
    * Fill shape type: fl
    */
@@ -21,15 +17,11 @@ export class FillShape extends Shape {
 
   public direction?: number;
 
-  public color: Property = new Property(PropertyType.COLOR);
+  public color: Property = new Property(this, PropertyType.COLOR);
 
   public fillRule: FillRuleType = FillRuleType.EVEN_ODD;
 
-  public opacity: Property = new Property(PropertyType.OPACITY);
-
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
+  public opacity: Property = new Property(this, PropertyType.OPACITY);
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -37,28 +29,22 @@ export class FillShape extends Shape {
    * @param json    JSON object
    * @returns       FillShape instance
    */
-  public static fromJSON(json: Record<string, any>): FillShape {
-    const shape = new FillShape();
-
+  public fromJSON(json: Record<string, any>): FillShape {
     // Base shape
-    shape.classNames = json.cl;
-    shape.id = json.ln;
-    shape.isHidden = json.hd;
-    shape.matchName = json.mn;
-    shape.name = json.nm;
+    this.classNames = json.cl;
+    this.id = json.ln;
+    this.isHidden = json.hd;
+    this.matchName = json.mn;
+    this.name = json.nm;
 
     // This shape
-    shape.blendMode = json.bm;
-    shape.color = Property.fromJSON(PropertyType.COLOR, json.c);
-    shape.fillRule = json.r in FillRuleType ? json.r : FillRuleType.EVEN_ODD;
-    shape.opacity = Property.fromJSON(PropertyType.OPACITY, json.o);
+    this.blendMode = json.bm;
+    this.color.fromJSON(json.c);
+    this.fillRule = json.r in FillRuleType ? json.r : FillRuleType.EVEN_ODD;
+    this.opacity.fromJSON(json.o);
 
-    return shape;
+    return this;
   }
-
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.

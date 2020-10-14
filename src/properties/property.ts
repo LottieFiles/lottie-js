@@ -6,10 +6,6 @@ import { useRegistry } from '../utils/use-registry';
  * Represents animated properties of layers and shapes.
  */
 export class Property {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   public readonly type: PropertyType;
 
   public expression?: string;
@@ -22,9 +18,26 @@ export class Property {
 
   public values: Array<KeyFrame> = [];
 
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
+  /**
+   * Parent instance.
+   *
+   * @protected
+   */
+  protected parent: any;
+
+  /**
+   * Constructor.
+   *
+   * @param parent      Parent instance the property belongs to.
+   * @param type        Property type.
+   */
+  constructor(parent: any, type: PropertyType) {
+    this.parent = parent;
+
+    this.type = type;
+
+    useRegistry().set(this, parent);
+  }
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -32,54 +45,27 @@ export class Property {
    * @param json    JSON object
    * @returns       ShapeLayer instance
    */
-  public static fromJSON(type: PropertyType, json: Record<string, any>): Property {
-    const property = new Property(type);
-
+  public fromJSON(json: Record<string, any>): Property {
     // This property
-    property.expression = 'x' in json ? json.x : undefined;
-    property.index = json.ix;
-    property.isAnimated = json.a === 1;
+    this.expression = 'x' in json ? json.x : undefined;
+    this.index = json.ix;
+    this.isAnimated = json.a === 1;
 
-    if (property.isAnimated === false) {
-      property.values = [new KeyFrame(0, json.k)];
-    } else {
-      property.values = json.k.map((v: Record<string, any>) => KeyFrame.fromJSON(v));
+    this.values = this.isAnimated
+      ? json.k.map((v: Record<string, any>) => new KeyFrame().fromJSON(v))
+      : [new KeyFrame().fromJSON({ t: 0, s: json.k })];
+
+    if (this.type === PropertyType.COLOR) {
+      this.maxColors = 'p' in json ? json.p : undefined;
+
+      // this.values.forEach((kf: KeyFrame) => {
+      //   const colorParts = kf.value as [number, number, number, number];
+
+      //   kf.value = [colorParts[0], colorParts[1], colorParts[2], colorParts[3] || 1];
+      // });
     }
 
-    if (type === PropertyType.COLOR) {
-      if (json.p) {
-        property.maxColors = json.p;
-      }
-
-      property.values.forEach((kf: KeyFrame) => {
-        const colorParts = kf.value as [number, number, number, number];
-
-        kf.value = [
-          Math.round(colorParts[0] * 255),
-          Math.round(colorParts[1] * 255),
-          Math.round(colorParts[2] * 255),
-          colorParts[3] || 1,
-        ];
-      });
-    }
-
-    return property;
-  }
-
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
-
-  /**
-   * Constructor.
-   *
-   * @param type      Property type.
-   * @param parent    Parent instance the property belongs to.
-   */
-  constructor(type: PropertyType, parent?: any) {
-    this.type = type;
-
-    useRegistry().set(this, parent);
+    return this;
   }
 
   /**
@@ -93,7 +79,7 @@ export class Property {
     let value;
 
     if (this.isAnimated === false) {
-      value = this.values.pop()?.value;
+      value = this.values.length ? this.values[0].value : 10001000;
     } else {
       value = this.values;
     }

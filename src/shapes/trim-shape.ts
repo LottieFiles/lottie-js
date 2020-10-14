@@ -6,10 +6,6 @@ import { Shape } from './shape';
  * Trim shape type.
  */
 export class TrimShape extends Shape {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   /**
    * Shape type
    */
@@ -17,15 +13,11 @@ export class TrimShape extends Shape {
 
   public blendMode: BlendMode = BlendMode.NORMAL;
 
-  public trimEnd: Property = new Property(PropertyType.NUMBER);
+  public trimEnd: Property = new Property(this, PropertyType.NUMBER);
 
-  public trimOffset: Property = new Property(PropertyType.NUMBER);
+  public trimOffset: Property = new Property(this, PropertyType.NUMBER);
 
-  public trimStart: Property = new Property(PropertyType.NUMBER);
-
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
+  public trimStart: Property = new Property(this, PropertyType.NUMBER);
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -33,28 +25,22 @@ export class TrimShape extends Shape {
    * @param json    JSON object
    * @returns       TrimShape instance
    */
-  public static fromJSON(json: Record<string, any>): TrimShape {
-    const shape = new TrimShape();
-
+  public fromJSON(json: Record<string, any>): TrimShape {
     // Base shape
-    shape.classNames = json.cl;
-    shape.id = json.ln;
-    shape.isHidden = json.hd;
-    shape.matchName = json.mn;
-    shape.name = json.nm;
+    this.classNames = json.cl;
+    this.id = json.ln;
+    this.isHidden = json.hd;
+    this.matchName = json.mn;
+    this.name = json.nm;
 
     // This shape
-    shape.blendMode = json.bm in BlendMode ? json.bm : BlendMode.NORMAL;
-    shape.trimEnd = Property.fromJSON(PropertyType.NUMBER, json.e);
-    shape.trimOffset = Property.fromJSON(PropertyType.NUMBER, json.o);
-    shape.trimStart = Property.fromJSON(PropertyType.NUMBER, json.s);
+    this.blendMode = json.bm in BlendMode ? json.bm : BlendMode.NORMAL;
+    this.trimEnd.fromJSON(json.e);
+    this.trimOffset.fromJSON(json.o);
+    this.trimStart.fromJSON(json.s);
 
-    return shape;
+    return this;
   }
-
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.

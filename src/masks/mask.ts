@@ -4,19 +4,11 @@ import { MaskMode } from '../constants';
  * Mask.
  */
 export class Mask {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   public isInverted = false;
   public name = '';
   public opacity: any;
   public points: any;
   public mode: MaskMode = MaskMode.Add;
-
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -24,21 +16,15 @@ export class Mask {
    * @param json    JSON object
    * @returns       Mask instance
    */
-  public static fromJSON(json: Record<string, any>): Mask {
-    const mask = new Mask();
+  public fromJSON(json: Record<string, any>): Mask {
+    this.isInverted = json.inv;
+    this.mode = json.mode;
+    this.name = json.nm;
+    this.points = json.pt;
+    this.opacity = json.o;
 
-    mask.isInverted = json.inv;
-    mask.mode = json.mode;
-    mask.name = json.nm;
-    mask.points = json.pt;
-    mask.opacity = json.o;
-
-    return mask;
+    return this;
   }
-
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.

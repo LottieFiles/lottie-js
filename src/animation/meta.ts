@@ -2,10 +2,6 @@
  * Animation metadata information.
  */
 export class Meta {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   /**
    * Author name.
    */
@@ -31,9 +27,21 @@ export class Meta {
    */
   public themeColor?: string;
 
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
+  /**
+   * Parent instance.
+   *
+   * @protected
+   */
+  protected parent: any;
+
+  /**
+   * Constructor.
+   *
+   * @param parent   Parent instance.
+   */
+  constructor(parent: any) {
+    this.parent = parent;
+  }
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -41,21 +49,15 @@ export class Meta {
    * @param json    JSON object
    * @returns       Meta instance
    */
-  public static fromJSON(json: Record<string, any>): Meta {
-    const meta = new Meta();
+  public fromJSON(json: Record<string, any>): Meta {
+    this.author = json.a;
+    this.keywords = json.k;
+    this.generator = json.g;
+    this.description = json.d;
+    this.themeColor = json.tc;
 
-    meta.author = json.a;
-    meta.keywords = json.k;
-    meta.generator = json.g;
-    meta.description = json.d;
-    meta.themeColor = json.tc;
-
-    return meta;
+    return this;
   }
-
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.

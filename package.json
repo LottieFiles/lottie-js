@@ -16,8 +16,8 @@
     "build:prod": "cross-env NODE_ENV=production rollup -c",
     "clean": "del-cli --force coverage dist docs",
     "docs": "typedoc src",
-    "prepack": "yarn run lint && yarn clean && npm run build:prod",
     "lint": "eslint --fix --ext .ts,.js .",
+    "prepack": "yarn run lint && yarn clean && npm run build:prod",
     "release": "release-it",
     "test": "jest",
     "test:dev": "jest --watch --coverage"
@@ -36,6 +36,7 @@
     "@types/node": "14.11.2",
     "@typescript-eslint/eslint-plugin": "4.2.0",
     "@typescript-eslint/parser": "4.2.0",
+    "clipboardy": "2.3.0",
     "cross-env": "^7.0.2",
     "del-cli": "3.0.1",
     "esbuild": "0.7.13",

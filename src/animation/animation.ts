@@ -1,8 +1,12 @@
 import fetch from 'cross-fetch';
 
-import { Asset, createAssetFromJSON } from '../assets';
-import { LayerType, PropertyType } from '../constants';
-import { createLayerFromJSON, Layer } from '../layers';
+import { Asset, ImageAsset, PrecompositionAsset } from '../assets';
+import { AssetType, LayerType, PropertyType } from '../constants';
+import { Layer, PrecompositionLayer, ShapeLayer } from '../layers';
+import { GroupLayer } from '../layers/group-layer';
+import { ImageLayer } from '../layers/image-layer';
+import { SolidLayer } from '../layers/solid-layer';
+import { TextLayer } from '../layers/text-layer';
 import { Property } from '../properties';
 import { KeyFrame } from '../timeline';
 import { useRegistry } from '../utils/use-registry';
@@ -12,58 +16,17 @@ import { Meta } from './meta';
  * Animation contains all the information about the Lottie animation.
  */
 export class Animation {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   public assets: Asset[] = [];
-  public frameRate = 30;
+  public frameRate = 0;
   public height = 0;
   public inPoint = 0;
   public is3D = false;
   public layers: Layer[] = [];
-  public meta: Meta = new Meta();
+  public meta: Meta = new Meta(this);
   public name = '';
   public outPoint = 0;
   public version = ``;
   public width = 0;
-
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
-
-  /**
-   * Convert the Lottie JSON object to class instance.
-   *
-   * @param json    JSON object
-   * @returns       Animation instance
-   */
-  public static fromJSON(json: Record<string, any>): Animation {
-    if (Animation.isLottie(json) === false) {
-      throw new Error(`The given object is not a valid Lottie JSON structure`);
-    }
-
-    const animation = new Animation();
-
-    animation.frameRate = json.fr;
-    animation.height = json.h;
-    animation.inPoint = json.ip;
-    animation.is3D = json.ddd;
-    animation.name = json.nm;
-    animation.outPoint = json.op;
-    animation.version = json.v;
-    animation.width = json.w;
-
-    animation.assets = json.assets.map((jAsset: Record<string, any>) => createAssetFromJSON(jAsset)).filter(Boolean);
-
-    animation.layers = json.layers.map((jLayer: Record<string, any>) => createLayerFromJSON(jLayer)).filter(Boolean);
-
-    if ('meta' in json) {
-      animation.meta = Meta.fromJSON(json.meta);
-    }
-
-    return animation;
-  }
 
   /**
    * Create a class instance from the URL to the Lottie JSON.
@@ -89,8 +52,10 @@ export class Animation {
       throw new Error(`An error occurred while trying to load the Lottie file from URL`);
     }
 
-    // Parse the JSON and return animation
-    return Animation.fromJSON(json);
+    // Create a new animation instance and import JSON
+    const anim = new Animation();
+
+    return anim.fromJSON(json);
   }
 
   /**
@@ -107,11 +72,7 @@ export class Animation {
     return mandatory.every(field => Object.prototype.hasOwnProperty.call(json, field));
   }
 
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
-
-  /**
+  /*
    * Returns all the colors used in the animation.
    *
    * @returns Array of colors.
@@ -124,7 +85,15 @@ export class Animation {
       .filter((p: Property) => p.type === PropertyType.COLOR)
       .forEach((cp: Property) => {
         cp.values.forEach((v: KeyFrame) => {
-          colors.add(JSON.stringify(v.value));
+          const colorParts = v.value as [number, number, number, number];
+          colors.add(
+            JSON.stringify([
+              Math.round(colorParts[0] * 255),
+              Math.round(colorParts[1] * 255),
+              Math.round(colorParts[2] * 255),
+              colorParts[3],
+            ]),
+          );
         });
       });
 
@@ -159,26 +128,103 @@ export class Animation {
   }
 
   /**
-   * Convert the class instance to Lottie JSON object.
+   * Creates and returns a new asset of the given type.
    *
-   * Called by Javascript when serializing object with JSON.stringify()
-   *
-   * @returns       JSON object
+   * @param type    Asset type string.
    */
-  public toJSON(): Record<string, any> {
-    return {
-      assets: this.assets,
-      ddd: this.is3D ? 1 : 0,
-      fr: this.frameRate,
-      h: this.height,
-      ip: this.inPoint,
-      layers: this.layers,
-      meta: this.meta,
-      nm: this.name,
-      op: this.outPoint,
-      v: this.version || '5.6.0',
-      w: this.width,
-    };
+  public createAsset(type: AssetType): Asset {
+    if (type === AssetType.PRECOMPOSITION) {
+      return new PrecompositionAsset(this);
+    } else if (type === AssetType.IMAGE) {
+      return new ImageAsset(this);
+    }
+
+    throw new Error(`Invalid or unknown asset type ${type}`);
+  }
+
+  /**
+   * Creates and returns a new asset from JSON.
+   *
+   * @param json    JSON object.
+   */
+  public createAssetFromJSON(json: Record<string, any>): Asset {
+    try {
+      const asset = this.createAsset('layers' in json ? AssetType.PRECOMPOSITION : AssetType.IMAGE);
+
+      return asset.fromJSON(json);
+    } catch {
+      throw new Error(`Unable to create asset from JSON`);
+    }
+  }
+
+  /**
+   * Creates and returns a new layer of the given type.
+   *
+   * @param type    Layer type string.
+   */
+  public createLayer(type: LayerType): Layer {
+    if (type === LayerType.PRECOMPOSITION) {
+      return new PrecompositionLayer(this);
+    } else if (type === LayerType.SHAPE) {
+      return new ShapeLayer(this);
+    } else if (type === LayerType.GROUP) {
+      return new GroupLayer(this);
+    } else if (type === LayerType.SOLID) {
+      return new SolidLayer(this);
+    } else if (type === LayerType.IMAGE) {
+      return new ImageLayer(this);
+    } else if (type === LayerType.TEXT) {
+      return new TextLayer(this);
+    }
+
+    throw new Error(`Invalid or unknown layer type: ${type}`);
+  }
+
+  /**
+   * Creates and returns a new layer from JSON.
+   *
+   * @param json    JSON object.
+   */
+  public createLayerFromJSON(json: Record<string, any>): Layer {
+    try {
+      const layer = this.createLayer(json.ty);
+
+      return layer.fromJSON(json);
+    } catch (e) {
+      console.log(e);
+      throw new Error(`Unable to create layer type from JSON: ${json.ty}`);
+    }
+  }
+
+  /*
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       Animation instance
+   */
+  public fromJSON(json: Record<string, any>): Animation {
+    if (Animation.isLottie(json) === false) {
+      throw new Error(`The given object is not a valid Lottie JSON structure`);
+    }
+
+    this.frameRate = json.fr;
+    this.height = json.h;
+    this.inPoint = json.ip;
+    this.is3D = json.ddd;
+    this.name = json.nm;
+    this.outPoint = json.op;
+    this.version = json.v;
+    this.width = json.w;
+
+    this.assets = json.assets.map((jAsset: Record<string, any>) => this.createAssetFromJSON(jAsset)).filter(Boolean);
+
+    this.layers = json.layers.map((jLayer: Record<string, any>) => this.createLayerFromJSON(jLayer)).filter(Boolean);
+
+    if ('meta' in json) {
+      this.meta.fromJSON(json.meta);
+    }
+
+    return this;
   }
 
   /**
@@ -224,5 +270,29 @@ export class Animation {
     }
 
     return this.layers.filter((layer: Layer) => layer.type === type);
+  }
+
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
+  public toJSON(): Record<string, any> {
+    return {
+      assets: this.assets,
+      ddd: this.is3D ? 1 : 0,
+      fr: this.frameRate,
+      h: this.height,
+      ip: this.inPoint,
+      layers: this.layers,
+      markers: {},
+      meta: this.meta,
+      nm: this.name,
+      op: this.outPoint,
+      v: this.version || '5.6.0',
+      w: this.width,
+    };
   }
 }

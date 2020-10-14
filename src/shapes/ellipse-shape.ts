@@ -6,22 +6,14 @@ import { Shape } from './shape';
  * Ellipse shape type.
  */
 export class EllipseShape extends Shape {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   /**
    * Shape type
    */
   public readonly type = ShapeType.ELLIPSE;
 
-  public position: Property = new Property(PropertyType.POSITION);
+  public position: Property = new Property(this, PropertyType.POSITION);
 
-  public size: Property = new Property(PropertyType.SIZE);
-
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
+  public size: Property = new Property(this, PropertyType.SIZE);
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -29,26 +21,20 @@ export class EllipseShape extends Shape {
    * @param json    JSON object
    * @returns       EllipseShape instance
    */
-  public static fromJSON(json: Record<string, any>): EllipseShape {
-    const shape = new EllipseShape();
-
+  public fromJSON(json: Record<string, any>): EllipseShape {
     // Base shape
-    shape.classNames = json.cl;
-    shape.id = json.ln;
-    shape.isHidden = json.hd;
-    shape.matchName = json.mn;
-    shape.name = json.nm;
+    this.classNames = json.cl;
+    this.id = json.ln;
+    this.isHidden = json.hd;
+    this.matchName = json.mn;
+    this.name = json.nm;
 
     // This shape
-    shape.position = Property.fromJSON(PropertyType.POSITION, json.p);
-    shape.size = Property.fromJSON(PropertyType.SIZE, json.s);
+    this.position.fromJSON(json.p);
+    this.size.fromJSON(json.s);
 
-    return shape;
+    return this;
   }
-
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.

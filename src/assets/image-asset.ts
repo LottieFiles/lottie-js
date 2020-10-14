@@ -4,10 +4,6 @@ import { Asset } from './asset';
  * Image asset type.
  */
 export class ImageAsset extends Asset {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   public data?: string;
 
   public id?: string;
@@ -18,31 +14,21 @@ export class ImageAsset extends Asset {
 
   public width!: number;
 
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
-
   /**
    * Convert the Lottie JSON object to class instance.
    *
    * @param json    JSON object
    * @returns       ImageAsset instance
    */
-  public static fromJSON(json: Record<string, any>): ImageAsset {
-    const asset = new ImageAsset();
+  public fromJSON(json: Record<string, any>): ImageAsset {
+    this.data = json.p;
+    this.id = json.id;
+    this.height = json.h;
+    this.path = json.u;
+    this.width = json.w;
 
-    asset.data = json.p;
-    asset.id = json.id;
-    asset.height = json.h;
-    asset.path = json.u;
-    asset.width = json.w;
-
-    return asset;
+    return this;
   }
-
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.
