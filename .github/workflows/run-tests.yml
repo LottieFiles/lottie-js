@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -23,8 +23,9 @@ jobs:
         yarn build
         yarn test
     - name: Jest Code Coverage Report
-      uses: ziishaned/jest-reporter-action@0.1.1
-      with:
+      uses: mattallty/jest-github-action@v1
+      env:
         # Github token
-        github-token: ${{ secrets.GITHUB_TOKEN }}
-        test-command: yarn test --coverage
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        test-command: "yarn test --coverage"
