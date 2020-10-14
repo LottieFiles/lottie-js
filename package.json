@@ -10,13 +10,15 @@
   "keywords": [],
   "author": "Jawish Hameed <jawish@lottiefiles.com>",
   "scripts": {
+    "build": "yarn build:prod",
     "build:dev": "cross-env NODE_ENV=development rollup -c",
     "build:prod": "cross-env NODE_ENV=production rollup -c",
     "docs": "typedoc src",
     "prepublishOnly": "yarn run lint && npm run build:prod",
     "lint": "eslint --fix --ext .ts,.js .",
     "release": "release-it",
-    "test": "jest --watch --coverage"
+    "test": "jest",
+    "test:dev": "jest --watch --coverage"
   },
   "engines": {
     "node": ">=8.9"
