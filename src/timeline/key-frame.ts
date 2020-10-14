@@ -2,20 +2,12 @@
  * Represents a keyframe in the timeline with the frame number and associated property value.
  */
 export class KeyFrame {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
-  public frame: number;
-  public value: number | number[];
+  public frame = 0;
+  public value: number | number[] = 0;
   public frameInTangent?: [number, number];
   public frameOutTangent?: [number, number];
   public valueInTangent?: [number, number];
   public valueOutTangent?: [number, number];
-
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -23,35 +15,24 @@ export class KeyFrame {
    * @param json    JSON object
    * @returns       KeyFrame instance
    */
-  public static fromJSON(json: Record<string, any>): KeyFrame {
-    const value: KeyFrame = new KeyFrame(json.t, json.s);
+  public fromJSON(json: Record<string, any>): KeyFrame {
+    this.frame = json.t;
+    this.value = json.s;
 
-    if ('i' in json && 'o' in json) {
-      value.frameInTangent = [json.i.x, json.i.y];
-      value.frameOutTangent = [json.o.x, json.o.y];
-    }
+    const hasFrameTangents = 'i' in json && 'o' in json;
+    const hasValueTangents = 'ti' in json && 'to' in json;
 
-    if ('ti' in json && 'to' in json) {
-      value.valueInTangent = [json.ti.x, json.ti.y];
-      value.valueOutTangent = [json.to.x, json.to.y];
-    }
+    this.frameInTangent = hasFrameTangents ? [json.i.x, json.i.y] : undefined;
+    this.frameOutTangent = hasFrameTangents ? [json.o.x, json.o.y] : undefined;
 
-    return value;
-  }
+    this.valueInTangent = hasValueTangents
+      ? ['x' in json.ti ? json.ti.x : json.ti[0], 'y' in json.ti ? json.ti.y : json.ti[1]]
+      : undefined;
+    this.valueOutTangent = hasValueTangents
+      ? ['x' in json.to ? json.to.x : json.to[0], 'y' in json.to ? json.to.y : json.to[1]]
+      : undefined;
 
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
-
-  /**
-   * Constructor.
-   *
-   * @param frame     Frame number
-   * @param value     Property value
-   */
-  public constructor(frame: number, value: number | number[]) {
-    this.frame = frame;
-    this.value = value;
+    return this;
   }
 
   /**

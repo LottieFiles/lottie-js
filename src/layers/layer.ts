@@ -7,11 +7,10 @@ import { useRegistry } from '../utils/use-registry';
  * Layer base class.
  */
 export abstract class Layer {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   public abstract readonly type: LayerType;
+
+  public abstract fromJSON(json: Record<string, any>): Layer;
+  public abstract toJSON(): Record<string, any>;
 
   public autoOrient = false;
   public blendMode: BlendMode = BlendMode.NORMAL;
@@ -24,21 +23,37 @@ export abstract class Layer {
   public is3D = false;
   public name = '';
   public outPoint = 0;
-  public parent?: number;
   public startTime = 0;
   public timeStretch = 1;
   public width = 0;
 
   // Transforms
-  public opacity: Property = new Property(PropertyType.OPACITY);
-  public rotation: Property = new Property(PropertyType.ROTATION);
-  public position: Property = new Property(PropertyType.POSITION);
-  public anchor: Property = new Property(PropertyType.ANCHOR);
-  public scale: Property = new Property(PropertyType.SCALE);
+  public opacity: Property = new Property(this, PropertyType.OPACITY);
+  public position: Property = new Property(this, PropertyType.POSITION);
+  public anchor: Property = new Property(this, PropertyType.ANCHOR);
+  public scale: Property = new Property(this, PropertyType.SCALE);
 
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
+  public orientation?: Property;
+  public rotation?: Property;
+  public rotationX?: Property;
+  public rotationY?: Property;
+  public rotationZ?: Property;
+
+  /**
+   * Parent instance.
+   *
+   * @protected
+   */
+  protected parent: any;
+
+  /**
+   * Constructor.
+   *
+   * @param parent   Parent instance.
+   */
+  constructor(parent: any) {
+    this.parent = parent;
+  }
 
   /**
    * Returns all the colors used in the layer.

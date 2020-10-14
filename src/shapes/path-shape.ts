@@ -6,10 +6,6 @@ import { Shape } from './shape';
  * Path shape type.
  */
 export class PathShape extends Shape {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   /**
    * Path shape type: sh
    */
@@ -17,11 +13,7 @@ export class PathShape extends Shape {
 
   public direction?: number;
 
-  public vertices: Property = new Property(PropertyType.SHAPE);
-
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
+  public vertices: Property = new Property(this, PropertyType.SHAPE);
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -29,26 +21,22 @@ export class PathShape extends Shape {
    * @param json    JSON object
    * @returns       PathShape instance
    */
-  public static fromJSON(json: Record<string, any>): PathShape {
-    const shape = new PathShape();
-
+  public fromJSON(json: Record<string, any>): PathShape {
     // Base shape
-    shape.classNames = json.cl;
-    shape.id = json.ln;
-    shape.isHidden = json.hd;
-    shape.matchName = json.mn;
-    shape.name = json.nm;
+    this.classNames = json.cl;
+    this.id = json.ln;
+    this.isHidden = json.hd;
+    this.matchName = json.mn;
+    this.name = json.nm;
+    this.itemIndex = json.ind;
+    this.shapeIndex = json.ix;
 
     // This shape
-    shape.direction = json.d;
-    shape.vertices = json.ks;
+    this.direction = json.d;
+    this.vertices = json.ks;
 
-    return shape;
+    return this;
   }
-
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.
@@ -67,6 +55,8 @@ export class PathShape extends Shape {
       ln: this.id,
       mn: this.matchName,
       nm: this.name,
+      ind: this.itemIndex,
+      ix: this.shapeIndex,
 
       // This shape
       d: this.direction,

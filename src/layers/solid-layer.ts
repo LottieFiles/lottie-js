@@ -6,19 +6,11 @@ import { Layer } from './layer';
  * Solid layer type.
  */
 export class SolidLayer extends Layer {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   public readonly type = LayerType.SOLID;
 
   public solidColor = '#000000';
   public solidHeight = 1;
   public solidWidth = 1;
-
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -26,48 +18,43 @@ export class SolidLayer extends Layer {
    * @param json    JSON object
    * @returns       SolidLayer instance
    */
-  public static fromJSON(json: Record<string, any>): SolidLayer {
-    const layer = new SolidLayer();
-
+  public fromJSON(json: Record<string, any>): SolidLayer {
     // Base layer props
-    layer.autoOrient = json.ao === 1;
-    layer.blendMode = json.bm;
-    layer.effects = json.ef;
-    layer.height = json.h;
-    layer.id = json.ld;
-    layer.index = json.ind;
-    layer.inPoint = json.ip;
-    layer.is3D = json.ddd;
-    layer.name = json.nm;
-    layer.outPoint = json.op;
-    layer.parent = json.parent;
-    layer.startTime = json.st;
-    layer.timeStretch = json.sr;
-    layer.width = json.w;
+    this.autoOrient = json.ao === 1;
+    this.blendMode = json.bm;
+    this.effects = json.ef;
+    this.height = json.h;
+    this.id = json.ld;
+    this.index = json.ind;
+    this.inPoint = json.ip;
+    this.is3D = json.ddd;
+    this.name = json.nm;
+    this.outPoint = json.op;
+    this.parent = json.parent;
+    this.startTime = json.st;
+    this.timeStretch = json.sr;
+    this.width = json.w;
 
     // Split classnames into array
     if ('cl' in json) {
-      layer.classNames = json.cl.split(' ');
+      this.classNames = json.cl.split(' ');
     }
 
     // Transforms
-    layer.opacity = Property.fromJSON(PropertyType.OPACITY, json.ks.o);
-    layer.rotation = Property.fromJSON(PropertyType.ROTATION, json.ks.r);
-    layer.position = Property.fromJSON(PropertyType.POSITION, json.ks.p);
-    layer.anchor = Property.fromJSON(PropertyType.ANCHOR, json.ks.a);
-    layer.scale = Property.fromJSON(PropertyType.SCALE, json.ks.s);
+    this.opacity.fromJSON(json.ks.o);
+    this.position.fromJSON(json.ks.p);
+    this.anchor.fromJSON(json.ks.a);
+    this.scale.fromJSON(json.ks.s);
+
+    this.rotation = new Property(this, PropertyType.ROTATION).fromJSON(json.ks.r);
 
     // This layer props
-    layer.solidColor = json.sc;
-    layer.solidHeight = json.sh;
-    layer.solidWidth = json.sw;
+    this.solidColor = json.sc;
+    this.solidHeight = json.sh;
+    this.solidWidth = json.sw;
 
-    return layer;
+    return this;
   }
-
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.
@@ -81,7 +68,7 @@ export class SolidLayer extends Layer {
       // Base layer props
       ao: this.autoOrient ? 1 : 0,
       bm: this.blendMode,
-      cl: this.classNames.join(' '),
+      cl: this.classNames.length ? this.classNames.join(' ') : undefined,
       ddd: this.is3D ? 1 : 0,
       ef: this.effects,
       h: this.height,

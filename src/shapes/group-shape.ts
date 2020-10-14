@@ -1,48 +1,48 @@
 import { BlendMode, PropertyType, ShapeType } from '../constants';
 import { Property } from '../properties';
-import { createShapeFromJSON } from '.';
+import { EllipseShape } from './ellipse-shape';
+import { FillShape } from './fill-shape';
+import { GradientFillShape } from './gradient-fill-shape';
+import { PathShape } from './path-shape';
+import { RectangleShape } from './rectangle-shape';
 import { Shape } from './shape';
+import { StrokeShape } from './stroke-shape';
+import { TrimShape } from './trim-shape';
 
 /**
  * Group shape type.
  */
 export class GroupShape extends Shape {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   /**
    * Group shape type: gr
    */
   public readonly type = ShapeType.GROUP;
 
-  public anchor: Property = new Property(PropertyType.ANCHOR);
+  public anchor: Property = new Property(this, PropertyType.ANCHOR);
 
   public blendMode: BlendMode = BlendMode.NORMAL;
 
   public contentPropertyIndex?: number;
 
+  public isHidden = false;
+
   public numProperties = 0;
 
-  public opacity: Property = new Property(PropertyType.OPACITY);
+  public opacity: Property = new Property(this, PropertyType.OPACITY);
 
-  public position: Property = new Property(PropertyType.POSITION);
+  public position: Property = new Property(this, PropertyType.POSITION);
 
   public propertyIndex?: number;
 
-  public rotation: Property = new Property(PropertyType.ROTATION);
+  public rotation: Property = new Property(this, PropertyType.ROTATION);
 
-  public scale: Property = new Property(PropertyType.SCALE);
+  public scale: Property = new Property(this, PropertyType.SCALE);
 
   public shapes: Shape[] = [];
 
-  public skew?: Property;
+  public skew: Property = new Property(this, PropertyType.SKEW);
 
-  public skewAxis?: Property;
-
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
+  public skewAxis: Property = new Property(this, PropertyType.SKEW_AXIS);
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -50,41 +50,40 @@ export class GroupShape extends Shape {
    * @param json    JSON object
    * @returns       GroupShape instance
    */
-  public static fromJSON(json: Record<string, any>): GroupShape {
-    const shape = new GroupShape();
-
+  public fromJSON(json: Record<string, any>): GroupShape {
     // Base shape
-    shape.classNames = json.cl;
-    shape.id = json.ln;
-    shape.isHidden = json.hd;
-    shape.matchName = json.mn;
-    shape.name = json.nm;
+    this.classNames = json.cl;
+    this.id = json.ln;
+    this.isHidden = json.hd;
+    this.matchName = json.mn;
+    this.name = json.nm;
 
     // This shape
-    shape.blendMode = json.bm;
-    shape.contentPropertyIndex = json.cix;
-    shape.propertyIndex = json.ix;
-    shape.numProperties = json.np;
+    this.blendMode = json.bm;
+    this.contentPropertyIndex = json.cix;
+    this.propertyIndex = json.ix;
+    this.numProperties = json.np;
 
-    shape.shapes = json.it
+    this.shapes = json.it
       .map((jShape: Record<string, any>) => {
         try {
           if (jShape.ty !== 'tr') {
-            return createShapeFromJSON(jShape);
+            const nShape = this.createShape(jShape.ty);
+            return nShape.fromJSON(jShape);
           }
 
-          shape.anchor = Property.fromJSON(PropertyType.ANCHOR, jShape.a);
-          shape.opacity = Property.fromJSON(PropertyType.OPACITY, jShape.o);
-          shape.position = Property.fromJSON(PropertyType.POSITION, jShape.p);
-          shape.rotation = Property.fromJSON(PropertyType.ROTATION, jShape.r);
-          shape.scale = Property.fromJSON(PropertyType.SCALE, jShape.s);
+          this.anchor.fromJSON(jShape.a);
+          this.opacity.fromJSON(jShape.o);
+          this.position.fromJSON(jShape.p);
+          this.rotation.fromJSON(jShape.r);
+          this.scale.fromJSON(jShape.s);
 
           if (jShape.sk) {
-            shape.skew = Property.fromJSON(PropertyType.SKEW, jShape.sk);
+            this.skew.fromJSON(jShape.sk);
           }
 
           if (jShape.sa) {
-            shape.skewAxis = Property.fromJSON(PropertyType.SKEW_AXIS, jShape.sa);
+            this.skewAxis.fromJSON(jShape.sa);
           }
         } catch {
           // Swallow
@@ -94,12 +93,34 @@ export class GroupShape extends Shape {
       })
       .filter(Boolean);
 
-    return shape;
+    return this;
   }
+  /**
+   * Creates and returns a new shape instance of given type.
+   *
+   * @param type  Shape type string.
+   */
+  public createShape(type: ShapeType): Shape {
+    if (type === ShapeType.PATH) {
+      return new PathShape(this);
+    } else if (type === ShapeType.GROUP) {
+      return new GroupShape(this);
+    } else if (type === ShapeType.FILL) {
+      return new FillShape(this);
+    } else if (type === ShapeType.RECTANGLE) {
+      return new RectangleShape(this);
+    } else if (type === ShapeType.ELLIPSE) {
+      return new EllipseShape(this);
+    } else if (type === ShapeType.STROKE) {
+      return new StrokeShape(this);
+    } else if (type === ShapeType.GRADIENT_FILL) {
+      return new GradientFillShape(this);
+    } else if (type === ShapeType.TRIM) {
+      return new TrimShape(this);
+    }
 
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
+    throw new Error(`Invalid or unknown shape type: ${type}`);
+  }
 
   /**
    * Convert the class instance to Lottie JSON object.

@@ -6,10 +6,6 @@ import { Shape } from './shape';
  * Rectangle shape type.
  */
 export class RectangleShape extends Shape {
-  // ---------------------------------------------------------------------
-  // Public Properties
-  // ---------------------------------------------------------------------
-
   /**
    * Rectangle shape type: rc
    */
@@ -17,15 +13,11 @@ export class RectangleShape extends Shape {
 
   public direction?: number;
 
-  public position: Property = new Property(PropertyType.POSITION);
+  public position: Property = new Property(this, PropertyType.POSITION);
 
-  public roundness: Property = new Property(PropertyType.ROUNDNESS);
+  public roundness: Property = new Property(this, PropertyType.ROUNDNESS);
 
-  public size: Property = new Property(PropertyType.SIZE);
-
-  // ---------------------------------------------------------------------
-  // Public Static Methods
-  // ---------------------------------------------------------------------
+  public size: Property = new Property(this, PropertyType.SIZE);
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -33,28 +25,22 @@ export class RectangleShape extends Shape {
    * @param json    JSON object
    * @returns       RectangleShape instance
    */
-  public static fromJSON(json: Record<string, any>): RectangleShape {
-    const shape = new RectangleShape();
-
+  public fromJSON(json: Record<string, any>): RectangleShape {
     // Base shape
-    shape.classNames = json.cl;
-    shape.id = json.ln;
-    shape.isHidden = json.hd;
-    shape.matchName = json.mn;
-    shape.name = json.nm;
+    this.classNames = json.cl;
+    this.id = json.ln;
+    this.isHidden = json.hd;
+    this.matchName = json.mn;
+    this.name = json.nm;
 
     // This shape
-    shape.direction = json.d;
-    shape.position = Property.fromJSON(PropertyType.POSITION, json.p);
-    shape.roundness = Property.fromJSON(PropertyType.ROUNDNESS, json.r);
-    shape.size = Property.fromJSON(PropertyType.SIZE, json.s);
+    this.direction = json.d;
+    this.position.fromJSON(json.p);
+    this.roundness.fromJSON(json.r);
+    this.size.fromJSON(json.s);
 
-    return shape;
+    return this;
   }
-
-  // ---------------------------------------------------------------------
-  // Public Methods
-  // ---------------------------------------------------------------------
 
   /**
    * Convert the class instance to Lottie JSON object.
