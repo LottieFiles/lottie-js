@@ -6,7 +6,9 @@ async function run() {
   // Print some data of the animation
   console.log('Frame Rate', anim.frameRate);
   console.log('Number of Layers', anim.layers.length);
-  console.log(anim.getColors());
+  console.log('Unique Colors',anim.colors);
+  console.log('Total Frames',anim.totalFrames);
+  console.log('Durations',anim.duration);
 
   // Manipulate animation
   anim.name = 'Woohoo';
@@ -15,9 +17,7 @@ async function run() {
 
   // Get the new JSON
   const woohooLottie = JSON.stringify(anim);
-  console.log(woohooLottie);
+  // console.log(woohooLottie);
 }
 
-Promise.resolve(run()).catch(() => {
-  throw new Error('Error!');
-});
+Promise.resolve(run());

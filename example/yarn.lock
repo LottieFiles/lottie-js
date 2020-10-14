@@ -2,5 +2,21 @@
 # yarn lockfile v1
 
 
-"@lottiefiles/lottie-js@../dist":
-  version "0.0.0"
+"@lottiefiles/lottie-js@^0.0.7":
+  version "0.0.7"
+  resolved "https://npm.pkg.github.com/download/@lottiefiles/lottie-js/0.0.7/54440bb24533319b3831006aac4876493b8496d3ed1409187e13d181cc8e834d#d8c9bb810786267f94ecf5e79ff7f859ea759a06"
+  integrity sha512-zn9OJcwpLKqqTtKA7+xxD0WrwJUFHDGVDZHxWXcdP8EeZybw83GADTTrjCEKw52anNlH9PvyQH1vu91kRK7GPQ==
+  dependencies:
+    cross-fetch "^3.0.6"
+
+cross-fetch@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.0.6.tgz#3a4040bc8941e653e0e9cf17f29ebcd177d3365c"
+  integrity sha512-KBPUbqgFjzWlVcURG+Svp9TlhA5uliYtiNx/0r8nv0pdypeQCRJ9IaSIc3q/x3q8t3F75cHuwxVql1HFGHCNJQ==
+  dependencies:
+    node-fetch "2.6.1"
+
+node-fetch@2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
