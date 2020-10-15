@@ -279,14 +279,18 @@ export class Animation {
    *
    * @returns       JSON object
    */
-  public toJSON(): Record<string, any> {
+  public toJSON(key?: string): Record<string, any> | undefined {
+    if (key) {
+      return undefined;
+    }
+
     return {
       assets: this.assets,
       ddd: this.is3D ? 1 : 0,
       fr: this.frameRate,
       h: this.height,
       ip: this.inPoint,
-      layers: this.layers,
+      layers: this.layers.map(layer => layer.toJSON()),
       markers: {},
       meta: this.meta,
       nm: this.name,

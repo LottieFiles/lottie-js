@@ -10,7 +10,7 @@ export abstract class Layer {
   public abstract readonly type: LayerType;
 
   public abstract fromJSON(json: Record<string, any>): Layer;
-  public abstract toJSON(): Record<string, any>;
+  public abstract toJSON(key?: string): Record<string, any> | undefined;
 
   public autoOrient = false;
   public blendMode: BlendMode = BlendMode.NORMAL;
