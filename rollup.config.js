@@ -3,6 +3,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import strip from '@rollup/plugin-strip';
 import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
+import filesize from 'rollup-plugin-filesize';
 
 import pkg from './package.json';
 
@@ -48,6 +49,8 @@ export default [
         // String replacements
         define: replacements,
       }),
+
+      filesize(),
     ],
   },
 
@@ -82,6 +85,8 @@ export default [
         // String replacements
         define: replacements,
       }),
+
+      filesize(),
     ],
   },
 
