@@ -79,7 +79,7 @@ export class Property {
     let value;
 
     if (this.isAnimated === false) {
-      value = this.values.length ? this.values[0].value : 10001000;
+      value = this.values.length ? this.values[0].value : 0;
     } else {
       value = this.values;
     }

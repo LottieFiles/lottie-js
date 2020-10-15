@@ -10,7 +10,7 @@ export class Meta {
   /**
    * Keywords.
    */
-  public keywords?: string;
+  public keywords: string[] = [];
 
   /**
    * Generator.
@@ -51,7 +51,7 @@ export class Meta {
    */
   public fromJSON(json: Record<string, any>): Meta {
     this.author = json.a;
-    this.keywords = json.k;
+    this.keywords = 'k' in json ? json.k.split(',').map((w: string) => w.trim()) : [json.k];
     this.generator = json.g;
     this.description = json.d;
     this.themeColor = json.tc;
@@ -69,7 +69,7 @@ export class Meta {
   public toJSON(): Record<string, any> {
     return {
       a: this.author,
-      k: this.keywords,
+      k: this.keywords.length ? this.keywords : undefined,
       g: this.generator,
       d: this.description,
       tc: this.themeColor,
