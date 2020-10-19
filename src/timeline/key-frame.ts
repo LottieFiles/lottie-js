@@ -9,6 +9,16 @@ export class KeyFrame {
   public valueInTangent?: [number, number];
   public valueOutTangent?: [number, number];
 
+  public constructor(frame?: number, value?: any) {
+    if (frame !== undefined) {
+      this.frame = frame;
+    }
+
+    if (value !== undefined) {
+      this.value = value;
+    }
+  }
+
   /**
    * Convert the Lottie JSON object to class instance.
    *

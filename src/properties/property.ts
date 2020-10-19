@@ -1,22 +1,17 @@
 import { PropertyType } from '../constants';
 import { KeyFrame } from '../timeline';
-import { useRegistry } from '../utils/use-registry';
 
 /**
  * Represents animated properties of layers and shapes.
  */
-export class Property {
-  public readonly type: PropertyType;
+export abstract class Property<T> {
+  public readonly type!: PropertyType;
 
   public expression?: string;
 
-  public isAnimated = false;
+  public index?: number;
 
-  public index = 0;
-
-  public maxColors?: number;
-
-  public values: Array<KeyFrame> = [];
+  public keyFrames: Array<KeyFrame<T>> = [];
 
   /**
    * Parent instance.
@@ -28,15 +23,22 @@ export class Property {
   /**
    * Constructor.
    *
-   * @param parent      Parent instance the property belongs to.
    * @param type        Property type.
    */
-  constructor(parent: any, type: PropertyType) {
-    this.parent = parent;
+  constructor(value?: T, index?: number);
+  constructor(keyFrames?: Array<KeyFrame<T>>, index?: number);
+  constructor(valueOrKeyFrames: T | Array<KeyFrame<T>>, index?: number) {
+    if (valueOrKeyFrames !== undefined) {
+      if (Array.isArray(valueOrKeyFrames) && valueOrKeyFrames.every(kf => kf instanceof KeyFrame)) {
+        // Keyframe values:
+        this.keyFrames = valueOrKeyFrames;
+      } else {
+        // Non animated value
+        this.keyFrames = [new KeyFrame<T>(0, valueOrKeyFrames)];
+      }
+    }
 
-    this.type = type;
-
-    useRegistry().set(this, parent);
+    this.index = index;
   }
 
   /**
@@ -45,27 +47,28 @@ export class Property {
    * @param json    JSON object
    * @returns       ShapeLayer instance
    */
-  public fromJSON(json: Record<string, any>): Property {
+  public fromJSON(json: Record<string, any>): Property<T> {
     // This property
     this.expression = 'x' in json ? json.x : undefined;
-    this.index = json.ix;
-    this.isAnimated = json.a === 1;
+    this.index = 'ix' in json ? json.ix : undefined;
 
-    this.values = this.isAnimated
-      ? json.k.map((v: Record<string, any>) => new KeyFrame().fromJSON(v))
-      : [new KeyFrame().fromJSON({ t: 0, s: json.k })];
+    if ('a' in json && json.a === 1) {
+      this.keyFrames = json.k.map((v: Record<string, any>) => {
+        const kf = new KeyFrame().fromJSON(v);
 
-    if (this.type === PropertyType.COLOR) {
-      this.maxColors = 'p' in json ? json.p : undefined;
+        kf.value = this.valueFromJSON(v.s);
 
-      // this.values.forEach((kf: KeyFrame) => {
-      //   const colorParts = kf.value as [number, number, number, number];
-
-      //   kf.value = [colorParts[0], colorParts[1], colorParts[2], colorParts[3] || 1];
-      // });
+        return kf;
+      });
+    } else {
+      this.keyFrames = [new KeyFrame(0, this.valueFromJSON(json.k))];
     }
 
     return this;
+  }
+
+  protected valueFromJSON(value: any): any {
+    return value;
   }
 
   /**
@@ -78,18 +81,17 @@ export class Property {
   public toJSON(): Record<string, any> {
     let value;
 
-    if (this.isAnimated === false) {
-      value = this.values.length ? this.values[0].value : 0;
+    if (this.keyFrames.length > 1) {
+      value = this.keyFrames.map(kf => kf.toJSON());
     } else {
-      value = this.values;
+      value = this.keyFrames[0].value;
     }
 
     return {
       x: this.expression,
       ix: this.index,
-      a: this.isAnimated ? 1 : 0,
+      a: this.keyFrames.length ? 1 : 0,
       k: value,
-      p: this.maxColors,
     };
   }
 }
