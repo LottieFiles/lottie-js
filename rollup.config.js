@@ -10,6 +10,17 @@ import pkg from './package.json';
 // Whether current node environment is production mode
 const isProduction = process.env.NODE_ENV === 'production';
 
+// Banner
+const compiledAt = new Date().toUTCString().replace(/GMT/g, 'UTC');
+const banner = [
+  `/*!`,
+  ` * ${pkg.name} - v${pkg.version}`,
+  ` * Compiled ${compiledAt}`,
+  ` *`,
+  ` * Copyright LottieFiles. All rights reserved.`,
+  ` */`,
+].join('\n');
+
 // String replacement definitions
 const replacements = {
   'process.env.GENERATOR': `'${pkg.name} ${pkg.version}'`,
@@ -21,6 +32,7 @@ export default [
     input: 'src/index.ts',
     output: [
       {
+        banner,
         file: pkg.browser,
         format: 'umd',
         name: 'Lottie',
@@ -60,11 +72,13 @@ export default [
 
     output: [
       {
+        banner,
         file: pkg.main,
         format: 'cjs',
         sourcemap: true,
       },
       {
+        banner,
         file: pkg.module,
         format: 'es',
         sourcemap: true,
