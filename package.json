@@ -1,6 +1,6 @@
 {
   "name": "@lottiefiles/lottie-js",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Lottie JSON model for Javascript/Typescript",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
