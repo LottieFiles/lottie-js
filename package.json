@@ -18,7 +18,7 @@
     "docs": "typedoc --plugin none",
     "lint": "eslint --fix --ext .ts,.js .",
     "prepack": "yarn run lint && yarn clean && npm run build:prod",
-    "release": "release-it",
+    "release": "semantic-release",
     "test": "jest",
     "test:dev": "jest --watch --coverage"
   },
