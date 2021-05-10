@@ -1,9 +1,8 @@
 name: Release
 
-on:  
+on:
   push:
-    tags:
-      - '*'
+    branches: [master, beta]
 
 jobs:
   release:
@@ -30,7 +29,6 @@ jobs:
           key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
-
       - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -55,7 +53,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPMJS_TOKEN }}
           GIT_COMMIT: ${{ github.sha }}
           GIT_AUTHOR_NAME: ${{ secrets.GIT_AUTHOR_NAME }}
           GIT_AUTHOR_EMAIL: ${{ secrets.GIT_AUTHOR_EMAIL }}
