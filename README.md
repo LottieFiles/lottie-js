@@ -2,14 +2,10 @@
 
 An object model for representing the Lottie JSON structure.
 
-This library is designed to help with serializing and deserializing a Lottie JSON into an object model for validation
-and ease of value access and manipulation.
-
-### To-dos
-
----
-
-- [ ] Add tests for all functions and files.
+This library was created to make interacting with the Lottie JSON object simpler. The library consists of methods to map
+the Lottie JSON to the object model and interact with properties as well as manipulate them. The goal is to fully map
+the Lottie object model and add in enough helper methods to the library such that Lottie manipulation can be made easier
+without having to learn the entire complex structure of a Lottie file.
 
 ### Usage
 
