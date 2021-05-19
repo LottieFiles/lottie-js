@@ -7,6 +7,8 @@ the Lottie JSON to the object model and interact with properties as well as mani
 the Lottie object model and add in enough helper methods to the library such that Lottie manipulation can be made easier
 without having to learn the entire complex structure of a Lottie file.
 
+### Full Documentation is available here [Click me](https://docs.lottiefiles.com/lottie-js/)
+
 ### Usage
 
 1. Install
@@ -45,15 +47,11 @@ Promise.resolve(loadAnimation);
 
 ### Documentation &amp; API
 
-#### Documentation is available here [Click me](https://docs.lottiefiles.com/lottie-js/)
-
 ---
 
 The documenting system used is [TypeDoc](https://typedoc.org/).
 
-The documentation will be made available on the web soon as a way of providing secure access to it within LottieFiles
-team is setup. In the mean time clone the repo and run the yarn command: `yarn docs` to generate the docs to browse
-locally.
+Clone the repo and run the yarn command: `yarn docs` to generate the docs to browse locally.
 
 The generated documentation is placed in the docs/ folder.
 

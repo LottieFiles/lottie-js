@@ -8,7 +8,16 @@
   "types": "dist/index.d.ts",
   "repository": "https://github.com/LottieFiles/lottie-js",
   "license": "UNLICENSED",
-  "keywords": [],
+  "keywords": [
+    "Lottie",
+    "Javascript",
+    "Lottie Object",
+    "Lottie JSON",
+    "LottieFiles"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Jawish Hameed <jawish@lottiefiles.com>",
   "scripts": {
     "build": "yarn build:prod",
