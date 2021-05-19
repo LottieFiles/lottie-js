@@ -93,7 +93,7 @@ export default [
 
       // Build
       esbuild({
-        minify: isProduction,
+        // minify: isProduction,
         target: 'es2018', // default, or 'es20XX', 'esnext'
 
         // String replacements
