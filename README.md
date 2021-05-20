@@ -20,7 +20,7 @@ yarn add @lottiefiles/lottie-js@0.0.1
 2. Use
 
 ```
-import { Lottie } from '@lottiefiles/lottie-js';
+import { Animation } from '@lottiefiles/lottie-js';
 
 async function loadAnimation() {
   // Create Lottie instance
