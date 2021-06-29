@@ -6,9 +6,9 @@ async function run() {
   // Print some data of the animation
   console.log('Frame Rate', anim.frameRate);
   console.log('Number of Layers', anim.layers.length);
-  console.log('Unique Colors',anim.colors);
-  console.log('Total Frames',anim.totalFrames);
-  console.log('Durations',anim.duration);
+  console.log('Unique Colors', anim.colors);
+  console.log('Total Frames', anim.totalFrames);
+  console.log('Durations', anim.duration);
 
   // Manipulate animation
   anim.name = 'Woohoo';
