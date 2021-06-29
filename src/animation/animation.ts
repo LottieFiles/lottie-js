@@ -7,6 +7,7 @@ import { GroupLayer } from '../layers/group-layer';
 import { ImageLayer } from '../layers/image-layer';
 import { SolidLayer } from '../layers/solid-layer';
 import { TextLayer } from '../layers/text-layer';
+import { Marker } from '../markers';
 import { Property } from '../properties';
 import { KeyFrame } from '../timeline';
 import { useRegistry } from '../utils/use-registry';
@@ -22,6 +23,7 @@ export class Animation {
   public inPoint = 0;
   public is3D = false;
   public layers: Layer[] = [];
+  public markers: Marker[] = [];
   public meta: Meta = new Meta(this);
   public name = '';
   public outPoint = 0;
@@ -196,6 +198,29 @@ export class Animation {
     }
   }
 
+  /**
+   * Creates and returns a new marker.
+   */
+  public createMarker(): Marker {
+    return new Marker();
+  }
+
+  /**
+   * Creates and returns a new marker from JSON.
+   *
+   * @param json    JSON object.
+   */
+  public createMarkerFromJSON(json: Record<string, any>): Marker {
+    try {
+      const marker = this.createMarker();
+
+      return marker.fromJSON(json);
+    } catch (e) {
+      console.log(e);
+      throw new Error(`Unable to create marker from JSON`);
+    }
+  }
+
   /*
    * Convert the Lottie JSON object to class instance.
    *
@@ -219,6 +244,10 @@ export class Animation {
     this.assets = json.assets.map((jAsset: Record<string, any>) => this.createAssetFromJSON(jAsset)).filter(Boolean);
 
     this.layers = json.layers.map((jLayer: Record<string, any>) => this.createLayerFromJSON(jLayer)).filter(Boolean);
+
+    this.markers = json.markers
+      .map((jMarker: Record<string, any>) => this.createMarkerFromJSON(jMarker))
+      .filter(Boolean);
 
     if ('meta' in json) {
       this.meta.fromJSON(json.meta);
@@ -291,7 +320,7 @@ export class Animation {
       h: this.height,
       ip: this.inPoint,
       layers: this.layers.map(layer => layer.toJSON()),
-      markers: {},
+      markers: this.markers.map(marker => marker.toJSON()),
       meta: this.meta,
       nm: this.name,
       op: this.outPoint,
