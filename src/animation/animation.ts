@@ -3,6 +3,7 @@ import fetch from 'cross-fetch';
 import { Asset, ImageAsset, PrecompositionAsset } from '../assets';
 import { AssetType, LayerType, PropertyType } from '../constants';
 import { Layer, PrecompositionLayer, ShapeLayer } from '../layers';
+// import { Shape } from '../shapes';
 import { GroupLayer } from '../layers/group-layer';
 import { ImageLayer } from '../layers/image-layer';
 import { SolidLayer } from '../layers/solid-layer';
@@ -100,6 +101,57 @@ export class Animation {
       });
 
     return Array.from(colors).map(c => JSON.parse(c));
+  }
+
+  /*
+   * Returns all the colors used in the animation.
+   *
+   * @returns Array of colors.
+   */
+
+  public get colorsVerbose(): Record<string, any>[] {
+    const colors: Record<string, any>[] = [];
+
+    // map the lottie into lottie js
+    // all the properties are stored inside a registry.  (type == color)
+    // inside each property there are many key frames
+    // each keyframe has a color.
+
+    [...useRegistry().keys()]
+      // Filter color properties
+      .filter((p: Property) => p.type === PropertyType.COLOR)
+      .forEach((cp: Property) => {
+        const parent = cp.getParent();
+        const pathString = this.parentPath(parent, parent.name);
+        console.log(pathString);
+        cp.values.forEach((v: KeyFrame) => {
+          // console.log(v);
+          const colorParts = v.value as [number, number, number, number];
+          const color = JSON.stringify([
+            Math.round(colorParts[0] * 255),
+            Math.round(colorParts[1] * 255),
+            Math.round(colorParts[2] * 255),
+            colorParts[3],
+          ]);
+          console.log(color);
+        });
+        // console.log('------------------------');
+      });
+
+    return colors;
+  }
+
+  public parentPath(shape: any, identifier: string): any {
+    let pathString = '';
+    if (shape.parent === undefined) {
+      // stop recursion
+      //...
+      return pathString;
+    } else {
+      const parent = shape.parent;
+      pathString = identifier + '.' + parent.name;
+      this.parentPath(parent, pathString);
+    }
   }
 
   /**
