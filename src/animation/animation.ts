@@ -11,8 +11,12 @@ import { TextLayer } from '../layers/text-layer';
 import { Marker } from '../markers';
 import { Property } from '../properties';
 import { KeyFrame } from '../timeline';
+import { rgbaToHex } from '../utils/color-spaces';
 import { useRegistry } from '../utils/use-registry';
 import { Meta } from './meta';
+interface parentLocatorInterface {
+  [key: string]: string;
+}
 
 /**
  * Animation contains all the information about the Lottie animation.
@@ -109,31 +113,42 @@ export class Animation {
    * @returns Array of colors.
    */
 
-  public get colorsVerbose(): Record<string, any>[] {
-    const colors: Record<string, any>[] = [];
-
-    // map the lottie into lottie js
-    // all the properties are stored inside a registry.  (type == color)
-    // inside each property there are many key frames
-    // each keyframe has a color.
+  public get colorsVerbose(): Record<string, any> {
+    const colors: parentLocatorInterface = {};
 
     [...useRegistry().keys()]
       // Filter color properties
       .filter((p: Property) => p.type === PropertyType.COLOR)
-      .forEach((cp: Property) => {
+      .forEach((cp: Property, index: number) => {
+        // cp.UID = Date.now();
+
         const parent = cp.getParent();
-        const pathString = this.parentPath(parent, parent.name);
-        console.log(pathString);
+        const pathString = this.parentPath(parent);
+
         cp.values.forEach((v: KeyFrame) => {
-          // console.log(v);
+          const pathCopy = pathString.slice();
+          pathCopy.unshift('Frame ' + v.frame);
+          // console.log(pathCopy); // key
           const colorParts = v.value as [number, number, number, number];
-          const color = JSON.stringify([
+          // const color = JSON.stringify([
+          //   Math.round(colorParts[0] * 255),
+          //   Math.round(colorParts[1] * 255),
+          //   Math.round(colorParts[2] * 255),
+          //   colorParts[3],
+          // ]);
+          // console.log(color); // value
+          // colors[pathCopy.join('.')] = rgbaToHex([
+          //   Math.round(colorParts[0] * 255),
+          //   Math.round(colorParts[1] * 255),
+          //   Math.round(colorParts[2] * 255),
+          //   colorParts[3],
+          // ]);
+          colors[index] = rgbaToHex([
             Math.round(colorParts[0] * 255),
             Math.round(colorParts[1] * 255),
             Math.round(colorParts[2] * 255),
             colorParts[3],
           ]);
-          console.log(color);
         });
         // console.log('------------------------');
       });
@@ -141,17 +156,18 @@ export class Animation {
     return colors;
   }
 
-  public parentPath(shape: any, identifier: string): any {
-    let pathString = '';
+  /*
+   * returns the names of all prents given a shape
+   */
+
+  public parentPath(shape: any, paths: string[] = []): string[] {
     if (shape.parent === undefined) {
       // stop recursion
-      //...
-      return pathString;
-    } else {
-      const parent = shape.parent;
-      pathString = identifier + '.' + parent.name;
-      this.parentPath(parent, pathString);
+      paths.push(shape.name);
+      return paths;
     }
+    paths.push(shape.name);
+    return this.parentPath(shape.parent, paths);
   }
 
   /**

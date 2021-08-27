@@ -6,6 +6,8 @@ import { useRegistry } from '../utils/use-registry';
  * Represents animated properties of layers and shapes.
  */
 export class Property {
+  public UID = 0;
+
   public readonly type: PropertyType;
 
   public expression?: string;
