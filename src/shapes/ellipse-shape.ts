@@ -15,6 +15,8 @@ export class EllipseShape extends Shape {
 
   public size: Property = new Property(this, PropertyType.SIZE);
 
+  public direction = 1;
+
   /**
    * Convert the Lottie JSON object to class instance.
    *
@@ -32,6 +34,7 @@ export class EllipseShape extends Shape {
     // This shape
     this.position.fromJSON(json.p);
     this.size.fromJSON(json.s);
+    this.direction = json.d;
 
     return this;
   }
@@ -57,6 +60,7 @@ export class EllipseShape extends Shape {
       // This shape
       p: this.position,
       s: this.size,
+      d: this.direction,
     };
   }
 }
