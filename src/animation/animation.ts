@@ -125,25 +125,15 @@ export class Animation {
         const parent = cp.getParent();
         const pathString = this.parentPath(parent);
 
+        const pathCopy = pathString.slice();
+
         cp.values.forEach((v: KeyFrame) => {
-          const pathCopy = pathString.slice();
           pathCopy.unshift('Frame ' + v.frame);
-          // console.log(pathCopy); // key
+          pathCopy.unshift(index.toString());
+
           const colorParts = v.value as [number, number, number, number];
-          // const color = JSON.stringify([
-          //   Math.round(colorParts[0] * 255),
-          //   Math.round(colorParts[1] * 255),
-          //   Math.round(colorParts[2] * 255),
-          //   colorParts[3],
-          // ]);
-          // console.log(color); // value
-          // colors[pathCopy.join('.')] = rgbaToHex([
-          //   Math.round(colorParts[0] * 255),
-          //   Math.round(colorParts[1] * 255),
-          //   Math.round(colorParts[2] * 255),
-          //   colorParts[3],
-          // ]);
-          colors[index] = rgbaToHex([
+
+          colors[pathCopy.join('.')] = rgbaToHex([
             Math.round(colorParts[0] * 255),
             Math.round(colorParts[1] * 255),
             Math.round(colorParts[2] * 255),
