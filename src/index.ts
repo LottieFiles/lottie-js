@@ -9,3 +9,4 @@ export * from './shapes';
 export * from './timeline';
 
 export * from './utils/use-registry';
+export * from './utils/color-spaces';

@@ -3,6 +3,7 @@ import fetch from 'cross-fetch';
 import { Asset, ImageAsset, PrecompositionAsset } from '../assets';
 import { AssetType, LayerType, PropertyType } from '../constants';
 import { Layer, PrecompositionLayer, ShapeLayer } from '../layers';
+// import { Shape } from '../shapes';
 import { GroupLayer } from '../layers/group-layer';
 import { ImageLayer } from '../layers/image-layer';
 import { SolidLayer } from '../layers/solid-layer';
@@ -10,8 +11,12 @@ import { TextLayer } from '../layers/text-layer';
 import { Marker } from '../markers';
 import { Property } from '../properties';
 import { KeyFrame } from '../timeline';
+import { rgbaToHex } from '../utils/color-spaces';
 import { useRegistry } from '../utils/use-registry';
 import { Meta } from './meta';
+interface parentLocatorInterface {
+  [key: string]: string;
+}
 
 /**
  * Animation contains all the information about the Lottie animation.
@@ -100,6 +105,56 @@ export class Animation {
       });
 
     return Array.from(colors).map(c => JSON.parse(c));
+  }
+
+  /*
+   * Returns all the colors used in the animation.
+   *
+   * @returns Array of colors.
+   */
+
+  public get colorsVerbose(): Record<string, any> {
+    const colors: parentLocatorInterface = {};
+
+    [...useRegistry().keys()]
+      // Filter color properties
+      .filter((p: Property) => p.type === PropertyType.COLOR)
+      .forEach((cp: Property, index: number) => {
+        const parent = cp.getParent();
+        const pathString = this.parentPath(parent);
+
+        const pathCopy = pathString.slice();
+
+        cp.values.forEach((v: KeyFrame) => {
+          pathCopy.unshift('Frame ' + v.frame);
+          pathCopy.unshift(index.toString());
+
+          const colorParts = v.value as [number, number, number, number];
+
+          colors[pathCopy.join('.')] = rgbaToHex([
+            Math.round(colorParts[0] * 255),
+            Math.round(colorParts[1] * 255),
+            Math.round(colorParts[2] * 255),
+            colorParts[3],
+          ]);
+        });
+      });
+
+    return colors;
+  }
+
+  /*
+   * returns the names of all prents given a shape
+   */
+
+  public parentPath(shape: any, paths: string[] = []): string[] {
+    if (shape.parent === undefined) {
+      // stop recursion
+      paths.push(shape.name);
+      return paths;
+    }
+    paths.push(shape.name);
+    return this.parentPath(shape.parent, paths);
   }
 
   /**

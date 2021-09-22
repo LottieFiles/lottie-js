@@ -1,6 +1,6 @@
 {
   "name": "@lottiefiles/lottie-js",
-  "version": "0.0.14",
+  "version": "0.1.0",
   "description": "Lottie JSON model for Javascript/Typescript",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -21,7 +21,7 @@
   "author": "Jawish Hameed <jawish@lottiefiles.com>",
   "scripts": {
     "build": "yarn build:prod",
-    "build:dev": "cross-env NODE_ENV=development rollup -c",
+    "build:dev": "cross-env NODE_ENV=development rollup -c -w",
     "build:prod": "cross-env NODE_ENV=production rollup -c",
     "clean": "del-cli --force coverage dist docs",
     "docs": "typedoc --plugin none",

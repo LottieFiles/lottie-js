@@ -6,6 +6,8 @@ import { useRegistry } from '../utils/use-registry';
  * Represents animated properties of layers and shapes.
  */
 export class Property {
+  public UID = 0;
+
   public readonly type: PropertyType;
 
   public expression?: string;
@@ -23,7 +25,11 @@ export class Property {
    *
    * @protected
    */
-  protected parent: any;
+  private _parent: any;
+
+  public getParent(): any {
+    return this._parent;
+  }
 
   /**
    * Constructor.
@@ -32,7 +38,7 @@ export class Property {
    * @param type        Property type.
    */
   constructor(parent: any, type: PropertyType) {
-    this.parent = parent;
+    this._parent = parent;
 
     this.type = type;
 
