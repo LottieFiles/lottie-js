@@ -120,8 +120,6 @@ export class Animation {
       // Filter color properties
       .filter((p: Property) => p.type === PropertyType.COLOR)
       .forEach((cp: Property, index: number) => {
-        // cp.UID = Date.now();
-
         const parent = cp.getParent();
         const pathString = this.parentPath(parent);
 
@@ -140,7 +138,6 @@ export class Animation {
             colorParts[3],
           ]);
         });
-        // console.log('------------------------');
       });
 
     return colors;
