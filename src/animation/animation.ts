@@ -144,6 +144,19 @@ export class Animation {
   }
 
   /*
+   * return all the text layers with layer name
+   */
+
+  public get textLayers(): Record<string, any> {
+    const textLayers: parentLocatorInterface = {};
+    const layers = this.getLayersByType(LayerType.TEXT) as TextLayer[];
+    layers.forEach((layer, index) => {
+      textLayers[index + '.' + layer.name] = layer.textData.d.k[0].s.t;
+    });
+    return textLayers;
+  }
+
+  /*
    * returns the names of all prents given a shape
    */
 
