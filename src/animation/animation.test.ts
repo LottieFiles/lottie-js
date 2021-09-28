@@ -48,3 +48,8 @@ test('Get unique colors', async () => {
     [205, 16, 16, 1],
   ]);
 });
+
+test('Get text layer', async () => {
+  const anim = await Animation.fromURL('https://assets10.lottiefiles.com/packages/lf20_8MANkV.json');
+  console.log(anim.textLayers);
+});
