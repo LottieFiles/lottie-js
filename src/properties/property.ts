@@ -37,10 +37,12 @@ export class Property {
    * @param parent      Parent instance the property belongs to.
    * @param type        Property type.
    */
-  constructor(parent: any, type: PropertyType) {
+  constructor(parent: any, type: PropertyType, values: Array<KeyFrame> = []) {
     this._parent = parent;
 
     this.type = type;
+    this.values = values;
+    this.isAnimated = values.length > 1;
 
     useRegistry().set(this, parent);
   }
