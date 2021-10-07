@@ -1,4 +1,5 @@
 import { BlendMode, PropertyType, ShapeType } from '../constants';
+import { TrimMode } from '../constants';
 import { Property } from '../properties';
 import { Shape } from './shape';
 
@@ -19,6 +20,8 @@ export class TrimShape extends Shape {
 
   public trimStart: Property = new Property(this, PropertyType.NUMBER);
 
+  public trimMultipleShapes: TrimMode = TrimMode.SIMULTANEOUSLY;
+
   /**
    * Convert the Lottie JSON object to class instance.
    *
@@ -38,6 +41,7 @@ export class TrimShape extends Shape {
     this.trimEnd.fromJSON(json.e);
     this.trimOffset.fromJSON(json.o);
     this.trimStart.fromJSON(json.s);
+    this.trimMultipleShapes = json.m in TrimMode ? json.m : TrimMode.INDIVIDUALLY;
 
     return this;
   }
@@ -65,6 +69,7 @@ export class TrimShape extends Shape {
       e: this.trimEnd,
       o: this.trimOffset,
       s: this.trimStart,
+      m: this.trimMultipleShapes,
     };
   }
 }
