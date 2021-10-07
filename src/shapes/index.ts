@@ -7,3 +7,4 @@ export * from './rectangle-shape';
 export * from './shape';
 export * from './stroke-shape';
 export * from './trim-shape';
+export * from './gradient-stroke-shape';
