@@ -1,15 +1,15 @@
-import { BlendMode, FillRuleType, GradientFillType, PropertyType, ShapeType } from '../constants';
+import { BlendMode, GradientFillType, LineCapType, LineJoinType, PropertyType, ShapeType } from '../constants';
 import { Gradient, Property } from '../properties';
 import { Shape } from './shape';
 
 /**
- * Gradient fill shape type.
+ * Gradient stroke shape type.
  */
-export class GradientFillShape extends Shape {
+export class GradientStrokeShape extends Shape {
   /**
-   * Gradient shape type: gf
+   * Gradient shape type: gs
    */
-  public readonly type = ShapeType.GRADIENT_FILL;
+  public readonly type = ShapeType.GRADIENT_STROKE;
 
   public blendMode: BlendMode = BlendMode.NORMAL;
 
@@ -27,7 +27,28 @@ export class GradientFillShape extends Shape {
 
   public startPoint: Property = new Property(this, PropertyType.POSITION);
 
-  public fillRule: FillRuleType = FillRuleType.EVEN_ODD;
+  /**
+   * Line cap.
+   *
+   * Mapped field: lc
+   */
+  public lineCapType: LineCapType = LineCapType.ROUND;
+
+  /**
+   * Line join.
+   *
+   * Mapped field: lj
+   */
+  public lineJoinType: LineJoinType = LineJoinType.ROUND;
+
+  /**
+   * Miter limit.
+   *
+   * Mapped field: ml
+   */
+  public miterLimit!: number;
+
+  public width: Property = new Property(this, PropertyType.STROKE_WIDTH);
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -35,7 +56,7 @@ export class GradientFillShape extends Shape {
    * @param json    JSON object
    * @returns       GradientFillShape instance
    */
-  public fromJSON(json: Record<string, any>): GradientFillShape {
+  public fromJSON(json: Record<string, any>): GradientStrokeShape {
     // Base shape
     this.classNames = json.cl;
     this.id = json.ln;
@@ -45,17 +66,24 @@ export class GradientFillShape extends Shape {
 
     // This shape
     this.blendMode = json.bm;
+    this.opacity.fromJSON(json.o);
+
+    // Gradient
     this.endPoint.fromJSON(json.e);
     this.gradientColors.fromJSON(json.g);
     this.gradientType = json.t;
-    this.opacity.fromJSON(json.o);
     this.startPoint.fromJSON(json.s);
-    this.fillRule = json.r;
 
     if (this.gradientType === GradientFillType.LINEAR) {
       this.highlightAngle.fromJSON(json.a);
       this.highlightLength.fromJSON(json.h);
     }
+
+    // Stroke
+    this.lineCapType = json.lc in LineCapType ? json.lc : LineCapType.ROUND;
+    this.lineJoinType = json.lj in LineJoinType ? json.lj : LineJoinType.ROUND;
+    this.miterLimit = json.ml;
+    this.width.fromJSON(json.w);
 
     return this;
   }
@@ -80,14 +108,21 @@ export class GradientFillShape extends Shape {
 
       // This shape
       bm: this.blendMode,
+      o: this.opacity,
+
+      // Gradient
       e: this.endPoint,
       g: this.gradientColors,
       t: this.gradientType,
       a: this.highlightAngle,
       h: this.highlightLength,
-      o: this.opacity,
-      r: this.fillRule,
       s: this.startPoint,
+
+      // Stroke
+      lc: this.lineCapType,
+      lj: this.lineJoinType,
+      ml: this.miterLimit,
+      w: this.width,
     };
   }
 }
