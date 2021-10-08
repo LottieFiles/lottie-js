@@ -1,5 +1,4 @@
-import { LayerType, PropertyType } from '../constants';
-import { Property } from '../properties';
+import { LayerType } from '../constants';
 import { Layer } from './layer';
 
 /**
@@ -16,33 +15,7 @@ export class GroupLayer extends Layer {
    */
   public fromJSON(json: Record<string, any>): GroupLayer {
     // Base layer props
-    this.autoOrient = json.ao === 1;
-    this.blendMode = json.bm;
-    this.effects = json.ef;
-    this.height = json.h;
-    this.id = json.ld;
-    this.index = json.ind;
-    this.inPoint = json.ip;
-    this.is3D = json.ddd;
-    this.name = json.nm;
-    this.outPoint = json.op;
-    this.parent = json.parent;
-    this.startTime = json.st;
-    this.timeStretch = json.sr;
-    this.width = json.w;
-
-    // Split classnames into array
-    if ('cl' in json) {
-      this.classNames = json.cl.split(' ');
-    }
-
-    // This layer props
-    this.opacity.fromJSON(json.ks.o);
-    this.position.fromJSON(json.ks.p);
-    this.anchor.fromJSON(json.ks.a);
-    this.scale.fromJSON(json.ks.s);
-
-    this.rotation = new Property(this, PropertyType.ROTATION).fromJSON(json.ks.r);
+    this.setAttributesFromJSON(json);
 
     return this;
   }
@@ -65,13 +38,7 @@ export class GroupLayer extends Layer {
       h: this.height,
       ind: this.index,
       ip: this.inPoint,
-      ks: {
-        a: this.anchor,
-        o: this.opacity,
-        p: this.position,
-        r: this.rotation,
-        s: this.scale,
-      },
+      ks: this.transformJSON(),
       ln: this.id,
       nm: this.name,
       op: this.outPoint,

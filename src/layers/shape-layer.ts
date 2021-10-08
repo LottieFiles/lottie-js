@@ -1,4 +1,4 @@
-import { LayerType, PropertyType, ShapeType } from '../constants';
+import { LayerType, ShapeType } from '../constants';
 import { Property } from '../properties';
 import { Shape } from '../shapes';
 import { EllipseShape } from '../shapes/ellipse-shape';
@@ -73,53 +73,9 @@ export class ShapeLayer extends Layer {
    */
   public fromJSON(json: Record<string, any>): ShapeLayer {
     // Base layer props
-    this.autoOrient = json.ao === 1;
-    this.blendMode = json.bm;
-    this.effects = json.ef;
-    this.height = json.h;
-    this.id = json.ld;
-    this.index = json.ind;
-    this.inPoint = json.ip;
-    this.is3D = json.ddd;
-    this.name = json.nm;
-    this.outPoint = json.op;
-    this.parent = json.parent;
-    this.startTime = json.st;
-    this.timeStretch = json.sr;
-    this.width = json.w;
-
-    // Split classnames into array
-    this.classNames = 'cl' in json ? json.cl.split(' ') : [];
-
-    // Transforms
-    'o' in json.ks && this.opacity.fromJSON(json.ks.o);
-    'p' in json.ks && this.position.fromJSON(json.ks.p);
-    'a' in json.ks && this.anchor.fromJSON(json.ks.a);
-    's' in json.ks && this.scale.fromJSON(json.ks.s);
-
-    if ('or' in json.ks) {
-      this.orientation = new Property(this, PropertyType.ORIENTATION).fromJSON(json.ks.or);
-    }
-
-    if ('rx' in json.ks) {
-      this.rotationX = new Property(this, PropertyType.ROTATION_X).fromJSON(json.ks.rx);
-    }
-
-    if ('ry' in json.ks) {
-      this.rotationY = new Property(this, PropertyType.ROTATION_Y).fromJSON(json.ks.ry);
-    }
-
-    if ('rz' in json.ks) {
-      this.rotationZ = new Property(this, PropertyType.ROTATION_Z).fromJSON(json.ks.rz);
-    }
-    if ('r' in json.ks) {
-      this.rotation = new Property(this, PropertyType.ROTATION).fromJSON(json.ks.r);
-    }
+    this.setAttributesFromJSON(json);
 
     // This layer props
-    this.skew = 'sk' in json.ks ? new Property(this, PropertyType.SKEW).fromJSON(json.ks.sk) : undefined;
-    this.skewAxis = 'sa' in json.ks ? new Property(this, PropertyType.SKEW_AXIS).fromJSON(json.ks.sa) : undefined;
-
     this.shapes = json.shapes.map((jShape: Record<string, any>) => this.createShapeFromJSON(jShape)).filter(Boolean);
 
     return this;
@@ -146,20 +102,7 @@ export class ShapeLayer extends Layer {
       h: this.height,
       ind: this.index,
       ip: this.inPoint,
-      ks: {
-        a: this.anchor,
-        o: this.opacity,
-        p: this.position,
-        r: this.rotation,
-        s: this.scale,
-        sk: this.skew,
-        sa: this.skewAxis,
-
-        rx: this.rotationX,
-        ry: this.rotationY,
-        rz: this.rotationZ,
-        or: this.orientation,
-      },
+      ks: this.transformJSON(),
       shapes: this.shapes.map(shape => shape.toJSON()),
       ln: this.id,
       nm: this.name,
