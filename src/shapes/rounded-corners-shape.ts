@@ -41,7 +41,6 @@ export class RoundedCornersShape extends Shape {
    * @returns       JSON object
    */
   public toJSON(): Record<string, any> {
-
     return {
       ty: this.type,
 

@@ -16,15 +16,15 @@ export class GradientStop {
   }
 
   get red(): number {
-    return this.color[0]!;
+    return this.color[0];
   }
 
   get green(): number {
-    return this.color[1]!;
+    return this.color[1];
   }
 
   get blue(): number {
-    return this.color[2]!;
+    return this.color[2];
   }
 
   get alpha(): number | undefined {
@@ -83,7 +83,7 @@ class GradientColorsProperty extends Property {
     if (hasAlpha) {
       for (const color of stops) {
         result.push(color.offset);
-        result.push(color.hasAlpha ? color.alpha! : 1);
+        result.push(color.alpha !== undefined ? color.alpha : 1);
       }
     }
 

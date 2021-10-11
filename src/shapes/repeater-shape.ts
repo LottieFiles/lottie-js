@@ -1,4 +1,4 @@
-import { PropertyType, ShapeType, RepeaterComposite } from '../constants';
+import { PropertyType, RepeaterComposite, ShapeType } from '../constants';
 import { Property } from '../properties';
 import { Shape } from './shape';
 
@@ -80,7 +80,6 @@ export class RepeaterShape extends Shape {
    * @returns       JSON object
    */
   public toJSON(): Record<string, any> {
-
     return {
       ty: this.type,
 
@@ -104,7 +103,7 @@ export class RepeaterShape extends Shape {
         s: this.scale,
         sk: this.skew,
         sa: this.skewAxis,
-      }
+      },
     };
   }
 }
