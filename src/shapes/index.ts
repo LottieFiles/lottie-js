@@ -9,3 +9,4 @@ export * from './stroke-shape';
 export * from './trim-shape';
 export * from './gradient-stroke-shape';
 export * from './repeater-shape';
+export * from './star-shape';
