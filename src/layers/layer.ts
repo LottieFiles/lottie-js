@@ -1,5 +1,6 @@
 import { BlendMode, LayerType, PropertyType } from '../constants';
 import { Property } from '../properties/property';
+import { Transform } from '../properties/transform';
 import { KeyFrame } from '../timeline/key-frame';
 import { useRegistry } from '../utils/use-registry';
 
@@ -28,13 +29,9 @@ export abstract class Layer {
   public width = 0;
 
   // Transforms
-  public opacity: Property = new Property(this, PropertyType.OPACITY);
-  public position: Property = new Property(this, PropertyType.POSITION);
-  public anchor: Property = new Property(this, PropertyType.ANCHOR);
-  public scale: Property = new Property(this, PropertyType.SCALE);
+  public transform: Transform = new Transform();
 
   public orientation?: Property;
-  public rotation?: Property;
   public rotationX?: Property;
   public rotationY?: Property;
   public rotationZ?: Property;

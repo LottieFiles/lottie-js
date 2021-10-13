@@ -1,16 +1,18 @@
+import { Value } from '../values';
+
 /**
  * Represents a keyframe in the timeline with the frame number and associated property value.
  */
 export class KeyFrame {
   public frame = 0;
-  public value: number | number[] = 0;
-  public frameInTangent?: [number, number];
-  public frameOutTangent?: [number, number];
+  public value: number | number[] | Value = 0;
+  public frameInTangent?: [number, number] = [0, 0];
+  public frameOutTangent?: [number, number] = [1, 1];
   public valueInTangent?: [number, number];
   public valueOutTangent?: [number, number];
   public hold = false;
 
-  public constructor(frame = 0, value: number | number[] = 0) {
+  public constructor(frame = 0, value: number | number[] | Value = 0) {
     this.frame = frame;
     this.value = value;
   }
@@ -21,9 +23,11 @@ export class KeyFrame {
    * @param json    JSON object
    * @returns       KeyFrame instance
    */
-  public fromJSON(json: Record<string, any>): KeyFrame {
+  public fromJSON(json: Record<string, any>, valueClass: any = undefined): KeyFrame {
     this.frame = json.t;
-    this.value = json.s;
+
+    if (valueClass === undefined) this.value = json.s;
+    else this.value = valueClass.fromJSON(json.s);
 
     const hasFrameTangents = 'i' in json && 'o' in json;
     const hasValueTangents = 'ti' in json && 'to' in json;

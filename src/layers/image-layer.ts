@@ -1,5 +1,4 @@
-import { LayerType, PropertyType } from '../constants';
-import { Property } from '../properties';
+import { LayerType } from '../constants';
 import { Layer } from './layer';
 
 /**
@@ -39,12 +38,7 @@ export class ImageLayer extends Layer {
     }
 
     // Transforms
-    this.opacity.fromJSON(json.ks.o);
-    this.position.fromJSON(json.ks.p);
-    this.anchor.fromJSON(json.ks.a);
-    this.scale.fromJSON(json.ks.s);
-
-    this.rotation = new Property(this, PropertyType.ROTATION).fromJSON(json.ks.r);
+    this.transform.fromJSON(json.ks);
 
     // This layer props
     this.refId = json.refId;
@@ -73,11 +67,7 @@ export class ImageLayer extends Layer {
       ind: this.index,
       ip: this.inPoint,
       ks: {
-        a: this.anchor,
-        o: this.opacity,
-        p: this.position,
-        r: this.rotation,
-        s: this.scale,
+        ...this.transform.toJSON(),
       },
       ln: this.id,
       nm: this.name,
