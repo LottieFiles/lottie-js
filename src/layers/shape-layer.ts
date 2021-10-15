@@ -132,11 +132,7 @@ export class ShapeLayer extends Layer {
    *
    * @returns       JSON object
    */
-  public toJSON(key?: string): Record<string, any> | undefined {
-    if (key) {
-      return undefined;
-    }
-
+  public toJSON(): Record<string, any> {
     return {
       ao: this.autoOrient ? 1 : 0,
       bm: this.blendMode,
