@@ -8,6 +8,12 @@ export class KeyFrame {
   public frameOutTangent?: [number, number];
   public valueInTangent?: [number, number];
   public valueOutTangent?: [number, number];
+  public hold = false;
+
+  public constructor(frame = 0, value: number | number[] = 0) {
+    this.frame = frame;
+    this.value = value;
+  }
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -32,6 +38,8 @@ export class KeyFrame {
       ? ['x' in json.to ? json.to.x : json.to[0], 'y' in json.to ? json.to.y : json.to[1]]
       : undefined;
 
+    this.hold = 'h' in json && json.h;
+
     return this;
   }
 
@@ -49,7 +57,9 @@ export class KeyFrame {
       s: this.value,
     };
 
-    if (this.frameInTangent && this.frameOutTangent) {
+    if (this.hold) {
+      json.h = 1;
+    } else if (this.frameInTangent && this.frameOutTangent) {
       json.i = { x: this.frameInTangent[0], y: this.frameInTangent[1] };
       json.o = { x: this.frameOutTangent[0], y: this.frameOutTangent[1] };
     }

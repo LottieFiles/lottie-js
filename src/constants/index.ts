@@ -9,3 +9,6 @@ export * from './line-join-type';
 export * from './mask-mode';
 export * from './property-type';
 export * from './shape-type';
+export * from './trim-mode';
+export * from './repeater-composite';
+export * from './star-type';
