@@ -1,61 +1,57 @@
+# .github/workflows/ci.yml
 name: Release
-
 on:
   push:
-    branches: [main, beta]
-
+    branches: [main]
 jobs:
-  release:
-    name: Release
-
+  ci:
+    name: CI
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [12.x]
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - name: Checkout repo
+        uses: actions/checkout@master
         with:
+          # This makes Actions fetch all Git history so that Changesets
+          # can generate changelogs with the correct commits.
           fetch-depth: 0
 
-      - name: Cache NPM
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-npm
+      # If you use a version of Node other than 12, change it here.
+      - name: Set up Node.js 12.x
+        uses: actions/setup-node@master
         with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/yarn-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-      - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://npm.pkg.github.com'
+          node-version: 12.x
 
+      # If you use npm instead of yarn, change this to `npm install`.
       - name: Install dependencies
-        run: yarn install
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: yarn
 
-      - name: Run linting
-        run: yarn lint
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Build project
+      # Change this to customize your build command.
+      - name: Build
         run: yarn build
 
-      - name: Release
-        run: yarn release
+      # Change this to customize your test command.
+      - name: Test
+        run: yarn lint
+
+      - name: Create .npmrc
+        run: |
+          cat << EOF > "$HOME/.npmrc"
+            //registry.npmjs.org/:_authToken=$NPM_TOKEN
+          EOF
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Release snapshot
+        run: |
+          npx changeset version --snapshot
+          npx changeset publish --tag canary
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPMJS_TOKEN }}
-          GIT_COMMIT: ${{ github.sha }}
-          GIT_AUTHOR_NAME: ${{ secrets.GIT_AUTHOR_NAME }}
-          GIT_AUTHOR_EMAIL: ${{ secrets.GIT_AUTHOR_EMAIL }}
-          GIT_COMMITTER_NAME: ${{ secrets.GIT_COMMITTER_NAME }}
-          GIT_COMMITTER_EMAIL: ${{ secrets.GIT_COMMITTER_EMAIL }}
+
+      - name: Post published version to GitHub checks
+        run: |
+          name=$(jq -r .name package.json)
+          version=$(jq -r .version package.json)
+          npx action-status --context=$name --state=success --description=$version --url="https://unpkg.com/$name@$version/"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
