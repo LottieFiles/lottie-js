@@ -5,6 +5,7 @@ import { EllipseShape } from '../shapes/ellipse-shape';
 import { FillShape } from '../shapes/fill-shape';
 import { GradientFillShape } from '../shapes/gradient-fill-shape';
 import { GroupShape } from '../shapes/group-shape';
+import { MergeShape } from '../shapes/merge-shape';
 import { PathShape } from '../shapes/path-shape';
 import { RectangleShape } from '../shapes/rectangle-shape';
 import { StrokeShape } from '../shapes/stroke-shape';
@@ -45,6 +46,8 @@ export class ShapeLayer extends Layer {
       return new GradientFillShape(this);
     } else if (type === ShapeType.TRIM) {
       return new TrimShape(this);
+    } else if (type === ShapeType.MERGE) {
+      return new MergeShape(this);
     }
 
     throw new Error(`Invalid or unknown shape type: ${type}`);
