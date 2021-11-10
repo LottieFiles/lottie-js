@@ -40,6 +40,14 @@ export class SolidLayer extends Layer {
       this.classNames = json.cl.split(' ');
     }
 
+    if ('tt' in json) {
+      this.matteMode = json.tt;
+    }
+
+    if ('td' in json) {
+      this.matteTarget = json.td;
+    }
+
     // Transforms
     this.opacity.fromJSON(json.ks.o);
     this.position.fromJSON(json.ks.p);
@@ -92,6 +100,8 @@ export class SolidLayer extends Layer {
       st: this.startTime,
       ty: this.type,
       w: this.width,
+      tt: this.matteMode,
+      td: this.matteTarget,
     };
   }
 }

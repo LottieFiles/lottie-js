@@ -12,3 +12,4 @@ export * from './shape-type';
 export * from './trim-mode';
 export * from './repeater-composite';
 export * from './star-type';
+export * from './matte-mode';

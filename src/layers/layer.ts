@@ -1,4 +1,4 @@
-import { BlendMode, LayerType, PropertyType } from '../constants';
+import { BlendMode, LayerType, MatteMode, PropertyType } from '../constants';
 import { Property } from '../properties/property';
 import { KeyFrame } from '../timeline/key-frame';
 import { useRegistry } from '../utils/use-registry';
@@ -26,6 +26,8 @@ export abstract class Layer {
   public startTime = 0;
   public timeStretch = 1;
   public width = 0;
+  public matteMode?: MatteMode;
+  public matteTarget?: number;
 
   // Transforms
   public opacity: Property = new Property(this, PropertyType.OPACITY);

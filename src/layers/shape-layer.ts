@@ -112,10 +112,18 @@ export class ShapeLayer extends Layer {
     if ('rz' in json.ks) {
       this.rotationZ = new Property(this, PropertyType.ROTATION_Z).fromJSON(json.ks.rz);
     }
+
     if ('r' in json.ks) {
       this.rotation = new Property(this, PropertyType.ROTATION).fromJSON(json.ks.r);
     }
 
+    if ('tt' in json) {
+      this.matteMode = json.tt;
+    }
+
+    if ('td' in json) {
+      this.matteTarget = json.td;
+    }
     // This layer props
     this.skew = 'sk' in json.ks ? new Property(this, PropertyType.SKEW).fromJSON(json.ks.sk) : undefined;
     this.skewAxis = 'sa' in json.ks ? new Property(this, PropertyType.SKEW_AXIS).fromJSON(json.ks.sa) : undefined;
@@ -165,6 +173,8 @@ export class ShapeLayer extends Layer {
       st: this.startTime,
       ty: this.type,
       w: this.width,
+      tt: this.matteMode,
+      td: this.matteTarget,
     };
   }
 }
