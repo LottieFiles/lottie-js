@@ -42,7 +42,7 @@ export class PrecompositionAsset extends Asset {
   public toJSON(): Record<string, any> {
     return {
       id: this.id,
-      layers: this.layers,
+      layers: this.layers.map(layer => layer.toJSON()),
       tm: this.timeRemap,
     };
   }
