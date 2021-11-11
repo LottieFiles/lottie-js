@@ -36,6 +36,22 @@ export class GroupLayer extends Layer {
       this.classNames = json.cl.split(' ');
     }
 
+    if ('tt' in json) {
+      this.matteMode = json.tt;
+    }
+
+    if ('td' in json) {
+      this.matteTarget = json.td;
+    }
+
+    if ('hd' in json) {
+      this.isHidden = json.hd;
+    }
+
+    if ('mn' in json) {
+      this.matchName = json.mn;
+    }
+
     // This layer props
     this.opacity.fromJSON(json.ks.o);
     this.position.fromJSON(json.ks.p);
@@ -74,12 +90,16 @@ export class GroupLayer extends Layer {
       },
       ln: this.id,
       nm: this.name,
+      mn: this.matchName,
       op: this.outPoint,
-      parent: this.parent,
+      parent: this.parent?.index,
       sr: this.timeStretch,
       st: this.startTime,
       ty: this.type,
       w: this.width,
+      tt: this.matteMode,
+      td: this.matteTarget,
+      hd: this.isHidden !== undefined ? Number(this.isHidden) : undefined,
     };
   }
 }

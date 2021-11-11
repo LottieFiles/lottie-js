@@ -27,6 +27,8 @@ export class StarShape extends Shape {
 
   public starType: StarType = StarType.STAR;
 
+  public direction?: number;
+
   /**
    * Convert the Lottie JSON object to class instance.
    *
@@ -50,6 +52,7 @@ export class StarShape extends Shape {
     this.rotation.fromJSON(json.r);
     this.points.fromJSON(json.pt);
     this.starType = json.sy;
+    this.direction = json.d;
 
     return this;
   }
@@ -81,6 +84,7 @@ export class StarShape extends Shape {
       r: this.rotation,
       pt: this.points,
       sy: this.starType,
+      d: this.direction,
     };
   }
 }

@@ -25,9 +25,7 @@ export class PrecompositionAsset extends Asset {
     this.id = json.id;
     this.timeRemap = json.tm;
 
-    this.layers = json.layers
-      .map((jLayer: Record<string, any>) => this.parent.createLayerFromJSON(jLayer))
-      .filter(Boolean);
+    this.layers = this.parent.createLayersFromJSONArray(json.layers);
 
     return this;
   }
@@ -42,7 +40,7 @@ export class PrecompositionAsset extends Asset {
   public toJSON(): Record<string, any> {
     return {
       id: this.id,
-      layers: this.layers,
+      layers: this.layers.map(layer => layer.toJSON()),
       tm: this.timeRemap,
     };
   }

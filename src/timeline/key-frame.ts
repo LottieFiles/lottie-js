@@ -31,12 +31,23 @@ export class KeyFrame {
     this.frameInTangent = hasFrameTangents ? [json.i.x, json.i.y] : undefined;
     this.frameOutTangent = hasFrameTangents ? [json.o.x, json.o.y] : undefined;
 
-    this.valueInTangent = hasValueTangents
-      ? ['x' in json.ti ? json.ti.x : json.ti[0], 'y' in json.ti ? json.ti.y : json.ti[1]]
-      : undefined;
-    this.valueOutTangent = hasValueTangents
-      ? ['x' in json.to ? json.to.x : json.to[0], 'y' in json.to ? json.to.y : json.to[1]]
-      : undefined;
+    if (hasValueTangents) {
+      if ('x' in json.ti && 'y' in json.ti) {
+        this.valueInTangent = [json.ti.x, json.ti.y];
+      } else {
+        this.valueInTangent = json.ti;
+      }
+
+      if ('x' in json.to && 'y' in json.to) {
+        this.valueOutTangent = [json.to.x, json.to.y];
+      } else {
+        this.valueOutTangent = json.to;
+      }
+    }
+
+    // this.valueOutTangent = hasValueTangents
+    //   ? ['x' in json.to ? json.to.x : json.to[0], 'y' in json.to ? json.to.y : json.to[1]]
+    //   : undefined;
 
     this.hold = 'h' in json && json.h;
 
@@ -65,8 +76,8 @@ export class KeyFrame {
     }
 
     if (this.valueInTangent && this.valueOutTangent) {
-      json.ti = [this.valueInTangent[0], this.valueInTangent[1]];
-      json.to = [this.valueOutTangent[0], this.valueOutTangent[1]];
+      json.ti = this.valueInTangent;
+      json.to = this.valueOutTangent;
     }
 
     return json;
