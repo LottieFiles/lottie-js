@@ -39,12 +39,10 @@ jobs:
             //registry.npmjs.org/:_authToken=$NPM_TOKEN
           EOF
         env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPMJS_TOKEN }}
 
       - name: Release snapshot
-        run: |
-          npx changeset version --snapshot
-          npx changeset publish --tag canary
+        run: yarn release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
