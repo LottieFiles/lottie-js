@@ -51,5 +51,6 @@ test('Get unique colors', async () => {
 
 test('Get text layer', async () => {
   const anim = await Animation.fromURL('https://assets10.lottiefiles.com/packages/lf20_8MANkV.json');
-  console.log(anim.textLayers);
+  expect(Object.keys(anim.textLayers)).toContain('0.text_two');
+  expect(Object.keys(anim.textLayers)).toContain('1.text_one');
 });
