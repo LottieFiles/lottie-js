@@ -1,6 +1,6 @@
 {
   "name": "@lottiefiles/lottie-js",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Lottie JSON model for Javascript/Typescript",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -27,7 +27,7 @@
     "docs": "typedoc --plugin none",
     "lint": "eslint --fix --ext .ts,.js .",
     "prepack": "yarn run lint && yarn clean && npm run build:prod",
-    "release": "yarn build && yarn changeset publish",
+    "release": "yarn build && yarn changeset version && yarn changeset publish",
     "test": "jest",
     "test:dev": "jest --watch --coverage"
   },
@@ -35,12 +35,12 @@
     "node": ">=12.0.0"
   },
   "dependencies": {
-    "@changesets/cli": "2.17.0",
     "cross-fetch": "^3.0.6",
     "typedoc-github-wiki-theme": "0.2.0",
     "typedoc-plugin-markdown": "3.6.1"
   },
   "devDependencies": {
+    "@changesets/cli": "2.17.0",
     "@commitlint/cli": "11.0.0",
     "@commitlint/config-conventional": "11.0.0",
     "@commitlint/prompt-cli": "11.0.0",
