@@ -28,6 +28,8 @@ export abstract class Layer {
   public width = 0;
   public matteMode?: MatteMode;
   public matteTarget?: number;
+  public isHidden?: boolean;
+  public matchName?: string;
 
   // Transforms
   public opacity: Property = new Property(this, PropertyType.OPACITY);

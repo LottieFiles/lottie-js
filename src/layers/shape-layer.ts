@@ -127,6 +127,15 @@ export class ShapeLayer extends Layer {
     if ('td' in json) {
       this.matteTarget = json.td;
     }
+
+    if ('hd' in json) {
+      this.isHidden = json.hd;
+    }
+
+    if ('mn' in json) {
+      this.matchName = json.mn;
+    }
+
     // This layer props
     this.skew = 'sk' in json.ks ? new Property(this, PropertyType.SKEW).fromJSON(json.ks.sk) : undefined;
     this.skewAxis = 'sa' in json.ks ? new Property(this, PropertyType.SKEW_AXIS).fromJSON(json.ks.sa) : undefined;
@@ -170,6 +179,7 @@ export class ShapeLayer extends Layer {
       shapes: this.shapes.map(shape => shape.toJSON()),
       ln: this.id,
       nm: this.name,
+      mn: this.matchName,
       op: this.outPoint,
       parent: this.parent?.index,
       sr: this.timeStretch,
@@ -178,6 +188,7 @@ export class ShapeLayer extends Layer {
       w: this.width,
       tt: this.matteMode,
       td: this.matteTarget,
+      hd: this.isHidden !== undefined ? Number(this.isHidden) : undefined,
     };
   }
 }
