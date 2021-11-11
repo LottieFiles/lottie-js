@@ -89,7 +89,7 @@ export class PrecompositionLayer extends Layer {
       ln: this.id,
       nm: this.name,
       op: this.outPoint,
-      parent: this.parent,
+      parent: this.parent?.index,
       refId: this.refId,
       sr: this.timeStretch,
       st: this.startTime,

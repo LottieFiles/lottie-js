@@ -92,7 +92,7 @@ export class SolidLayer extends Layer {
       ln: this.id,
       nm: this.name,
       op: this.outPoint,
-      parent: this.parent,
+      parent: this.parent?.index,
       sc: this.solidColor,
       sh: this.solidHeight,
       sw: this.solidWidth,

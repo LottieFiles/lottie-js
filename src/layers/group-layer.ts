@@ -82,7 +82,7 @@ export class GroupLayer extends Layer {
       ln: this.id,
       nm: this.name,
       op: this.outPoint,
-      parent: this.parent,
+      parent: this.parent?.index,
       sr: this.timeStretch,
       st: this.startTime,
       ty: this.type,

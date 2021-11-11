@@ -43,10 +43,8 @@ export abstract class Layer {
 
   /**
    * Parent instance.
-   *
-   * @protected
    */
-  protected parent: any;
+  public parent?: any;
 
   /**
    * Constructor.
