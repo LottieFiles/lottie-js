@@ -15,6 +15,7 @@ import { rgbaToHex } from '../utils/color-spaces';
 import { useRegistry } from '../utils/use-registry';
 import { Color } from '../values/color';
 import { Meta } from './meta';
+
 interface parentLocatorInterface {
   [key: string]: string;
 }
@@ -69,7 +70,8 @@ export class Animation {
   /**
    * Returns whether the given object looks like a valid Lottie JSON structure.
    *
-   * This method checks for the presense of the mandatory fields 'v', 'ip', 'op', 'layers', 'fr', 'w' and 'h' in the object.
+   * This method checks for the presense of the mandatory fields 'v', 'ip',
+   * 'op', 'layers', 'fr', 'w' and 'h' in the object.
    *
    * @param json    Object
    * @returns       Boolean true if it is a valid Lottie
@@ -260,6 +262,36 @@ export class Animation {
   }
 
   /**
+   * Creates layers from json layers array
+   *
+   * @param jsonLayers    array containing JSON objects representing layers
+   */
+  public createLayersFromJSONArray(jsonLayers: Record<string, any>[]): Layer[] {
+    const layerRegistry = new Map<number, Layer>();
+    const layerToParent: [Layer, number][] = [];
+    const layers: Layer[] = [];
+
+    jsonLayers.forEach((jLayer: Record<string, any>) => {
+      const layer = this.createLayerFromJSON(jLayer);
+      if (layer) {
+        if (jLayer.parent !== undefined) {
+          layerToParent.push([layer, jLayer.parent]);
+        }
+        if (layer.index !== undefined) {
+          layerRegistry.set(layer.index, layer);
+        }
+        layers.push(layer);
+      }
+    });
+
+    layerToParent.forEach(([layer, parentId]) => {
+      layer.parent = layerRegistry.get(parentId);
+    });
+
+    return layers;
+  }
+
+  /**
    * Creates and returns a new marker.
    */
   public createMarker(): Marker {
@@ -304,7 +336,7 @@ export class Animation {
 
     this.assets = json.assets.map((jAsset: Record<string, any>) => this.createAssetFromJSON(jAsset)).filter(Boolean);
 
-    this.layers = json.layers.map((jLayer: Record<string, any>) => this.createLayerFromJSON(jLayer)).filter(Boolean);
+    this.layers = this.createLayersFromJSONArray(json.layers);
 
     this.markers = json.markers
       .map((jMarker: Record<string, any>) => this.createMarkerFromJSON(jMarker))

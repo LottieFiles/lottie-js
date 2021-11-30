@@ -37,6 +37,22 @@ export class ImageLayer extends Layer {
       this.classNames = json.cl.split(' ');
     }
 
+    if ('tt' in json) {
+      this.matteMode = json.tt;
+    }
+
+    if ('td' in json) {
+      this.matteTarget = json.td;
+    }
+
+    if ('hd' in json) {
+      this.isHidden = json.hd;
+    }
+
+    if ('mn' in json) {
+      this.matchName = json.mn;
+    }
+
     // Transforms
     this.transform.fromJSON(json.ks);
 
@@ -71,11 +87,15 @@ export class ImageLayer extends Layer {
       },
       ln: this.id,
       nm: this.name,
+      mn: this.matchName,
       op: this.outPoint,
-      parent: this.parent,
+      parent: this.parent?.index,
       sr: this.timeStretch,
       st: this.startTime,
       w: this.width,
+      tt: this.matteMode,
+      td: this.matteTarget,
+      hd: this.isHidden !== undefined ? Number(this.isHidden) : undefined,
 
       // This layer props
       refId: this.refId,

@@ -1,4 +1,4 @@
-import { BlendMode, LayerType, PropertyType } from '../constants';
+import { BlendMode, LayerType, MatteMode, PropertyType } from '../constants';
 import { Property } from '../properties/property';
 import { Transform } from '../properties/transform';
 import { KeyFrame } from '../timeline/key-frame';
@@ -27,6 +27,10 @@ export abstract class Layer {
   public startTime = 0;
   public timeStretch = 1;
   public width = 0;
+  public matteMode?: MatteMode;
+  public matteTarget?: number;
+  public isHidden?: boolean;
+  public matchName?: string;
 
   // Transforms
   public transform: Transform = new Transform();
@@ -38,10 +42,8 @@ export abstract class Layer {
 
   /**
    * Parent instance.
-   *
-   * @protected
    */
-  protected parent: any;
+  public parent?: any;
 
   /**
    * Constructor.

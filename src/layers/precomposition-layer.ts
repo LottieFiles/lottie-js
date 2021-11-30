@@ -39,6 +39,22 @@ export class PrecompositionLayer extends Layer {
       this.classNames = json.cl.split(' ');
     }
 
+    if ('tt' in json) {
+      this.matteMode = json.tt;
+    }
+
+    if ('td' in json) {
+      this.matteTarget = json.td;
+    }
+
+    if ('hd' in json) {
+      this.isHidden = json.hd;
+    }
+
+    if ('mn' in json) {
+      this.matchName = json.mn;
+    }
+
     // Transforms
     this.transform.fromJSON(json.ks);
 
@@ -70,13 +86,17 @@ export class PrecompositionLayer extends Layer {
       },
       ln: this.id,
       nm: this.name,
+      mn: this.matchName,
       op: this.outPoint,
-      parent: this.parent,
+      parent: this.parent?.index,
       refId: this.refId,
       sr: this.timeStretch,
       st: this.startTime,
       ty: this.type,
       w: this.width,
+      tt: this.matteMode,
+      td: this.matteTarget,
+      hd: this.isHidden !== undefined ? Number(this.isHidden) : undefined,
     };
   }
 }

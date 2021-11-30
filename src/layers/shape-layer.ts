@@ -5,6 +5,7 @@ import { EllipseShape } from '../shapes/ellipse-shape';
 import { FillShape } from '../shapes/fill-shape';
 import { GradientFillShape } from '../shapes/gradient-fill-shape';
 import { GroupShape } from '../shapes/group-shape';
+import { MergeShape } from '../shapes/merge-shape';
 import { PathShape } from '../shapes/path-shape';
 import { RectangleShape } from '../shapes/rectangle-shape';
 import { StrokeShape } from '../shapes/stroke-shape';
@@ -42,6 +43,8 @@ export class ShapeLayer extends Layer {
       return new GradientFillShape(this);
     } else if (type === ShapeType.TRIM) {
       return new TrimShape(this);
+    } else if (type === ShapeType.MERGE) {
+      return new MergeShape(this);
     }
 
     throw new Error(`Invalid or unknown shape type: ${type}`);
@@ -118,6 +121,22 @@ export class ShapeLayer extends Layer {
 
     this.transform.fromJSON(json.ks);
 
+    if ('tt' in json) {
+      this.matteMode = json.tt;
+    }
+
+    if ('td' in json) {
+      this.matteTarget = json.td;
+    }
+
+    if ('hd' in json) {
+      this.isHidden = json.hd;
+    }
+
+    if ('mn' in json) {
+      this.matchName = json.mn;
+    }
+
     // This layer props
     this.shapes = json.shapes.map((jShape: Record<string, any>) => this.createShapeFromJSON(jShape)).filter(Boolean);
 
@@ -131,11 +150,7 @@ export class ShapeLayer extends Layer {
    *
    * @returns       JSON object
    */
-  public toJSON(key?: string): Record<string, any> | undefined {
-    if (key) {
-      return undefined;
-    }
-
+  public toJSON(): Record<string, any> {
     return {
       ao: this.autoOrient ? 1 : 0,
       bm: this.blendMode,
@@ -155,12 +170,16 @@ export class ShapeLayer extends Layer {
       shapes: this.shapes.map(shape => shape.toJSON()),
       ln: this.id,
       nm: this.name,
+      mn: this.matchName,
       op: this.outPoint,
-      parent: this.parent,
+      parent: this.parent?.index,
       sr: this.timeStretch,
       st: this.startTime,
       ty: this.type,
       w: this.width,
+      tt: this.matteMode,
+      td: this.matteTarget,
+      hd: this.isHidden !== undefined ? Number(this.isHidden) : undefined,
     };
   }
 }

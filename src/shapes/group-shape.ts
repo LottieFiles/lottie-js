@@ -3,6 +3,7 @@ import { Transform } from '../properties';
 import { EllipseShape } from './ellipse-shape';
 import { FillShape } from './fill-shape';
 import { GradientFillShape } from './gradient-fill-shape';
+import { MergeShape } from './merge-shape';
 import { PathShape } from './path-shape';
 import { RectangleShape } from './rectangle-shape';
 import { Shape } from './shape';
@@ -92,6 +93,8 @@ export class GroupShape extends Shape {
       return new GradientFillShape(this);
     } else if (type === ShapeType.TRIM) {
       return new TrimShape(this);
+    } else if (type === ShapeType.MERGE) {
+      return new MergeShape(this);
     }
 
     throw new Error(`Invalid or unknown shape type: ${type}`);
