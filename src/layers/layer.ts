@@ -35,11 +35,6 @@ export abstract class Layer {
   // Transforms
   public transform: Transform = new Transform();
 
-  public orientation?: Property;
-  public rotationX?: Property;
-  public rotationY?: Property;
-  public rotationZ?: Property;
-
   /**
    * Parent instance.
    */

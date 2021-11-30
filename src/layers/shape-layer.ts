@@ -1,5 +1,4 @@
-import { LayerType, PropertyType, ShapeType } from '../constants';
-import { Property } from '../properties';
+import { LayerType, ShapeType } from '../constants';
 import { Shape } from '../shapes';
 import { EllipseShape } from '../shapes/ellipse-shape';
 import { FillShape } from '../shapes/fill-shape';
@@ -103,22 +102,6 @@ export class ShapeLayer extends Layer {
     this.classNames = 'cl' in json ? json.cl.split(' ') : [];
 
     // Transforms
-    if ('or' in json.ks) {
-      this.orientation = new Property(this, PropertyType.ORIENTATION).fromJSON(json.ks.or);
-    }
-
-    if ('rx' in json.ks) {
-      this.rotationX = new Property(this, PropertyType.ROTATION_X).fromJSON(json.ks.rx);
-    }
-
-    if ('ry' in json.ks) {
-      this.rotationY = new Property(this, PropertyType.ROTATION_Y).fromJSON(json.ks.ry);
-    }
-
-    if ('rz' in json.ks) {
-      this.rotationZ = new Property(this, PropertyType.ROTATION_Z).fromJSON(json.ks.rz);
-    }
-
     this.transform.fromJSON(json.ks);
 
     if ('tt' in json) {
@@ -162,10 +145,6 @@ export class ShapeLayer extends Layer {
       ip: this.inPoint,
       ks: {
         ...this.transform.toJSON(),
-        rx: this.rotationX,
-        ry: this.rotationY,
-        rz: this.rotationZ,
-        or: this.orientation,
       },
       shapes: this.shapes.map(shape => shape.toJSON()),
       ln: this.id,

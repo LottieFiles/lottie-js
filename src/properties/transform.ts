@@ -17,6 +17,11 @@ export class Transform {
 
   public skewAxis?: Property = new Property(this, PropertyType.SKEW_AXIS);
 
+  public orientation?: Property;
+  public rotationX?: Property;
+  public rotationY?: Property;
+  public rotationZ?: Property;
+
   /**
    * Convert the Lottie JSON object to class instance.
    *
@@ -31,6 +36,23 @@ export class Transform {
     's' in json && this.scale.fromJSON(json.s);
     this.skew = 'sk' in json ? new Property(this, PropertyType.SKEW).fromJSON(json.sk) : undefined;
     this.skewAxis = 'sa' in json ? new Property(this, PropertyType.SKEW_AXIS).fromJSON(json.sa) : undefined;
+
+    if ('or' in json.ks) {
+      this.orientation = new Property(this, PropertyType.ORIENTATION).fromJSON(json.ks.or);
+    }
+
+    if ('rx' in json.ks) {
+      this.rotationX = new Property(this, PropertyType.ROTATION_X).fromJSON(json.ks.rx);
+    }
+
+    if ('ry' in json.ks) {
+      this.rotationY = new Property(this, PropertyType.ROTATION_Y).fromJSON(json.ks.ry);
+    }
+
+    if ('rz' in json.ks) {
+      this.rotationZ = new Property(this, PropertyType.ROTATION_Z).fromJSON(json.ks.rz);
+    }
+
     return this;
   }
 
@@ -50,6 +72,10 @@ export class Transform {
       s: this.scale,
       sk: this.skew,
       sa: this.skewAxis,
+      rx: this.rotationX,
+      ry: this.rotationY,
+      rz: this.rotationZ,
+      or: this.orientation,
     };
   }
 }
