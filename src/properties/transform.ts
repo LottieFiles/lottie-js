@@ -37,20 +37,20 @@ export class Transform {
     this.skew = 'sk' in json ? new Property(this, PropertyType.SKEW).fromJSON(json.sk) : undefined;
     this.skewAxis = 'sa' in json ? new Property(this, PropertyType.SKEW_AXIS).fromJSON(json.sa) : undefined;
 
-    if ('or' in json.ks) {
-      this.orientation = new Property(this, PropertyType.ORIENTATION).fromJSON(json.ks.or);
+    if ('or' in json) {
+      this.orientation = new Property(this, PropertyType.ORIENTATION).fromJSON(json.or);
     }
 
-    if ('rx' in json.ks) {
-      this.rotationX = new Property(this, PropertyType.ROTATION_X).fromJSON(json.ks.rx);
+    if ('rx' in json) {
+      this.rotationX = new Property(this, PropertyType.ROTATION_X).fromJSON(json.rx);
     }
 
-    if ('ry' in json.ks) {
-      this.rotationY = new Property(this, PropertyType.ROTATION_Y).fromJSON(json.ks.ry);
+    if ('ry' in json) {
+      this.rotationY = new Property(this, PropertyType.ROTATION_Y).fromJSON(json.ry);
     }
 
-    if ('rz' in json.ks) {
-      this.rotationZ = new Property(this, PropertyType.ROTATION_Z).fromJSON(json.ks.rz);
+    if ('rz' in json) {
+      this.rotationZ = new Property(this, PropertyType.ROTATION_Z).fromJSON(json.rz);
     }
 
     return this;
