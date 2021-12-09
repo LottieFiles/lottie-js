@@ -1,5 +1,5 @@
-import { BlendMode, PropertyType, ShapeType } from '../constants';
-import { Property } from '../properties';
+import { BlendMode, ShapeType } from '../constants';
+import { Transform } from '../properties';
 import { EllipseShape } from './ellipse-shape';
 import { FillShape } from './fill-shape';
 import { GradientFillShape } from './gradient-fill-shape';
@@ -19,8 +19,6 @@ export class GroupShape extends Shape {
    */
   public readonly type = ShapeType.GROUP;
 
-  public anchor: Property = new Property(this, PropertyType.ANCHOR);
-
   public blendMode: BlendMode = BlendMode.NORMAL;
 
   public contentPropertyIndex?: number;
@@ -29,21 +27,11 @@ export class GroupShape extends Shape {
 
   public numProperties = 0;
 
-  public opacity: Property = new Property(this, PropertyType.OPACITY);
-
-  public position: Property = new Property(this, PropertyType.POSITION);
-
   public propertyIndex?: number;
 
-  public rotation: Property = new Property(this, PropertyType.ROTATION);
-
-  public scale: Property = new Property(this, PropertyType.SCALE);
+  public transform: Transform = new Transform();
 
   public shapes: Shape[] = [];
-
-  public skew: Property = new Property(this, PropertyType.SKEW);
-
-  public skewAxis: Property = new Property(this, PropertyType.SKEW_AXIS);
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -72,20 +60,7 @@ export class GroupShape extends Shape {
             const nShape = this.createShape(jShape.ty);
             return nShape.fromJSON(jShape);
           }
-
-          this.anchor.fromJSON(jShape.a);
-          this.opacity.fromJSON(jShape.o);
-          this.position.fromJSON(jShape.p);
-          this.rotation.fromJSON(jShape.r);
-          this.scale.fromJSON(jShape.s);
-
-          if (jShape.sk) {
-            this.skew.fromJSON(jShape.sk);
-          }
-
-          if (jShape.sa) {
-            this.skewAxis.fromJSON(jShape.sa);
-          }
+          this.transform.fromJSON(jShape);
         } catch {
           // Swallow
         }
@@ -126,6 +101,17 @@ export class GroupShape extends Shape {
   }
 
   /**
+   * Adds a shape to the Layer
+   */
+  public addShape(shape: ShapeType | Shape): Shape {
+    if (!(shape instanceof Shape)) shape = this.createShape(shape);
+
+    this.shapes.push(shape);
+
+    return shape;
+  }
+
+  /**
    * Convert the class instance to Lottie JSON object.
    *
    * Called by Javascript when serializing object with JSON.stringify()
@@ -134,17 +120,10 @@ export class GroupShape extends Shape {
    */
   public toJSON(): Record<string, any> {
     const shapes = JSON.parse(JSON.stringify(this.shapes));
-
     shapes.push({
       ty: 'tr',
       nm: 'Transform',
-      a: this.anchor,
-      o: this.opacity,
-      p: this.position,
-      r: this.rotation,
-      s: this.scale,
-      sk: this.skew,
-      sa: this.skewAxis,
+      ...this.transform.toJSON(),
     });
 
     return {

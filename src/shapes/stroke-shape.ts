@@ -1,5 +1,6 @@
 import { BlendMode, LineCapType, LineJoinType, PropertyType, ShapeType } from '../constants';
 import { Property } from '../properties';
+import { KeyFrame } from '../timeline/key-frame';
 import { Shape } from './shape';
 
 /**
@@ -36,7 +37,7 @@ export class StrokeShape extends Shape {
    */
   public miterLimit!: number;
 
-  public opacity: Property = new Property(this, PropertyType.OPACITY);
+  public opacity: Property = new Property(this, PropertyType.OPACITY, [new KeyFrame(0, 100)]);
 
   public width: Property = new Property(this, PropertyType.STROKE_WIDTH);
 

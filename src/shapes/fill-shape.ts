@@ -1,3 +1,4 @@
+import { KeyFrame } from '..';
 import { BlendMode, FillRuleType } from '../constants';
 import { PropertyType } from '../constants/property-type';
 import { ShapeType } from '../constants/shape-type';
@@ -21,7 +22,7 @@ export class FillShape extends Shape {
 
   public fillRule: FillRuleType = FillRuleType.EVEN_ODD;
 
-  public opacity: Property = new Property(this, PropertyType.OPACITY);
+  public opacity: Property = new Property(this, PropertyType.OPACITY, [new KeyFrame(0, 100)]);
 
   /**
    * Convert the Lottie JSON object to class instance.

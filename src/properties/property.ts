@@ -1,6 +1,7 @@
 import { PropertyType } from '../constants';
 import { KeyFrame } from '../timeline';
 import { useRegistry } from '../utils/use-registry';
+import { Color } from '../values/color';
 
 /**
  * Represents animated properties of layers and shapes.
@@ -14,7 +15,7 @@ export class Property {
 
   public isAnimated = false;
 
-  public index = 0;
+  public index?: number;
 
   public maxColors?: number;
 
@@ -59,9 +60,12 @@ export class Property {
     this.index = json.ix;
     this.isAnimated = json.a === 1;
 
+    let valueClass: any = undefined;
+    if (this.type == PropertyType.COLOR) valueClass = Color;
+
     this.values = this.isAnimated
-      ? json.k.map((v: Record<string, any>) => new KeyFrame().fromJSON(v))
-      : [new KeyFrame().fromJSON({ t: 0, s: json.k })];
+      ? json.k.map((v: Record<string, any>) => new KeyFrame().fromJSON(v, valueClass))
+      : [new KeyFrame().fromJSON({ t: 0, s: json.k }, valueClass)];
 
     if (this.type === PropertyType.COLOR) {
       this.maxColors = 'p' in json ? json.p : undefined;
@@ -85,17 +89,17 @@ export class Property {
    */
   public toJSON(): Record<string, any> {
     let value;
-
-    if (this.isAnimated === false) {
-      value = this.values.length ? this.values[0].value : 0;
-    } else {
+    const animated = this.isAnimated !== false || this.values.length > 1;
+    if (animated) {
       value = this.values;
+    } else {
+      value = this.values.length ? this.values[0].value : 0;
     }
 
     return {
       x: this.expression,
       ix: this.index,
-      a: this.isAnimated ? 1 : 0,
+      a: animated ? 1 : 0,
       k: value,
       p: this.maxColors,
     };

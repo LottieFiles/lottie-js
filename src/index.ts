@@ -7,6 +7,7 @@ export * from './masks';
 export * from './properties';
 export * from './shapes';
 export * from './timeline';
+export * from './values';
 
 export * from './utils/use-registry';
 export * from './utils/color-spaces';
