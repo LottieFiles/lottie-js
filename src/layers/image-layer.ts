@@ -22,7 +22,7 @@ export class ImageLayer extends Layer {
     this.blendMode = json.bm;
     this.effects = json.ef;
     this.height = json.h;
-    this.id = json.ld;
+    this.id = json.ln;
     this.index = json.ind;
     this.inPoint = json.ip;
     this.is3D = json.ddd;

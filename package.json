@@ -7,7 +7,7 @@
   "browser": "dist/index.umd.js",
   "types": "dist/index.d.ts",
   "repository": "https://github.com/LottieFiles/lottie-js",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "keywords": [
     "Lottie",
     "Javascript",
