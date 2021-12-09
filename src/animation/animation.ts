@@ -13,6 +13,7 @@ import { Property } from '../properties';
 import { KeyFrame } from '../timeline';
 import { rgbaToHex } from '../utils/color-spaces';
 import { useRegistry } from '../utils/use-registry';
+import { Color } from '../values/color';
 import { Meta } from './meta';
 
 interface parentLocatorInterface {
@@ -24,7 +25,7 @@ interface parentLocatorInterface {
  */
 export class Animation {
   public assets: Asset[] = [];
-  public frameRate = 0;
+  public frameRate = 60;
   public height = 0;
   public inPoint = 0;
   public is3D = false;
@@ -86,7 +87,7 @@ export class Animation {
    *
    * @returns Array of colors.
    */
-  public get colors(): string[] {
+  public get colors(): Color[] {
     const colors: Set<string> = new Set();
 
     [...useRegistry().keys()]
@@ -94,19 +95,11 @@ export class Animation {
       .filter((p: Property) => p.type === PropertyType.COLOR)
       .forEach((cp: Property) => {
         cp.values.forEach((v: KeyFrame) => {
-          const colorParts = v.value as [number, number, number, number];
-          colors.add(
-            JSON.stringify([
-              Math.round(colorParts[0] * 255),
-              Math.round(colorParts[1] * 255),
-              Math.round(colorParts[2] * 255),
-              colorParts[3],
-            ]),
-          );
+          colors.add(JSON.stringify(v.value));
         });
       });
 
-    return Array.from(colors).map(c => JSON.parse(c));
+    return Array.from(colors).map(c => Color.fromJSON(JSON.parse(c)));
   }
 
   /*
