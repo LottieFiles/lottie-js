@@ -7,6 +7,7 @@ import { MergeShape } from './merge-shape';
 import { PathShape } from './path-shape';
 import { RectangleShape } from './rectangle-shape';
 import { Shape } from './shape';
+import { StarShape } from './star-shape';
 import { StrokeShape } from './stroke-shape';
 import { TrimShape } from './trim-shape';
 
@@ -95,6 +96,8 @@ export class GroupShape extends Shape {
       return new TrimShape(this);
     } else if (type === ShapeType.MERGE) {
       return new MergeShape(this);
+    } else if (type === ShapeType.STAR) {
+      return new StarShape(this);
     }
 
     throw new Error(`Invalid or unknown shape type: ${type}`);
