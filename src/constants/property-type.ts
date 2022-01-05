@@ -19,4 +19,5 @@ export enum PropertyType {
   NUMBER = 'nu',
   COLOR = 'cl',
   ORIENTATION = 'or',
+  GRADIENT = 'gr',
 }

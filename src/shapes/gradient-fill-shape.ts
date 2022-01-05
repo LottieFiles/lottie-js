@@ -52,7 +52,7 @@ export class GradientFillShape extends Shape {
     this.startPoint.fromJSON(json.s);
     this.fillRule = json.r;
 
-    if (this.gradientType === GradientFillType.LINEAR) {
+    if (this.gradientType === GradientFillType.RADIAL) {
       this.highlightAngle.fromJSON(json.a);
       this.highlightLength.fromJSON(json.h);
     }
