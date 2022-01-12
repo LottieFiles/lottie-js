@@ -11,3 +11,4 @@ export * from './gradient-stroke-shape';
 export * from './repeater-shape';
 export * from './star-shape';
 export * from './rounded-corners-shape';
+export * from './merge-shape';
