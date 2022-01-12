@@ -92,7 +92,7 @@ class GradientColorsProperty extends Property {
 }
 
 export class Gradient {
-  public gradientColors: GradientColorsProperty = new GradientColorsProperty(this, PropertyType.COLOR);
+  public gradientColors: GradientColorsProperty = new GradientColorsProperty(this, PropertyType.GRADIENT);
 
   public get colorCount(): number {
     return this.gradientColors.colorCount;

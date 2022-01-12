@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 
 import { useRegistry } from '../utils/use-registry';
+import { Color } from '../values';
 import { Animation } from './animation';
 
 function sortObjectKeys(value: any): Record<string, any> {
@@ -42,11 +43,13 @@ test('Load an animation', async () => {
 test('Get unique colors', async () => {
   const anim = await Animation.fromURL('https://assets2.lottiefiles.com/private_files/lf30_k2c7t4.json');
 
-  expect(anim.colors).toEqual([
-    [255, 255, 255, 1],
-    [254, 184, 77, 1],
-    [205, 16, 16, 1],
-  ]);
+  const colors = [
+    Color.fromJSON([1, 1, 1, 1]),
+    Color.fromJSON([0.997385600969, 0.721629961799, 0.301171276616, 1]),
+    Color.fromJSON([0.803921987496, 0.062001998752, 0.062001998752, 1]),
+  ];
+
+  expect(anim.colors).toEqual(colors);
 });
 
 test('Get text layer', async () => {
