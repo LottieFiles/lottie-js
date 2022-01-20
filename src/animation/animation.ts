@@ -10,6 +10,7 @@ import { SolidLayer } from '../layers/solid-layer';
 import { TextLayer } from '../layers/text-layer';
 import { Marker } from '../markers';
 import { Property } from '../properties';
+import { Shape } from '../shapes/shape';
 import { KeyFrame } from '../timeline';
 import { rgbaToHex } from '../utils/color-spaces';
 import { useRegistry } from '../utils/use-registry';
@@ -364,6 +365,42 @@ export class Animation {
     return this.layers.find((layer: Layer) => layer.id === id);
   }
 
+  public getShapeById(id: string): Shape | null {
+    let queried_shape = null;
+    // Validate argument type
+    if (typeof id !== 'string') {
+      throw new Error(`ID value must be a string`);
+    }
+    this.layers.forEach(layer => {
+      if (layer instanceof ShapeLayer) {
+        layer.shapes.forEach(shape => {
+          if (shape.id === id) {
+            queried_shape = shape;
+            return;
+          }
+        });
+      }
+    });
+    return queried_shape;
+  }
+
+  public getShapesByClassName(className: string): Shape[] {
+    const shapes: Shape[] = [];
+    // Validate argument type
+    if (typeof className !== 'string') {
+      throw new Error(`ID value must be a string`);
+    }
+    this.layers.forEach(layer => {
+      if (layer instanceof ShapeLayer) {
+        layer.shapes.forEach(shape => {
+          if (shape.classNames?.includes(className)) {
+            shapes.push(shape);
+          }
+        });
+      }
+    });
+    return shapes;
+  }
   /**
    * Returns the layers with the given class.
    *

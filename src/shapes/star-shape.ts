@@ -45,8 +45,12 @@ export class StarShape extends Shape {
 
     // This shape
     this.position.fromJSON(json.p);
-    this.innerRadius.fromJSON(json.ir);
-    this.innerRoundness.fromJSON(json.is);
+
+    // poly star has two types. these two fields only exist on type 1. see star types in constants folder for reference
+    if (json.sy === 1) {
+      this.innerRadius.fromJSON(json.ir);
+      this.innerRoundness.fromJSON(json.is);
+    }
     this.outerRadius.fromJSON(json.or);
     this.outerRoundness.fromJSON(json.os);
     this.rotation.fromJSON(json.r);
@@ -77,8 +81,8 @@ export class StarShape extends Shape {
 
       // This shape
       p: this.position,
-      ir: this.innerRadius,
-      is: this.innerRoundness,
+      ...(this.starType === 1 && { ir: this.innerRadius }),
+      ...(this.starType === 1 && { is: this.innerRoundness }),
       or: this.outerRadius,
       os: this.outerRoundness,
       r: this.rotation,

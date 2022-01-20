@@ -69,7 +69,6 @@ export class GroupShape extends Shape {
         return false;
       })
       .filter(Boolean);
-
     return this;
   }
   /**
@@ -123,6 +122,7 @@ export class GroupShape extends Shape {
    */
   public toJSON(): Record<string, any> {
     const shapes = JSON.parse(JSON.stringify(this.shapes));
+
     shapes.push({
       ty: 'tr',
       nm: 'Transform',

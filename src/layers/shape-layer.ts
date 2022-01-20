@@ -1,5 +1,5 @@
 import { LayerType, ShapeType } from '../constants';
-import { Shape } from '../shapes';
+import { Shape, StarShape } from '../shapes';
 import { EllipseShape } from '../shapes/ellipse-shape';
 import { FillShape } from '../shapes/fill-shape';
 import { GradientFillShape } from '../shapes/gradient-fill-shape';
@@ -44,8 +44,9 @@ export class ShapeLayer extends Layer {
       return new TrimShape(this);
     } else if (type === ShapeType.MERGE) {
       return new MergeShape(this);
+    } else if (type === ShapeType.STAR) {
+      return new StarShape(this);
     }
-
     throw new Error(`Invalid or unknown shape type: ${type}`);
   }
 
