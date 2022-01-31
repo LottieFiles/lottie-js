@@ -2,6 +2,7 @@ import fetch from 'cross-fetch';
 
 import { Asset, ImageAsset, PrecompositionAsset } from '../assets';
 import { AssetType, LayerType, PropertyType } from '../constants';
+import { FontList } from '../fonts/font-list';
 import { Layer, PrecompositionLayer, ShapeLayer } from '../layers';
 // import { Shape } from '../shapes';
 import { GroupLayer } from '../layers/group-layer';
@@ -37,6 +38,7 @@ export class Animation {
   public outPoint = 0;
   public version = ``;
   public width = 0;
+  public fonts: FontList = new FontList();
 
   /**
    * Create a class instance from the URL to the Lottie JSON.
@@ -347,6 +349,10 @@ export class Animation {
       this.meta.fromJSON(json.meta);
     }
 
+    if ('fonts' in json) {
+      this.fonts.fromJSON(json.fonts);
+    }
+
     return this;
   }
 
@@ -442,7 +448,6 @@ export class Animation {
     if (key) {
       return undefined;
     }
-
     return {
       assets: this.assets,
       ddd: this.is3D ? 1 : 0,
@@ -456,6 +461,7 @@ export class Animation {
       op: this.outPoint,
       v: this.version || '5.6.0',
       w: this.width,
+      ...(this.fonts.list.length > 0 && { fonts: this.fonts.toJSON() }),
     };
   }
 }
