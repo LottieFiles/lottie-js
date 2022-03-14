@@ -33,7 +33,7 @@ export class PathShape extends Shape {
 
     // This shape
     this.direction = json.d;
-    this.vertices = json.ks;
+    this.vertices.fromJSON(json.ks);
 
     return this;
   }
