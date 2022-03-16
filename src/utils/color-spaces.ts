@@ -11,7 +11,7 @@ export function rgbaToHex(rgba: number[]) {
 
   return '#' + r + g + b + a;
 }
-export function hexToRgba(hex: string, alpha: number): number[] {
+export function hexToRgba(hex: string, alpha: number | null): number[] {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);

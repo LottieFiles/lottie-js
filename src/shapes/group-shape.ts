@@ -3,6 +3,7 @@ import { Transform } from '../properties';
 import { EllipseShape } from './ellipse-shape';
 import { FillShape } from './fill-shape';
 import { GradientFillShape } from './gradient-fill-shape';
+import { GradientStrokeShape } from './gradient-stroke-shape';
 import { MergeShape } from './merge-shape';
 import { PathShape } from './path-shape';
 import { RectangleShape } from './rectangle-shape';
@@ -91,6 +92,8 @@ export class GroupShape extends Shape {
       return new StrokeShape(this);
     } else if (type === ShapeType.GRADIENT_FILL) {
       return new GradientFillShape(this);
+    } else if (type === ShapeType.GRADIENT_STROKE) {
+      return new GradientStrokeShape(this);
     } else if (type === ShapeType.TRIM) {
       return new TrimShape(this);
     } else if (type === ShapeType.MERGE) {

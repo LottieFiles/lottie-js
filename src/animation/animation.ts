@@ -11,6 +11,7 @@ import { SolidLayer } from '../layers/solid-layer';
 import { TextLayer } from '../layers/text-layer';
 import { Marker } from '../markers';
 import { Property } from '../properties';
+import { GroupShape } from '../shapes/group-shape';
 import { Shape } from '../shapes/shape';
 import { KeyFrame } from '../timeline';
 import { rgbaToHex } from '../utils/color-spaces';
@@ -402,11 +403,21 @@ export class Animation {
           if (shape.classNames?.includes(className)) {
             shapes.push(shape);
           }
+          if (shape instanceof GroupShape) {
+            // group shapes will have a shapes array that contains all of the shapes that are grouped in
+            const groupedShapes = shape.shapes;
+            groupedShapes.forEach(groupedShape => {
+              if (groupedShape.classNames?.includes(className)) {
+                shapes.push(shape);
+              }
+            });
+          }
         });
       }
     });
     return shapes;
   }
+
   /**
    * Returns the layers with the given class.
    *
