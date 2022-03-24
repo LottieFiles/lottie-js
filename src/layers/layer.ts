@@ -10,9 +10,6 @@ import { useRegistry } from '../utils/use-registry';
 export abstract class Layer {
   public abstract readonly type: LayerType;
 
-  public abstract fromJSON(json: Record<string, any>): Layer;
-  public abstract toJSON(key?: string): Record<string, any> | undefined;
-
   public autoOrient = false;
   public blendMode: BlendMode = BlendMode.NORMAL;
   public classNames: string[] = [];
@@ -77,5 +74,88 @@ export abstract class Layer {
    */
   public get totalFrames(): number {
     return this.outPoint - this.inPoint;
+  }
+
+  /**
+   * Convert the Lottie JSON object to class instance.
+   *
+   * @param json    JSON object
+   * @returns       ShapeLayer instance
+   */
+  public fromJSON(json: Record<string, any>): Layer {
+    // Base layer props
+    this.autoOrient = json.ao === 1;
+    this.blendMode = json.bm;
+    this.effects = json.ef;
+    this.height = json.h;
+    this.id = json.ln;
+    this.index = json.ind;
+    this.inPoint = json.ip;
+    this.is3D = json.ddd;
+    this.name = json.nm;
+    this.outPoint = json.op;
+    this.parent = json.parent;
+    this.startTime = json.st;
+    this.timeStretch = json.sr;
+    this.width = json.w;
+
+    // Split classnames into array
+    this.classNames = 'cl' in json ? json.cl.split(' ') : [];
+
+    // Transforms
+    this.transform.fromJSON(json.ks);
+
+    if ('tt' in json) {
+      this.matteMode = json.tt;
+    }
+
+    if ('td' in json) {
+      this.matteTarget = json.td;
+    }
+
+    if ('hd' in json) {
+      this.isHidden = json.hd;
+    }
+
+    if ('mn' in json) {
+      this.matchName = json.mn;
+    }
+
+    return this;
+  }
+
+  /**
+   * Convert the class instance to Lottie JSON object.
+   *
+   * Called by Javascript when serializing object with JSON.stringify()
+   *
+   * @returns       JSON object
+   */
+  public toJSON(): Record<string, any> {
+    return {
+      ddd: this.is3D ? 1 : 0,
+      ind: this.index,
+      ty: this.type,
+      nm: this.name,
+      mn: this.matchName,
+      tt: this.matteMode,
+      td: this.matteTarget,
+      cl: this.classNames.length ? this.classNames.join(' ') : undefined,
+      ln: this.id,
+      parent: this.parent?.index,
+      hd: this.isHidden !== undefined ? Number(this.isHidden) : undefined,
+      sr: this.timeStretch,
+      ks: {
+        ...this.transform.toJSON(),
+      },
+      ao: this.autoOrient ? 1 : 0,
+      ef: this.effects,
+      w: this.width,
+      h: this.height,
+      ip: this.inPoint,
+      op: this.outPoint,
+      st: this.startTime,
+      bm: this.blendMode,
+    };
   }
 }
