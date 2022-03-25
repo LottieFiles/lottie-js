@@ -30,11 +30,7 @@ export class TrimShape extends Shape {
    */
   public fromJSON(json: Record<string, any>): TrimShape {
     // Base shape
-    this.classNames = json.cl;
-    this.id = json.ln;
-    this.isHidden = json.hd;
-    this.matchName = json.mn;
-    this.name = json.nm;
+    super.fromJSON(json);
 
     // This shape
     this.blendMode = json.bm in BlendMode ? json.bm : BlendMode.NORMAL;
@@ -54,22 +50,14 @@ export class TrimShape extends Shape {
    * @returns       JSON object
    */
   public toJSON(): Record<string, any> {
-    return {
-      ty: this.type,
+    const json = super.toJSON();
 
-      // Base shape
-      cl: this.classNames,
-      hd: this.isHidden,
-      ln: this.id,
-      mn: this.matchName,
-      nm: this.name,
-
-      // This shape
+    return Object.assign(json, {
       bm: this.blendMode,
       e: this.trimEnd,
       o: this.trimOffset,
       s: this.trimStart,
       m: this.trimMultipleShapes,
-    };
+    });
   }
 }

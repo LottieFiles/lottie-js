@@ -23,11 +23,7 @@ export class PathShape extends Shape {
    */
   public fromJSON(json: Record<string, any>): PathShape {
     // Base shape
-    this.classNames = json.cl;
-    this.id = json.ln;
-    this.isHidden = json.hd;
-    this.matchName = json.mn;
-    this.name = json.nm;
+    super.fromJSON(json);
     this.itemIndex = json.ind;
     this.shapeIndex = json.ix;
 
@@ -46,21 +42,15 @@ export class PathShape extends Shape {
    * @returns       JSON object
    */
   public toJSON(): Record<string, any> {
-    return {
-      ty: this.type,
+    const json = super.toJSON();
 
-      // Base shape
-      cl: this.classNames,
-      hd: this.isHidden,
-      ln: this.id,
-      mn: this.matchName,
-      nm: this.name,
+    return Object.assign(json, {
       ind: this.itemIndex,
       ix: this.shapeIndex,
 
       // This shape
       d: this.direction,
       ks: this.vertices,
-    };
+    });
   }
 }

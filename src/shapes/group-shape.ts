@@ -43,11 +43,7 @@ export class GroupShape extends Shape {
    */
   public fromJSON(json: Record<string, any>): GroupShape {
     // Base shape
-    this.classNames = json.cl;
-    this.id = json.ln;
-    this.isHidden = json.hd;
-    this.matchName = json.mn;
-    this.name = json.nm;
+    super.fromJSON(json);
 
     // This shape
     this.blendMode = json.bm;
@@ -124,6 +120,7 @@ export class GroupShape extends Shape {
    * @returns       JSON object
    */
   public toJSON(): Record<string, any> {
+    const json = super.toJSON();
     const shapes = JSON.parse(JSON.stringify(this.shapes));
 
     shapes.push({
@@ -132,22 +129,13 @@ export class GroupShape extends Shape {
       ...this.transform.toJSON(),
     });
 
-    return {
-      ty: this.type,
-
-      // Base shape
-      cl: this.classNames,
-      hd: this.isHidden,
-      ln: this.id,
-      mn: this.matchName,
-      nm: this.name,
-
+    return Object.assign(json, {
       // This shape
       bm: this.blendMode,
       cix: this.contentPropertyIndex,
       it: shapes,
       ix: this.propertyIndex,
       np: this.numProperties,
-    };
+    });
   }
 }
