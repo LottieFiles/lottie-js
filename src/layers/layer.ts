@@ -1,4 +1,5 @@
 import { BlendMode, LayerType, MatteMode, PropertyType } from '../constants';
+import { Effect } from '../effects';
 import { Mask } from '../masks';
 import { Property } from '../properties/property';
 import { Transform } from '../properties/transform';
@@ -14,7 +15,6 @@ export abstract class Layer {
   public autoOrient = false;
   public blendMode: BlendMode = BlendMode.NORMAL;
   public classNames: string[] = [];
-  public effects: any; // Effect[] = [];
   public height = 0;
   public id = '';
   public index?: number;
@@ -30,6 +30,7 @@ export abstract class Layer {
   public isHidden?: boolean;
   public matchName?: string;
   public masks: Mask[] = [];
+  public effects: Effect[] = [];
 
   // Transforms
   public transform: Transform = new Transform();
@@ -96,7 +97,6 @@ export abstract class Layer {
     // Base layer props
     this.autoOrient = json.ao === 1;
     this.blendMode = json.bm;
-    this.effects = json.ef;
     this.height = json.h;
     this.id = json.ln;
     this.index = json.ind;
@@ -135,6 +135,10 @@ export abstract class Layer {
       this.masks = json.masksProperties.map((maskJson: Record<string, any>) => new Mask().fromJSON(maskJson));
     }
 
+    if ('ef' in json) {
+      this.effects = json.ef.map((effectJson: Record<string, any>) => new Effect().fromJSON(effectJson));
+    }
+
     return this;
   }
 
@@ -147,6 +151,7 @@ export abstract class Layer {
    */
   public toJSON(): Record<string, any> {
     const masks = this.hasMask ? this.masks.map(mask => mask.toJSON()) : undefined;
+    const effects = this.effects.length ? this.effects.map(effect => effect.toJSON()) : undefined;
     return {
       ddd: this.is3D ? 1 : 0,
       ind: this.index,
@@ -164,7 +169,7 @@ export abstract class Layer {
       ao: this.autoOrient ? 1 : 0,
       hasMask: this.hasMask || undefined,
       masksProperties: masks,
-      ef: this.effects,
+      ef: effects,
       w: this.width,
       h: this.height,
       ip: this.inPoint,

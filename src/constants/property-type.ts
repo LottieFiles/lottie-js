@@ -21,4 +21,5 @@ export enum PropertyType {
   COLOR = 'cl',
   ORIENTATION = 'or',
   GRADIENT = 'gr',
+  EFFECT_VALUE = 'v',
 }

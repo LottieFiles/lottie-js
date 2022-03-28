@@ -13,3 +13,5 @@ export * from './trim-mode';
 export * from './repeater-composite';
 export * from './star-type';
 export * from './matte-mode';
+export * from './effect-type';
+export * from './effect-value-type';
