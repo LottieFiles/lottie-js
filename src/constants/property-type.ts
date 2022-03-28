@@ -2,6 +2,7 @@ export enum PropertyType {
   ANCHOR = 'a',
   OPACITY = 'o',
   POSITION = 'p',
+  POINTS = 'pt',
   ROTATION = 'r',
   ROTATION_X = 'rx',
   ROTATION_Y = 'ry',

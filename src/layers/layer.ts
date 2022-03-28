@@ -1,4 +1,5 @@
 import { BlendMode, LayerType, MatteMode, PropertyType } from '../constants';
+import { Mask } from '../masks';
 import { Property } from '../properties/property';
 import { Transform } from '../properties/transform';
 import { KeyFrame } from '../timeline/key-frame';
@@ -28,6 +29,7 @@ export abstract class Layer {
   public matteTarget?: number;
   public isHidden?: boolean;
   public matchName?: string;
+  public masks: Mask[] = [];
 
   // Transforms
   public transform: Transform = new Transform();
@@ -65,6 +67,14 @@ export abstract class Layer {
       });
 
     return Array.from(colors).map(c => JSON.parse(c));
+  }
+
+  /**
+   * Returns true if there are masks present in the layer.
+   * @returns true if masks present
+   */
+  public get hasMask(): boolean {
+    return this.masks.length > 0;
   }
 
   /**
@@ -121,6 +131,10 @@ export abstract class Layer {
       this.matchName = json.mn;
     }
 
+    if ('masksProperties' in json) {
+      this.masks = json.masksProperties.map((maskJson: Record<string, any>) => new Mask().fromJSON(maskJson));
+    }
+
     return this;
   }
 
@@ -132,6 +146,7 @@ export abstract class Layer {
    * @returns       JSON object
    */
   public toJSON(): Record<string, any> {
+    const masks = this.hasMask ? this.masks.map(mask => mask.toJSON()) : undefined;
     return {
       ddd: this.is3D ? 1 : 0,
       ind: this.index,
@@ -145,10 +160,10 @@ export abstract class Layer {
       parent: this.parent?.index,
       hd: this.isHidden !== undefined ? Number(this.isHidden) : undefined,
       sr: this.timeStretch,
-      ks: {
-        ...this.transform.toJSON(),
-      },
+      ks: this.transform.toJSON(),
       ao: this.autoOrient ? 1 : 0,
+      hasMask: this.hasMask || undefined,
+      masksProperties: masks,
       ef: this.effects,
       w: this.width,
       h: this.height,
