@@ -1,14 +1,6 @@
 import { LayerType, ShapeType } from '../constants';
-import { Shape, StarShape } from '../shapes';
-import { EllipseShape } from '../shapes/ellipse-shape';
-import { FillShape } from '../shapes/fill-shape';
-import { GradientFillShape } from '../shapes/gradient-fill-shape';
-import { GroupShape } from '../shapes/group-shape';
-import { MergeShape } from '../shapes/merge-shape';
-import { PathShape } from '../shapes/path-shape';
-import { RectangleShape } from '../shapes/rectangle-shape';
-import { StrokeShape } from '../shapes/stroke-shape';
-import { TrimShape } from '../shapes/trim-shape';
+import { Shape } from '../shapes';
+import { createShapeFromType } from '../utils/shape';
 import { Layer } from './layer';
 
 /**
@@ -26,28 +18,7 @@ export class ShapeLayer extends Layer {
    * @param type  Shape type string.
    */
   public createShape(type: ShapeType): Shape {
-    if (type === ShapeType.PATH) {
-      return new PathShape(this);
-    } else if (type === ShapeType.GROUP) {
-      return new GroupShape(this);
-    } else if (type === ShapeType.FILL) {
-      return new FillShape(this);
-    } else if (type === ShapeType.RECTANGLE) {
-      return new RectangleShape(this);
-    } else if (type === ShapeType.ELLIPSE) {
-      return new EllipseShape(this);
-    } else if (type === ShapeType.STROKE) {
-      return new StrokeShape(this);
-    } else if (type === ShapeType.GRADIENT_FILL) {
-      return new GradientFillShape(this);
-    } else if (type === ShapeType.TRIM) {
-      return new TrimShape(this);
-    } else if (type === ShapeType.MERGE) {
-      return new MergeShape(this);
-    } else if (type === ShapeType.STAR) {
-      return new StarShape(this);
-    }
-    throw new Error(`Invalid or unknown shape type: ${type}`);
+    return createShapeFromType(type, this);
   }
 
   /**

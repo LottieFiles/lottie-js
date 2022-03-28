@@ -1,16 +1,7 @@
 import { BlendMode, ShapeType } from '../constants';
 import { Transform } from '../properties';
-import { EllipseShape } from './ellipse-shape';
-import { FillShape } from './fill-shape';
-import { GradientFillShape } from './gradient-fill-shape';
-import { GradientStrokeShape } from './gradient-stroke-shape';
-import { MergeShape } from './merge-shape';
-import { PathShape } from './path-shape';
-import { RectangleShape } from './rectangle-shape';
+import { createShapeFromType } from '../utils/shape';
 import { Shape } from './shape';
-import { StarShape } from './star-shape';
-import { StrokeShape } from './stroke-shape';
-import { TrimShape } from './trim-shape';
 
 /**
  * Group shape type.
@@ -74,31 +65,7 @@ export class GroupShape extends Shape {
    * @param type  Shape type string.
    */
   public createShape(type: ShapeType): Shape {
-    if (type === ShapeType.PATH) {
-      return new PathShape(this);
-    } else if (type === ShapeType.GROUP) {
-      return new GroupShape(this);
-    } else if (type === ShapeType.FILL) {
-      return new FillShape(this);
-    } else if (type === ShapeType.RECTANGLE) {
-      return new RectangleShape(this);
-    } else if (type === ShapeType.ELLIPSE) {
-      return new EllipseShape(this);
-    } else if (type === ShapeType.STROKE) {
-      return new StrokeShape(this);
-    } else if (type === ShapeType.GRADIENT_FILL) {
-      return new GradientFillShape(this);
-    } else if (type === ShapeType.GRADIENT_STROKE) {
-      return new GradientStrokeShape(this);
-    } else if (type === ShapeType.TRIM) {
-      return new TrimShape(this);
-    } else if (type === ShapeType.MERGE) {
-      return new MergeShape(this);
-    } else if (type === ShapeType.STAR) {
-      return new StarShape(this);
-    }
-
-    throw new Error(`Invalid or unknown shape type: ${type}`);
+    return createShapeFromType(type, this);
   }
 
   /**
