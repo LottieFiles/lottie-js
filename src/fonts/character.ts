@@ -46,7 +46,9 @@ export class Character {
     this.fontStyle = json.style;
     this.fontWeight = json.w;
     this.fontFamily = json.fFamily;
-    this.data = json.data.shapes.map((shapeJSON: Record<string, any>) => this.createShapeFromJSON(shapeJSON));
+    if ('data' in json && json.data.shapes) {
+      this.data = json.data.shapes.map((shapeJSON: Record<string, any>) => this.createShapeFromJSON(shapeJSON));
+    }
 
     return this;
   }
@@ -65,7 +67,7 @@ export class Character {
       size: this.fontSize,
       style: this.fontStyle,
       w: this.fontWeight,
-      data: { shapes },
+      data: { shapes: shapes.length ? shapes : undefined },
       fFamily: this.fontFamily,
     };
   }
