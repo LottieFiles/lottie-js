@@ -48,7 +48,7 @@ export class Effect {
       mn: this.matchName,
       ix: this.index,
       ef: values,
-      en: this.enabled ? 1 : this.enabled
+      en: this.enabled ? 1 : this.enabled,
     };
   }
 }
