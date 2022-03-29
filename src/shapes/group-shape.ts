@@ -48,8 +48,9 @@ export class GroupShape extends Shape {
           if (jShape.ty !== 'tr') {
             const nShape = this.createShape(jShape.ty);
             return nShape.fromJSON(jShape);
+          } else {
+            this.transform.fromJSON(jShape);
           }
-          this.transform.fromJSON(jShape);
         } catch {
           // Swallow
         }

@@ -8,6 +8,8 @@ import {
   MergeShape,
   PathShape,
   RectangleShape,
+  RepeaterShape,
+  RoundedCornersShape,
   StarShape,
   StrokeShape,
   TrimShape,
@@ -36,6 +38,10 @@ export const createShapeFromType = (type: ShapeType, parent: any) => {
     return new MergeShape(parent);
   } else if (type === ShapeType.STAR) {
     return new StarShape(parent);
+  } else if (type === ShapeType.ROUNDED_CORNERS) {
+    return new RoundedCornersShape(parent);
+  } else if (type === ShapeType.REPEATER) {
+    return new RepeaterShape(parent);
   }
   throw new Error(`Invalid or unknown shape type: ${type}`);
 };
