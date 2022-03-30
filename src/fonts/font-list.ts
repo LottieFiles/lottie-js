@@ -14,7 +14,7 @@ export class FontList {
    */
 
   public fromJSON(json: Record<string, any>): FontList {
-    this.list = json.list;
+    this.list = json.list.map((fontJSON: Record<string, any>) => new Font().fromJSON(fontJSON));
     return this;
   }
 

@@ -2,13 +2,8 @@ import fetch from 'cross-fetch';
 
 import { Asset, ImageAsset, PrecompositionAsset } from '../assets';
 import { AssetType, LayerType, PropertyType } from '../constants';
-import { FontList } from '../fonts/font-list';
-import { Layer, PrecompositionLayer, ShapeLayer } from '../layers';
-// import { Shape } from '../shapes';
-import { GroupLayer } from '../layers/group-layer';
-import { ImageLayer } from '../layers/image-layer';
-import { SolidLayer } from '../layers/solid-layer';
-import { TextLayer } from '../layers/text-layer';
+import { Character, FontList } from '../fonts';
+import { GroupLayer, ImageLayer, Layer, PrecompositionLayer, ShapeLayer, SolidLayer, TextLayer } from '../layers';
 import { Marker } from '../markers';
 import { Property } from '../properties';
 import { GroupShape } from '../shapes/group-shape';
@@ -40,6 +35,7 @@ export class Animation {
   public version = ``;
   public width = 0;
   public fonts: FontList = new FontList();
+  public characters: Character[] = [];
 
   /**
    * Create a class instance from the URL to the Lottie JSON.
@@ -354,6 +350,10 @@ export class Animation {
       this.fonts.fromJSON(json.fonts);
     }
 
+    if ('chars' in json) {
+      this.characters = json.chars.map((charJSON: Record<string, any>) => new Character().fromJSON(charJSON));
+    }
+
     return this;
   }
 
@@ -459,6 +459,8 @@ export class Animation {
     if (key) {
       return undefined;
     }
+    const chars = this.characters.map(char => char.toJSON());
+
     return {
       assets: this.assets,
       ddd: this.is3D ? 1 : 0,
@@ -473,6 +475,7 @@ export class Animation {
       v: this.version || '5.6.0',
       w: this.width,
       ...(this.fonts.list.length > 0 && { fonts: this.fonts.toJSON() }),
+      chars: chars.length > 0 ? chars : undefined,
     };
   }
 }

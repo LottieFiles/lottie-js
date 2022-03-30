@@ -1,16 +1,7 @@
 import { BlendMode, ShapeType } from '../constants';
 import { Transform } from '../properties';
-import { EllipseShape } from './ellipse-shape';
-import { FillShape } from './fill-shape';
-import { GradientFillShape } from './gradient-fill-shape';
-import { GradientStrokeShape } from './gradient-stroke-shape';
-import { MergeShape } from './merge-shape';
-import { PathShape } from './path-shape';
-import { RectangleShape } from './rectangle-shape';
+import { createShapeFromType } from '../utils/shape';
 import { Shape } from './shape';
-import { StarShape } from './star-shape';
-import { StrokeShape } from './stroke-shape';
-import { TrimShape } from './trim-shape';
 
 /**
  * Group shape type.
@@ -43,11 +34,7 @@ export class GroupShape extends Shape {
    */
   public fromJSON(json: Record<string, any>): GroupShape {
     // Base shape
-    this.classNames = json.cl;
-    this.id = json.ln;
-    this.isHidden = json.hd;
-    this.matchName = json.mn;
-    this.name = json.nm;
+    super.fromJSON(json);
 
     // This shape
     this.blendMode = json.bm;
@@ -61,8 +48,9 @@ export class GroupShape extends Shape {
           if (jShape.ty !== 'tr') {
             const nShape = this.createShape(jShape.ty);
             return nShape.fromJSON(jShape);
+          } else {
+            this.transform.fromJSON(jShape);
           }
-          this.transform.fromJSON(jShape);
         } catch {
           // Swallow
         }
@@ -78,31 +66,7 @@ export class GroupShape extends Shape {
    * @param type  Shape type string.
    */
   public createShape(type: ShapeType): Shape {
-    if (type === ShapeType.PATH) {
-      return new PathShape(this);
-    } else if (type === ShapeType.GROUP) {
-      return new GroupShape(this);
-    } else if (type === ShapeType.FILL) {
-      return new FillShape(this);
-    } else if (type === ShapeType.RECTANGLE) {
-      return new RectangleShape(this);
-    } else if (type === ShapeType.ELLIPSE) {
-      return new EllipseShape(this);
-    } else if (type === ShapeType.STROKE) {
-      return new StrokeShape(this);
-    } else if (type === ShapeType.GRADIENT_FILL) {
-      return new GradientFillShape(this);
-    } else if (type === ShapeType.GRADIENT_STROKE) {
-      return new GradientStrokeShape(this);
-    } else if (type === ShapeType.TRIM) {
-      return new TrimShape(this);
-    } else if (type === ShapeType.MERGE) {
-      return new MergeShape(this);
-    } else if (type === ShapeType.STAR) {
-      return new StarShape(this);
-    }
-
-    throw new Error(`Invalid or unknown shape type: ${type}`);
+    return createShapeFromType(type, this);
   }
 
   /**
@@ -124,6 +88,7 @@ export class GroupShape extends Shape {
    * @returns       JSON object
    */
   public toJSON(): Record<string, any> {
+    const json = super.toJSON();
     const shapes = JSON.parse(JSON.stringify(this.shapes));
 
     shapes.push({
@@ -132,22 +97,13 @@ export class GroupShape extends Shape {
       ...this.transform.toJSON(),
     });
 
-    return {
-      ty: this.type,
-
-      // Base shape
-      cl: this.classNames,
-      hd: this.isHidden,
-      ln: this.id,
-      mn: this.matchName,
-      nm: this.name,
-
+    return Object.assign(json, {
       // This shape
       bm: this.blendMode,
       cix: this.contentPropertyIndex,
       it: shapes,
       ix: this.propertyIndex,
       np: this.numProperties,
-    };
+    });
   }
 }

@@ -1,4 +1,5 @@
-import { MaskMode } from '../constants';
+import { MaskMode, PropertyType } from '../constants';
+import { Property } from '../properties';
 
 /**
  * Mask.
@@ -6,9 +7,10 @@ import { MaskMode } from '../constants';
 export class Mask {
   public isInverted = false;
   public name = '';
-  public opacity: any;
-  public points: any;
+  public opacity: Property = new Property(this, PropertyType.OPACITY);
+  public points: Property = new Property(this, PropertyType.POINTS);
   public mode: MaskMode = MaskMode.Add;
+  public expansion: Property = new Property(this, PropertyType.EXPANSION);
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -17,11 +19,12 @@ export class Mask {
    * @returns       Mask instance
    */
   public fromJSON(json: Record<string, any>): Mask {
-    this.isInverted = json.inv;
+    this.isInverted = Boolean(json.inv);
     this.mode = json.mode;
     this.name = json.nm;
-    this.points = json.pt;
-    this.opacity = json.o;
+    this.points.fromJSON(json.pt);
+    this.opacity.fromJSON(json.o);
+    this.expansion.fromJSON(json.x);
 
     return this;
   }
@@ -40,6 +43,7 @@ export class Mask {
       nm: this.name,
       o: this.opacity,
       pt: this.points,
+      x: this.expansion,
     };
   }
 }

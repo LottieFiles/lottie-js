@@ -2,7 +2,7 @@
  * Text layer type.
  */
 export class Font {
-  public fname = '';
+  public fName = '';
   public fFamily = '';
   public fStyle = '';
   public ascent = 0;
@@ -19,10 +19,14 @@ export class Font {
    * @returns       TextLayer instance
    */
   public fromJSON(json: Record<string, any>): Font {
-    this.fname = json.fname;
+    this.fName = json.fName;
     this.fFamily = json.fFamily;
     this.fStyle = json.fStyle;
     this.ascent = json.ascent;
+    this.fPath = json.fPath;
+    this.fWeight = json.fWeight;
+    this.origin = json.origin;
+    this.fClass = json.fClass;
     return this;
   }
 
@@ -35,7 +39,7 @@ export class Font {
    */
   public toJSON(): Record<string, any> {
     return {
-      fname: this.fname,
+      fName: this.fName,
       fFamily: this.fFamily,
       fStyle: this.fStyle,
       ascent: this.ascent,

@@ -43,11 +43,7 @@ export class RepeaterShape extends Shape {
    */
   public fromJSON(json: Record<string, any>): RepeaterShape {
     // Base shape
-    this.classNames = json.cl;
-    this.id = json.ln;
-    this.isHidden = json.hd;
-    this.matchName = json.mn;
-    this.name = json.nm;
+    super.fromJSON(json);
 
     // This shape
     this.copies.fromJSON(json.c);
@@ -80,17 +76,9 @@ export class RepeaterShape extends Shape {
    * @returns       JSON object
    */
   public toJSON(): Record<string, any> {
-    return {
-      ty: this.type,
+    const json = super.toJSON();
 
-      // Base shape
-      cl: this.classNames,
-      hd: this.isHidden,
-      ln: this.id,
-      mn: this.matchName,
-      nm: this.name,
-
-      // This shape
+    return Object.assign(json, {
       m: this.composition,
       c: this.copies,
       o: this.offset,
@@ -104,6 +92,6 @@ export class RepeaterShape extends Shape {
         sk: this.skew,
         sa: this.skewAxis,
       },
-    };
+    });
   }
 }

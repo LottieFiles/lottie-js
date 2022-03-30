@@ -37,11 +37,7 @@ export class StarShape extends Shape {
    */
   public fromJSON(json: Record<string, any>): StarShape {
     // Base shape
-    this.classNames = json.cl;
-    this.id = json.ln;
-    this.isHidden = json.hd;
-    this.matchName = json.mn;
-    this.name = json.nm;
+    super.fromJSON(json);
 
     // This shape
     this.position.fromJSON(json.p);
@@ -69,16 +65,9 @@ export class StarShape extends Shape {
    * @returns       JSON object
    */
   public toJSON(): Record<string, any> {
-    return {
-      ty: this.type,
+    const json = super.toJSON();
 
-      // Base shape
-      cl: this.classNames,
-      hd: this.isHidden,
-      ln: this.id,
-      mn: this.matchName,
-      nm: this.name,
-
+    return Object.assign(json, {
       // This shape
       p: this.position,
       ...(this.starType === 1 && { ir: this.innerRadius }),
@@ -89,6 +78,6 @@ export class StarShape extends Shape {
       pt: this.points,
       sy: this.starType,
       d: this.direction,
-    };
+    });
   }
 }

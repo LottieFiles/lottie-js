@@ -1,16 +1,14 @@
-import { LayerType, ShapeType } from '../constants';
+import { ShapeType } from '../constants';
 import { Shape } from '../shapes';
 import { createShapeFromType } from '../utils/shape';
-import { Layer } from './layer';
 
-/**
- * Shape layer type.
- */
-export class ShapeLayer extends Layer {
-  // Shape layer type = 4
-  public readonly type = LayerType.SHAPE;
-
-  public shapes: Shape[] = [];
+export class Character {
+  public character = '';
+  public fontSize = 0;
+  public fontStyle = '';
+  public fontWeight = 0;
+  public data: Shape[] = [];
+  public fontFamily = '';
 
   /**
    * Creates and returns a new shape instance of given type.
@@ -19,17 +17,6 @@ export class ShapeLayer extends Layer {
    */
   public createShape(type: ShapeType): Shape {
     return createShapeFromType(type, this);
-  }
-
-  /**
-   * Adds a shape to the Layer
-   */
-  public addShape(shape: ShapeType | Shape): Shape {
-    if (!(shape instanceof Shape)) shape = this.createShape(shape);
-
-    this.shapes.push(shape);
-
-    return shape;
   }
 
   /**
@@ -51,13 +38,17 @@ export class ShapeLayer extends Layer {
    * Convert the Lottie JSON object to class instance.
    *
    * @param json    JSON object
-   * @returns       ShapeLayer instance
+   * @returns       Mask instance
    */
-  public fromJSON(json: Record<string, any>): ShapeLayer {
-    super.fromJSON(json);
-
-    // This layer props
-    this.shapes = json.shapes.map((jShape: Record<string, any>) => this.createShapeFromJSON(jShape)).filter(Boolean);
+  public fromJSON(json: Record<string, any>): Character {
+    this.character = json.ch;
+    this.fontSize = json.size;
+    this.fontStyle = json.style;
+    this.fontWeight = json.w;
+    this.fontFamily = json.fFamily;
+    if ('data' in json && json.data.shapes) {
+      this.data = json.data.shapes.map((shapeJSON: Record<string, any>) => this.createShapeFromJSON(shapeJSON));
+    }
 
     return this;
   }
@@ -70,10 +61,14 @@ export class ShapeLayer extends Layer {
    * @returns       JSON object
    */
   public toJSON(): Record<string, any> {
-    const json = super.toJSON();
-
-    return Object.assign(json, {
-      shapes: this.shapes.map(shape => shape.toJSON()),
-    });
+    const shapes = this.data.map(shape => shape.toJSON());
+    return {
+      ch: this.character,
+      size: this.fontSize,
+      style: this.fontStyle,
+      w: this.fontWeight,
+      data: { shapes: shapes.length ? shapes : undefined },
+      fFamily: this.fontFamily,
+    };
   }
 }
