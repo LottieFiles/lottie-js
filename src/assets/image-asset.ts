@@ -40,7 +40,7 @@ export class ImageAsset extends Asset {
   public toJSON(): Record<string, any> {
     return {
       h: this.height,
-      i: this.id,
+      id: this.id,
       p: this.data,
       u: this.path,
       w: this.width,
