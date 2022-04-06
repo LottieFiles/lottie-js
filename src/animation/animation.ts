@@ -37,6 +37,10 @@ export class Animation {
   public fonts: FontList = new FontList();
   public characters: Character[] = [];
 
+  public constructor() {
+    useRegistry().clear();
+  }
+
   /**
    * Create a class instance from the URL to the Lottie JSON.
    *
