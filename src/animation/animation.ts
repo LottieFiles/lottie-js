@@ -11,6 +11,7 @@ import { Shape } from '../shapes/shape';
 import { KeyFrame } from '../timeline';
 import { rgbaToHex } from '../utils/color-spaces';
 import { useRegistry } from '../utils/use-registry';
+import { TextDocument } from '../values';
 import { Color } from '../values/color';
 import { Meta } from './meta';
 
@@ -146,7 +147,12 @@ export class Animation {
     const textLayers: parentLocatorInterface = {};
     const layers = this.getLayersByType(LayerType.TEXT) as TextLayer[];
     layers.forEach((layer, index) => {
-      textLayers[index + '.' + layer.name] = layer.textData.d.k[0].s.t;
+      const textDocument = layer.textData?.textDocument.values[0];
+      let layerText = '';
+      if (textDocument !== undefined) {
+        layerText = (textDocument.value as TextDocument).text;
+      }
+      textLayers[index + '.' + layer.name] = layerText;
     });
     return textLayers;
   }
