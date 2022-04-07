@@ -65,9 +65,10 @@ export class Property {
     if (this.type == PropertyType.COLOR) valueClass = Color;
     else if (this.type == PropertyType.TEXT_DATA) valueClass = TextDocument;
 
-    this.values = this.isAnimated
-      ? json.k.map((v: Record<string, any>) => new KeyFrame().fromJSON(v, valueClass))
-      : [new KeyFrame().fromJSON({ t: 0, s: json.k }, valueClass)];
+    this.values =
+      this.isAnimated || this.type == PropertyType.TEXT_DATA
+        ? json.k.map((v: Record<string, any>) => new KeyFrame().fromJSON(v, valueClass))
+        : [new KeyFrame().fromJSON({ t: 0, s: json.k }, valueClass)];
 
     if (this.type === PropertyType.COLOR) {
       this.maxColors = 'p' in json ? json.p : undefined;
@@ -91,7 +92,7 @@ export class Property {
    */
   public toJSON(): Record<string, any> {
     let value;
-    const animated = this.isAnimated !== false || this.values.length > 1;
+    const animated = this.isAnimated || this.values.length > 1 || this.type === PropertyType.TEXT_DATA;
     if (animated) {
       value = this.values;
     } else {
