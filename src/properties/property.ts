@@ -1,6 +1,7 @@
 import { PropertyType } from '../constants';
 import { KeyFrame } from '../timeline';
 import { useRegistry } from '../utils/use-registry';
+import { TextDocument } from '../values';
 import { Color } from '../values/color';
 
 /**
@@ -62,6 +63,7 @@ export class Property {
 
     let valueClass: any = undefined;
     if (this.type == PropertyType.COLOR) valueClass = Color;
+    else if (this.type == PropertyType.TEXT_DATA) valueClass = TextDocument;
 
     this.values = this.isAnimated
       ? json.k.map((v: Record<string, any>) => new KeyFrame().fromJSON(v, valueClass))

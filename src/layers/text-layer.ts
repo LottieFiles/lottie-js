@@ -1,4 +1,5 @@
 import { LayerType } from '../constants';
+import { TextData } from '../text';
 import { Layer } from './layer';
 
 /**
@@ -7,7 +8,7 @@ import { Layer } from './layer';
 export class TextLayer extends Layer {
   public readonly type = LayerType.TEXT;
 
-  public textData?: any;
+  public textData?: TextData;
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -20,7 +21,10 @@ export class TextLayer extends Layer {
     super.fromJSON(json);
 
     // This layer props
-    this.textData = json.t;
+    if ('t' in json) {
+      this.textData = new TextData();
+      this.textData.fromJSON(json.t);
+    }
 
     return this;
   }

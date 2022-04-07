@@ -1,0 +1,6 @@
+export enum TextBased {
+  CHARACTERS = 1,
+  CHARACTER_EXCLUDING_SPACES,
+  WORDS,
+  LINES,
+}
