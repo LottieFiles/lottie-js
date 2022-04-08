@@ -8,6 +8,9 @@ export * from './properties';
 export * from './shapes';
 export * from './timeline';
 export * from './values';
+export * from './text';
+export * from './fonts';
+export * from './effects';
 
 export * from './utils/use-registry';
 export * from './utils/color-spaces';
