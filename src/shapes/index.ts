@@ -14,3 +14,4 @@ export * from './rounded-corners-shape';
 export * from './merge-shape';
 export * from './offset-path-shape';
 export * from './pucker-bloat-shape';
+export * from './twist-shape';

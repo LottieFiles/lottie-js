@@ -1,6 +1,7 @@
 export enum PropertyType {
   AMOUNT = 'am',
   ANCHOR = 'a',
+  ANGLE = 'an',
   OPACITY = 'o',
   POSITION = 'p',
   POINTS = 'pt',
@@ -23,4 +24,5 @@ export enum PropertyType {
   ORIENTATION = 'or',
   GRADIENT = 'gr',
   EFFECT_VALUE = 'v',
+  CENTER = 'cn',
 }
