@@ -1,4 +1,5 @@
 export enum PropertyType {
+  AMOUNT = 'am',
   ANCHOR = 'a',
   OPACITY = 'o',
   POSITION = 'p',
