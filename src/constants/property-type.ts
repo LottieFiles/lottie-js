@@ -25,4 +25,6 @@ export enum PropertyType {
   GRADIENT = 'gr',
   EFFECT_VALUE = 'v',
   CENTER = 'cn',
+  RADIUS = 'ra',
+  DISTANCE = 'ds',
 }

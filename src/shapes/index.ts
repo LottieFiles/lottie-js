@@ -15,3 +15,4 @@ export * from './merge-shape';
 export * from './offset-path-shape';
 export * from './pucker-bloat-shape';
 export * from './twist-shape';
+export * from './zig-zag-shape';
