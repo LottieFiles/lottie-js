@@ -334,13 +334,17 @@ export class Animation {
     this.version = json.v;
     this.width = json.w;
 
-    this.assets = json.assets.map((jAsset: Record<string, any>) => this.createAssetFromJSON(jAsset)).filter(Boolean);
+    if ('assets' in json) {
+      this.assets = json.assets.map((jAsset: Record<string, any>) => this.createAssetFromJSON(jAsset)).filter(Boolean);
+    }
 
     this.layers = this.createLayersFromJSONArray(json.layers);
 
-    this.markers = json.markers
-      .map((jMarker: Record<string, any>) => this.createMarkerFromJSON(jMarker))
-      .filter(Boolean);
+    if ('markers' in json) {
+      this.markers = json.markers
+        .map((jMarker: Record<string, any>) => this.createMarkerFromJSON(jMarker))
+        .filter(Boolean);
+    }
 
     if ('meta' in json) {
       this.meta.fromJSON(json.meta);
@@ -462,13 +466,13 @@ export class Animation {
     const chars = this.characters.map(char => char.toJSON());
 
     return {
-      assets: this.assets,
+      ...(this.assets.length > 0 && { assets: this.assets }),
       ddd: this.is3D ? 1 : 0,
       fr: this.frameRate,
       h: this.height,
       ip: this.inPoint,
       layers: this.layers.map(layer => layer.toJSON()),
-      markers: this.markers.map(marker => marker.toJSON()),
+      ...(this.assets.length > 0 && { markers: this.markers.map(marker => marker.toJSON()) }),
       meta: this.meta,
       nm: this.name,
       op: this.outPoint,

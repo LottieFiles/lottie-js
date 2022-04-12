@@ -2,9 +2,15 @@ import { Value } from './value';
 
 export abstract class Color implements Value {
   protected abstract toRgbArray(): number[];
+  protected abstract toRgbArrayWebsafe(): number[];
+  public abstract websafeColors(): void;
 
   toJSON(): number[] {
     return this.toRgbArray();
+  }
+
+  toJSONWebsafe(): number[] {
+    return this.toRgbArrayWebsafe();
   }
 
   static fromJSON(json: number[]): Color {
@@ -26,8 +32,18 @@ export class ColorRgb extends Color {
     this.b = b;
   }
 
+  public websafeColors() {
+    this.r = Math.round(this.r * 255);
+    this.g = Math.round(this.g * 255);
+    this.b = Math.round(this.b * 255);
+  }
+
   protected toRgbArray(): number[] {
     return [this.r, this.g, this.b];
+  }
+
+  protected toRgbArrayWebsafe(): number[] {
+    return [this.r * 255, this.g * 255, this.b * 255];
   }
 
   static fromJSON(json: number[]): ColorRgb {
@@ -43,8 +59,18 @@ export class ColorRgba extends ColorRgb {
     this.a = a;
   }
 
+  public websafeColors() {
+    this.r = Math.round(this.r * 255);
+    this.g = Math.round(this.g * 255);
+    this.b = Math.round(this.b * 255);
+  }
+
   protected toRgbArray(): number[] {
     return [this.r, this.g, this.b, this.a];
+  }
+
+  protected toRgbArrayWebsafe(): number[] {
+    return [this.r * 255, this.g * 255, this.b * 255, this.a];
   }
 
   static fromJSON(json: number[]): ColorRgba {
