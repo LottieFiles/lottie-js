@@ -28,6 +28,7 @@ test('Load an animation', async () => {
   const result = await fetch('https://assets1.lottiefiles.com/packages/lf20_SUdZc0.json');
   const json = await result.json();
   json.meta = {};
+  delete json['markers'];
 
   const anim = await Animation.fromURL('https://assets1.lottiefiles.com/packages/lf20_SUdZc0.json');
 
