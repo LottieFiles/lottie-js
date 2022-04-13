@@ -3,6 +3,7 @@ import fetch from 'cross-fetch';
 import { useRegistry } from '../utils/use-registry';
 import { Color } from '../values';
 import { Animation } from './animation';
+// import { websafeColors } from '../utils/color-spaces';
 
 function sortObjectKeys(value: any): Record<string, any> {
   if (Array.isArray(value)) {
@@ -57,3 +58,14 @@ test('Get text layer', async () => {
   expect(Object.keys(anim.textLayers)).toContain('0.text_two');
   expect(Object.keys(anim.textLayers)).toContain('1.text_one');
 });
+
+// test('Test color conversion to x 255', async () => {
+// const anim = await Animation.fromURL('https://assets10.lottiefiles.com/packages/lf20_ygwndfum.json');
+// const colors = websafeColors(anim.colors);
+// });
+
+// test('Test assets and markers', async () => {
+//   const anim = await Animation.fromURL('https://assets2.lottiefiles.com/packages/lf20_kx8kgli7.json');
+
+//   console.log(JSON.stringify(anim.toJSON()));
+// });
