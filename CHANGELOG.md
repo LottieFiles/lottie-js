@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.4.0
+
+### Minor Changes
+
+- text layer abstractions, hotfixes and null handling on root properties, color conversion helper method, additional
+  shape types
+
+### Patch Changes
+
+- 047dbc2: Minor features fixes
+
+  Improvements
+
+  Add matteMode, matteTarget, isHidden & matchName properties to layers Add merge shape Add public parent references to
+  layers
+
+  Fixes
+
+  Allow bezier tangent values to have more than 2 numbers Fix layer serialization in precomposition assets
+
 ## 0.2.3
 
 ### Patch Changes
