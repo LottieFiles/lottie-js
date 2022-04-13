@@ -478,7 +478,7 @@ export class Animation {
       h: this.height,
       ip: this.inPoint,
       layers: this.layers.map(layer => layer.toJSON()),
-      ...(this.assets.length > 0 && { markers: this.markers.map(marker => marker.toJSON()) }),
+      ...(this.markers.length > 0 && { markers: this.markers.map(marker => marker.toJSON()) }),
       meta: this.meta,
       nm: this.name,
       op: this.outPoint,

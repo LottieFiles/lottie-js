@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1
+
+### Patch Changes
+
+- typo in markers toJson
+
 ## 0.4.0
 
 ### Minor Changes
