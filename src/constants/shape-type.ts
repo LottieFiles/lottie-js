@@ -14,4 +14,6 @@ export enum ShapeType {
   STROKE = 'st',
   TRIM = 'tm',
   TWIST = 'tw',
+  PUCKER_BLOAT = 'pb',
+  ZIG_ZAG = 'zz',
 }

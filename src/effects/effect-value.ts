@@ -6,7 +6,7 @@ export class EffectValue {
   public name = '';
   public matchName?: string;
   public index = 0;
-  public value: Property = new Property(this, PropertyType.EFFECT_VALUE);
+  public value?: Property | number;
   public type: EffectValueType;
 
   public constructor(type: EffectValueType) {
@@ -23,7 +23,12 @@ export class EffectValue {
     this.name = json.nm;
     this.matchName = json.mn;
     this.index = json.ix;
-    this.value.fromJSON(json.v);
+
+    if (typeof json.v === 'object') {
+      this.value = new Property(this, PropertyType.EFFECT_VALUE).fromJSON(json.v);
+    } else if (typeof json.v === 'number') {
+      this.value = json.v;
+    }
 
     return this;
   }

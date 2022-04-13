@@ -6,13 +6,17 @@ import {
   GradientStrokeShape,
   GroupShape,
   MergeShape,
+  OffsetPathShape,
   PathShape,
+  PuckerBloatShape,
   RectangleShape,
   RepeaterShape,
   RoundedCornersShape,
   StarShape,
   StrokeShape,
   TrimShape,
+  TwistShape,
+  ZigZagShape,
 } from '../shapes';
 
 export const createShapeFromType = (type: ShapeType, parent: any) => {
@@ -42,6 +46,14 @@ export const createShapeFromType = (type: ShapeType, parent: any) => {
     return new RoundedCornersShape(parent);
   } else if (type === ShapeType.REPEATER) {
     return new RepeaterShape(parent);
+  } else if (type === ShapeType.PUCKER_BLOAT) {
+    return new PuckerBloatShape(parent);
+  } else if (type === ShapeType.OFFSET_PATH) {
+    return new OffsetPathShape(parent);
+  } else if (type === ShapeType.TWIST) {
+    return new TwistShape(parent);
+  } else if (type === ShapeType.ZIG_ZAG) {
+    return new ZigZagShape(parent);
   }
   throw new Error(`Invalid or unknown shape type: ${type}`);
 };
