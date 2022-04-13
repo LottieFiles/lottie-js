@@ -1,5 +1,7 @@
 export enum PropertyType {
+  AMOUNT = 'am',
   ANCHOR = 'a',
+  ANGLE = 'an',
   OPACITY = 'o',
   POSITION = 'p',
   POINTS = 'pt',
@@ -36,4 +38,7 @@ export enum PropertyType {
   HUE = 'fh',
   BRIGHTNESS = 'fb',
   TEXT_TRACKING = 't',
+  CENTER = 'cn',
+  RADIUS = 'ra',
+  DISTANCE = 'ds',
 }
