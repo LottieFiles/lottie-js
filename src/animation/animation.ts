@@ -11,6 +11,7 @@ import { Shape } from '../shapes/shape';
 import { KeyFrame } from '../timeline';
 import { rgbaToHex } from '../utils/color-spaces';
 import { useRegistry } from '../utils/use-registry';
+import { TextDocument } from '../values';
 import { Color } from '../values/color';
 import { Meta } from './meta';
 
@@ -146,7 +147,12 @@ export class Animation {
     const textLayers: parentLocatorInterface = {};
     const layers = this.getLayersByType(LayerType.TEXT) as TextLayer[];
     layers.forEach((layer, index) => {
-      textLayers[index + '.' + layer.name] = layer.textData.d.k[0].s.t;
+      const textDocument = layer.textData?.textDocument.values[0];
+      let layerText = '';
+      if (textDocument !== undefined) {
+        layerText = (textDocument.value as TextDocument).text;
+      }
+      textLayers[index + '.' + layer.name] = layerText;
     });
     return textLayers;
   }
@@ -334,13 +340,17 @@ export class Animation {
     this.version = json.v;
     this.width = json.w;
 
-    this.assets = json.assets.map((jAsset: Record<string, any>) => this.createAssetFromJSON(jAsset)).filter(Boolean);
+    if ('assets' in json) {
+      this.assets = json.assets.map((jAsset: Record<string, any>) => this.createAssetFromJSON(jAsset)).filter(Boolean);
+    }
 
     this.layers = this.createLayersFromJSONArray(json.layers);
 
-    this.markers = json.markers
-      .map((jMarker: Record<string, any>) => this.createMarkerFromJSON(jMarker))
-      .filter(Boolean);
+    if ('markers' in json) {
+      this.markers = json.markers
+        .map((jMarker: Record<string, any>) => this.createMarkerFromJSON(jMarker))
+        .filter(Boolean);
+    }
 
     if ('meta' in json) {
       this.meta.fromJSON(json.meta);
@@ -462,13 +472,13 @@ export class Animation {
     const chars = this.characters.map(char => char.toJSON());
 
     return {
-      assets: this.assets,
+      ...(this.assets.length > 0 && { assets: this.assets }),
       ddd: this.is3D ? 1 : 0,
       fr: this.frameRate,
       h: this.height,
       ip: this.inPoint,
       layers: this.layers.map(layer => layer.toJSON()),
-      markers: this.markers.map(marker => marker.toJSON()),
+      ...(this.assets.length > 0 && { markers: this.markers.map(marker => marker.toJSON()) }),
       meta: this.meta,
       nm: this.name,
       op: this.outPoint,

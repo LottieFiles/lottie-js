@@ -15,3 +15,8 @@ export * from './star-type';
 export * from './matte-mode';
 export * from './effect-type';
 export * from './effect-value-type';
+export * from './text-caps';
+export * from './text-grouping';
+export * from './text-justify';
+export * from './text-based';
+export * from './text-shape';

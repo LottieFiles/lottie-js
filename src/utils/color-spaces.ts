@@ -1,3 +1,5 @@
+import { Color } from '../values/color';
+
 export function rgbaToHex(rgba: number[]) {
   let r = (+rgba[0]).toString(16),
     g = (+rgba[1]).toString(16),
@@ -21,4 +23,11 @@ export function hexToRgba(hex: string, alpha: number | null): number[] {
   }
 
   return [r / 255, g / 255, b / 255];
+}
+
+export function websafeColors(colors: Color[]): Color[] {
+  colors.forEach((color: Color) => {
+    color.websafeColors();
+  });
+  return colors;
 }
