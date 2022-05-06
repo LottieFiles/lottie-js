@@ -15,7 +15,7 @@ export abstract class Layer {
   public autoOrient = false;
   public blendMode: BlendMode = BlendMode.NORMAL;
   public classNames: string[] = [];
-  public height = 0;
+  public height?: number;
   public id = '';
   public index?: number;
   public inPoint = 0;
@@ -24,7 +24,7 @@ export abstract class Layer {
   public outPoint = 0;
   public startTime = 0;
   public timeStretch = 1;
-  public width = 0;
+  public width?: number;
   public matteMode?: MatteMode;
   public matteTarget?: number;
   public isHidden?: boolean;

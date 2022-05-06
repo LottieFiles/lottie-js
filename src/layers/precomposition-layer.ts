@@ -7,9 +7,13 @@ import { Layer } from './layer';
 export class PrecompositionLayer extends Layer {
   public readonly type = LayerType.PRECOMPOSITION;
 
+  public height = 512;
+
   public refId?: string;
 
   public timeRemap: any;
+
+  public width = 512;
 
   /**
    * Convert the Lottie JSON object to class instance.
