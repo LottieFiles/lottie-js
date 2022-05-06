@@ -25,7 +25,9 @@ export class PrecompositionLayer extends Layer {
     super.fromJSON(json);
 
     // This layer props
+    this.height = json.h;
     this.refId = json.refId;
+    this.width = json.w;
 
     return this;
   }
@@ -41,7 +43,9 @@ export class PrecompositionLayer extends Layer {
     const json = super.toJSON();
 
     return Object.assign(json, {
+      h: this.height,
       refId: this.refId,
+      w: this.width,
     });
   }
 }
