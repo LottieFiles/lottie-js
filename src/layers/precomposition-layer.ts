@@ -7,9 +7,13 @@ import { Layer } from './layer';
 export class PrecompositionLayer extends Layer {
   public readonly type = LayerType.PRECOMPOSITION;
 
+  public height = 512;
+
   public refId?: string;
 
   public timeRemap: any;
+
+  public width = 512;
 
   /**
    * Convert the Lottie JSON object to class instance.
@@ -21,7 +25,9 @@ export class PrecompositionLayer extends Layer {
     super.fromJSON(json);
 
     // This layer props
+    this.height = json.h;
     this.refId = json.refId;
+    this.width = json.w;
 
     return this;
   }
@@ -37,7 +43,9 @@ export class PrecompositionLayer extends Layer {
     const json = super.toJSON();
 
     return Object.assign(json, {
+      h: this.height,
       refId: this.refId,
+      w: this.width,
     });
   }
 }

@@ -15,7 +15,6 @@ export abstract class Layer {
   public autoOrient = false;
   public blendMode: BlendMode = BlendMode.NORMAL;
   public classNames: string[] = [];
-  public height = 0;
   public id = '';
   public index?: number;
   public inPoint = 0;
@@ -24,7 +23,6 @@ export abstract class Layer {
   public outPoint = 0;
   public startTime = 0;
   public timeStretch = 1;
-  public width = 0;
   public matteMode?: MatteMode;
   public matteTarget?: number;
   public isHidden?: boolean;
@@ -97,7 +95,6 @@ export abstract class Layer {
     // Base layer props
     this.autoOrient = json.ao === 1;
     this.blendMode = json.bm;
-    this.height = json.h;
     this.id = json.ln;
     this.index = json.ind;
     this.inPoint = json.ip;
@@ -107,7 +104,6 @@ export abstract class Layer {
     this.parent = json.parent;
     this.startTime = json.st;
     this.timeStretch = json.sr;
-    this.width = json.w;
 
     // Split classnames into array
     this.classNames = 'cl' in json ? json.cl.split(' ') : [];
@@ -170,8 +166,6 @@ export abstract class Layer {
       hasMask: this.hasMask || undefined,
       masksProperties: masks,
       ef: effects,
-      w: this.width,
-      h: this.height,
       ip: this.inPoint,
       op: this.outPoint,
       st: this.startTime,
