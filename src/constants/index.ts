@@ -6,6 +6,7 @@ export * from './gradient-stroke-type';
 export * from './layer-type';
 export * from './line-cap-type';
 export * from './line-join-type';
+export * from './dash-type';
 export * from './mask-mode';
 export * from './property-type';
 export * from './shape-type';

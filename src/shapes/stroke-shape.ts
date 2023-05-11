@@ -1,5 +1,5 @@
 import { BlendMode, LineCapType, LineJoinType, PropertyType, ShapeType } from '../constants';
-import { Property } from '../properties';
+import { Dashes, Property } from '../properties';
 import { KeyFrame } from '../timeline/key-frame';
 import { Shape } from './shape';
 
@@ -41,6 +41,8 @@ export class StrokeShape extends Shape {
 
   public width: Property = new Property(this, PropertyType.STROKE_WIDTH);
 
+  public dashes: Dashes = new Dashes(this);
+
   /**
    * Convert the Lottie JSON object to class instance.
    *
@@ -59,6 +61,7 @@ export class StrokeShape extends Shape {
     this.miterLimit = json.ml;
     this.opacity.fromJSON(json.o);
     this.width.fromJSON(json.w);
+    this.dashes.fromJSON(json.d);
 
     return this;
   }
@@ -81,6 +84,7 @@ export class StrokeShape extends Shape {
       ml: this.miterLimit,
       o: this.opacity,
       w: this.width,
+      d: this.dashes,
     });
   }
 }
