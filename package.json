@@ -20,7 +20,8 @@
   },
   "author": "Jawish Hameed <jawish@lottiefiles.com>",
   "scripts": {
-    "build": "yarn build:prod",
+    "svgator": "node ./svgator.js",
+    "build": "yarn build:prod && yarn svgator",
     "build:dev": "cross-env NODE_ENV=development rollup -c -w",
     "build:prod": "cross-env NODE_ENV=production rollup -c",
     "clean": "del-cli --force coverage dist docs",
