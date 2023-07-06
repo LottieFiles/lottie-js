@@ -41,4 +41,5 @@ export enum PropertyType {
   CENTER = 'cn',
   RADIUS = 'ra',
   DISTANCE = 'ds',
+  TIME_REMAP = 'tr',
 }
