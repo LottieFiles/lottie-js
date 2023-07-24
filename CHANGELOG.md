@@ -1,8 +1,12 @@
 # Changelog
 
-## 0.4.1
+## 0.4.2
+
+### Patch Changes
 
 - accept nullish value in out tangets
+
+## 0.4.1
 
 ### Patch Changes
 
