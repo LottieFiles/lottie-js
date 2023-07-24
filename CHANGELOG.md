@@ -2,6 +2,8 @@
 
 ## 0.4.1
 
+- accept nullish value in out tangets
+
 ### Patch Changes
 
 - typo in markers toJson
