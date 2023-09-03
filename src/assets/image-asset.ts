@@ -6,6 +6,8 @@ import { Asset } from './asset';
 export class ImageAsset extends Asset {
   public data?: string;
 
+  public embedded?: number;
+
   public id?: string;
 
   public height!: number;
@@ -22,6 +24,7 @@ export class ImageAsset extends Asset {
    */
   public fromJSON(json: Record<string, any>): ImageAsset {
     this.data = json.p;
+    this.embedded = json.e;
     this.id = json.id;
     this.height = json.h;
     this.path = json.u;
@@ -39,6 +42,7 @@ export class ImageAsset extends Asset {
    */
   public toJSON(): Record<string, any> {
     return {
+      e: this.embedded,
       h: this.height,
       id: this.id,
       p: this.data,
