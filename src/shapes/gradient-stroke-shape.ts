@@ -71,8 +71,12 @@ export class GradientStrokeShape extends Shape {
     this.startPoint.fromJSON(json.s);
 
     if (this.gradientType === GradientFillType.RADIAL) {
-      this.highlightAngle.fromJSON(json.a);
-      this.highlightLength.fromJSON(json.h);
+      if ('a' in json) {
+        this.highlightAngle.fromJSON(json.a);
+      }
+      if ('h' in json) {
+        this.highlightLength.fromJSON(json.h);
+      }
     }
 
     // Stroke
