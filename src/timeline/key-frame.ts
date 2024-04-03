@@ -38,13 +38,13 @@ export class KeyFrame {
     this.frameOutTangent = hasFrameTangents ? [json.o.x, json.o.y] : undefined;
 
     if (hasValueTangents) {
-      if ('x' in json.ti && 'y' in json.ti) {
+      if (json.ti && 'x' in json.ti && 'y' in json.ti) {
         this.valueInTangent = [json.ti.x, json.ti.y];
       } else {
         this.valueInTangent = json.ti;
       }
 
-      if ('x' in json.to && 'y' in json.to) {
+      if (json.to && 'x' in json.to && 'y' in json.to) {
         this.valueOutTangent = [json.to.x, json.to.y];
       } else {
         this.valueOutTangent = json.to;
