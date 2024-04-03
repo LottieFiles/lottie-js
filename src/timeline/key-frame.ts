@@ -11,6 +11,8 @@ export class KeyFrame {
   public valueInTangent?: [number, number];
   public valueOutTangent?: [number, number];
   public hold = false;
+  // older lottie-js files can have the "e" property, which marks the end value of the animation segment.
+  public endValue: number | number[] | undefined | Value = undefined;
 
   public constructor(frame = 0, value: number | number[] | Value = 0) {
     this.frame = frame;
@@ -49,6 +51,17 @@ export class KeyFrame {
       }
     }
 
+    if ('e' in json) {
+      if (valueClass === undefined) {
+        this.endValue = json.e;
+      } else {
+        const endValueClass: any = new valueClass.constructor(valueClass.getParent(), valueClass.type);
+        this.endValue = endValueClass.fromJSON(json.e);
+      }
+    } else {
+      this.endValue = undefined;
+    }
+
     // this.valueOutTangent = hasValueTangents
     //   ? ['x' in json.to ? json.to.x : json.to[0], 'y' in json.to ? json.to.y : json.to[1]]
     //   : undefined;
@@ -82,6 +95,10 @@ export class KeyFrame {
     if (this.valueInTangent && this.valueOutTangent) {
       json.ti = this.valueInTangent;
       json.to = this.valueOutTangent;
+    }
+
+    if (this.endValue !== undefined) {
+      json.e = this.endValue;
     }
 
     return json;
