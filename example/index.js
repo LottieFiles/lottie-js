@@ -1,5 +1,7 @@
 const { Animation } = require('@lottiefiles/lottie-js');
 
+const fs = require('fs');
+
 async function run() {
   const anim = await Animation.fromURL('https://assets1.lottiefiles.com/packages/lf20_u4j3xm6r.json');
 
@@ -17,7 +19,14 @@ async function run() {
 
   // Get the new JSON
   const woohooLottie = JSON.stringify(anim);
-  // console.log(woohooLottie);
+  // Write JSON data to a local file
+  fs.writeFile('res/woohooLottie.json', woohooLottie, err => {
+    if (err) {
+      console.error('Error writing JSON to file:', err);
+      return;
+    }
+    console.log('JSON data has been written to woohooLottie.json');
+  });
 }
 
 Promise.resolve(run());

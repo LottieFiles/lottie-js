@@ -2,12 +2,14 @@
 # yarn lockfile v1
 
 
-"@lottiefiles/lottie-js@^0.0.7":
-  version "0.0.7"
-  resolved "https://npm.pkg.github.com/download/@lottiefiles/lottie-js/0.0.7/54440bb24533319b3831006aac4876493b8496d3ed1409187e13d181cc8e834d#d8c9bb810786267f94ecf5e79ff7f859ea759a06"
-  integrity sha512-zn9OJcwpLKqqTtKA7+xxD0WrwJUFHDGVDZHxWXcdP8EeZybw83GADTTrjCEKw52anNlH9PvyQH1vu91kRK7GPQ==
+"@lottiefiles/lottie-js@*":
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/@lottiefiles/lottie-js/-/lottie-js-0.4.2.tgz#44f681b9ff5753a5e4cedeef5f062e5ebc12fcf7"
+  integrity sha512-nyGZP41ZmKxsj1h8da45SXae50/5tElpAMxIZm2x8NSQietNYSqS7JtmHQty+CNPXKNci5Z46VOFJ48rU0o8oQ==
   dependencies:
     cross-fetch "^3.0.6"
+    typedoc-github-wiki-theme "0.2.0"
+    typedoc-plugin-markdown "3.6.1"
 
 cross-fetch@^3.0.6:
   version "3.0.6"
@@ -16,7 +18,56 @@ cross-fetch@^3.0.6:
   dependencies:
     node-fetch "2.6.1"
 
+handlebars@^4.7.7:
+  version "4.7.8"
+  resolved "https://registry.yarnpkg.com/handlebars/-/handlebars-4.7.8.tgz#41c42c18b1be2365439188c77c6afae71c0cd9e9"
+  integrity sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==
+  dependencies:
+    minimist "^1.2.5"
+    neo-async "^2.6.2"
+    source-map "^0.6.1"
+    wordwrap "^1.0.0"
+  optionalDependencies:
+    uglify-js "^3.1.4"
+
+minimist@^1.2.5:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.8.tgz#c1a464e7693302e082a075cee0c057741ac4772c"
+  integrity sha512-2yyAR8qBkN3YuheJanUpWC5U3bb5osDywNB8RzDVlDwDHbocAJveqqj1u8+SVD7jkWT4yvsHCpWqqWqAxb0zCA==
+
+neo-async@^2.6.2:
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/neo-async/-/neo-async-2.6.2.tgz#b4aafb93e3aeb2d8174ca53cf163ab7d7308305f"
+  integrity sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==
+
 node-fetch@2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
+
+source-map@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
+  integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
+
+typedoc-github-wiki-theme@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/typedoc-github-wiki-theme/-/typedoc-github-wiki-theme-0.2.0.tgz#a5239032774e1b27b6c13bfab334b20bfd6aec1e"
+  integrity sha512-2nl+fUO7PiPrssYEvvHkcXNnCgW8ZWvWmQ9q3FMdyE35MtLH0542OEvvJ7ygjh+yzvAcNrTfOxhWypGXOo/49A==
+
+typedoc-plugin-markdown@3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/typedoc-plugin-markdown/-/typedoc-plugin-markdown-3.6.1.tgz#b3e708606b2a8517d350b875b680490e77b88a5e"
+  integrity sha512-GT09K0/w+DpFk8W2lmsnDiYBHH/5EHscFmyIOv5624WSoqxgMf+xn2BLAYLebYeoIUx9uwhSFtQJlXKFfW9uHA==
+  dependencies:
+    handlebars "^4.7.7"
+
+uglify-js@^3.1.4:
+  version "3.17.4"
+  resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.17.4.tgz#61678cf5fa3f5b7eb789bb345df29afb8257c22c"
+  integrity sha512-T9q82TJI9e/C1TAxYvfb16xO120tMVFZrGA3f9/P4424DNu6ypK103y0GPFVa17yotwSyZW5iYXgjYHkGrJW/g==
+
+wordwrap@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/wordwrap/-/wordwrap-1.0.0.tgz#27584810891456a4171c8d0226441ade90cbcaeb"
+  integrity sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==
