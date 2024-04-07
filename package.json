@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "cross-fetch": "^3.0.6",
+    "protobufjs": "git+https://github.com/lijialiang/protobuf.js.git",
     "typedoc-github-wiki-theme": "0.2.0",
     "typedoc-plugin-markdown": "3.6.1"
   },

@@ -11,6 +11,7 @@ export * from './values';
 export * from './text';
 export * from './fonts';
 export * from './effects';
+export * from './svga';
 
 export * from './utils/use-registry';
 export * from './utils/color-spaces';
