@@ -1,0 +1,111 @@
+{
+    "v": "5.12.2",
+    "nm": "pngMove",
+    "fr": 60,
+    "w": 500,
+    "h": 500,
+    "ip": 0,
+    "markers": [],
+    "op": 600,
+    "ddd": 0,
+    "props": {},
+    "assets": [
+        {
+            "e": 1,
+            "h": 50,
+            "id": "image_0",
+            "p": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSgBBwcHCggKEwoKEygaFhooKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKP/AABEIADIAMgMBEQACEQEDEQH/xAGiAAABBQEBAQEBAQAAAAAAAAAAAQIDBAUGBwgJCgsQAAIBAwMCBAMFBQQEAAABfQECAwAEEQUSITFBBhNRYQcicRQygZGhCCNCscEVUtHwJDNicoIJChYXGBkaJSYnKCkqNDU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6g4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2drh4uPk5ebn6Onq8fLz9PX29/j5+gEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoLEQACAQIEBAMEBwUEBAABAncAAQIDEQQFITEGEkFRB2FxEyIygQgUQpGhscEJIzNS8BVictEKFiQ04SXxFxgZGiYnKCkqNTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqCg4SFhoeIiYqSk5SVlpeYmZqio6Slpqeoqaqys7S1tre4ubrCw8TFxsfIycrS09TV1tfY2dri4+Tl5ufo6ery8/T19vf4+fr/2gAMAwEAAhEDEQA/APqmgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgAoAKACgD//2Q==",
+            "u": "",
+            "w": 50
+        }
+    ],
+    "layers": [
+        {
+            "ao": 0,
+            "bm": 0,
+            "cl": "png",
+            "ddd": 0,
+            "ind": 1,
+            "ip": 0,
+            "ks": {
+                "a": {
+                    "a": 0,
+                    "ix": 1,
+                    "k": [
+                        25,
+                        25,
+                        0
+                    ],
+                    "l": 2
+                },
+                "o": {
+                    "a": 0,
+                    "ix": 11,
+                    "k": 100
+                },
+                "p": {
+                    "a": 1,
+                    "ix": 2,
+                    "k": [
+                        {
+                            "i": {
+                                "x": 0.833,
+                                "y": 0.833
+                            },
+                            "o": {
+                                "x": 0.167,
+                                "y": 0.167
+                            },
+                            "s": [
+                                25,
+                                25,
+                                0
+                            ],
+                            "t": 0,
+                            "ti": [
+                                0,
+                                0,
+                                0
+                            ],
+                            "to": [
+                                0,
+                                0,
+                                0
+                            ]
+                        },
+                        {
+                            "s": [
+                                475,
+                                475,
+                                0
+                            ],
+                            "t": 600
+                        }
+                    ],
+                    "l": 2
+                },
+                "r": {
+                    "a": 0,
+                    "ix": 10,
+                    "k": 0
+                },
+                "s": {
+                    "a": 0,
+                    "ix": 6,
+                    "k": [
+                        100,
+                        100,
+                        100
+                    ],
+                    "l": 2
+                }
+            },
+            "nm": "pure50x50.png",
+            "op": 605,
+            "refId": "image_0",
+            "sr": 1,
+            "st": 0,
+            "ty": 2
+        }
+    ]
+}
