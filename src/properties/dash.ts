@@ -85,7 +85,7 @@ export class Dashes {
    *
    * @returns       JSON object
    */
-  public toJSON(): Array<Record<string, any>> {
-    return this.value.map((dash: Dash) => dash.toJSON());
+  public toJSON(): Array<Record<string, any>> | undefined {
+    return this.value.length ? this.value.map((dash: Dash) => dash.toJSON()) : undefined;
   }
 }

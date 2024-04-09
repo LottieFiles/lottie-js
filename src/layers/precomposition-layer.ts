@@ -12,7 +12,7 @@ export class PrecompositionLayer extends Layer {
 
   public refId?: string;
 
-  public timeRemap: Property | null = null;
+  public timeRemap: Property | undefined;
 
   public width = 512;
 
@@ -34,8 +34,6 @@ export class PrecompositionLayer extends Layer {
         this.timeRemap = new Property(this, PropertyType.TIME_REMAP);
       }
       this.timeRemap.fromJSON(json.tm);
-    } else {
-      this.timeRemap = null;
     }
 
     return this;
@@ -55,7 +53,7 @@ export class PrecompositionLayer extends Layer {
       h: this.height,
       refId: this.refId,
       w: this.width,
-      tm: this.timeRemap ? this.timeRemap.toJSON() : null,
+      tm: this.timeRemap && this.timeRemap.toJSON(),
     });
   }
 }
