@@ -60,6 +60,14 @@ test('Get text layer', async () => {
   expect(Object.keys(anim.textLayers)).toContain('1.text_one');
 });
 
+test('Load an animation (regression 1)', async () => {
+  const anim = await Animation.fromURL(
+    'https://raw.githubusercontent.com/xbbshampoo/lottie-try/main/9%20april%202024/problematic.json',
+  );
+
+  console.log(JSON.stringify(anim.toJSON()));
+});
+
 // test('Test color conversion to x 255', async () => {
 // const anim = await Animation.fromURL('https://assets10.lottiefiles.com/packages/lf20_ygwndfum.json');
 // const colors = websafeColors(anim.colors);

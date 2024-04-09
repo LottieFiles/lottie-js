@@ -14,9 +14,15 @@ export abstract class Color implements Value {
   }
 
   static fromJSON(json: number[]): Color {
-    if (json.length > 3) return ColorRgba.fromJSON(json);
-    else if (json.length == 3) return ColorRgb.fromJSON(json);
-    else return new ColorRgb(0, 0, 0);
+    if (json !== null && typeof json === 'object' && 'length' in json) {
+      if (json.length > 3) {
+        return ColorRgba.fromJSON(json);
+      } else if (json.length == 3) {
+        return ColorRgb.fromJSON(json);
+      }
+    }
+
+    return new ColorRgb(0, 0, 0);
   }
 }
 
