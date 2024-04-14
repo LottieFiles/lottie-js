@@ -43,6 +43,9 @@ async function run() {
   // 拷贝图层
   for (var i = 0; i < svga.sprites.length; i++) {
     const sprite = svga.sprites[i];
+    const tanA = 0.833;
+    const tanB = 0.167;
+
     var anchorX = 0;
     var anchorY = 0;
     var positionKeyFrames = [];
@@ -68,12 +71,12 @@ async function run() {
       positionKeyFrames.push({
         t: j,
         i: {
-          x: 0.833,
-          y: 0.833,
+          x: tanA,
+          y: tanA,
         },
         o: {
-          x: 0.167,
-          y: 0.167,
+          x: tanB,
+          y: tanB,
         },
         s: [newX, newY, 0],
         ti: [0, 0, 0],
@@ -82,27 +85,26 @@ async function run() {
       scaleKeyFrames.push({
         t: j,
         i: {
-          x: [0.833, 0.833, 0.833],
-          y: [0.833, 0.833, 0.833],
+          x: [tanA, tanA, tanA],
+          y: [tanA, tanA, tanA],
         },
         o: {
-          x: [0.167, 0.167, 0.167],
-          y: [0.167, 0.167, 0.167],
+          x: [tanB, tanB, tanB],
+          y: [tanB, tanB, tanB],
         },
-        s: [a * 100, b * 100, 100],
+        s: [a * 100, d * 100, 100],
       });
       rotationKeyFrames.push({
         t: j,
         i: {
-          x: [0.833],
-          y: [0.833],
+          x: [tanA],
+          y: [tanA],
         },
         o: {
-          x: [0.167],
-          y: [0.167],
+          x: [tanB],
+          y: [tanB],
         },
-        // s: [Math.atan2(b, c) * (180 / Math.PI)],
-        s: [0],
+        s: [Math.atan2(b, c) * 180],
       });
     }
 
