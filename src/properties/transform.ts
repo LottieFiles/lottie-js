@@ -2,7 +2,7 @@ import { PropertyType } from '../constants';
 import { KeyFrame } from '../timeline/key-frame';
 import { Property } from './property';
 
-export class xTransform {
+export class Transform {
   public anchor: Property = new Property(this, PropertyType.ANCHOR, [new KeyFrame(0, [0, 0])]);
 
   public opacity: Property = new Property(this, PropertyType.OPACITY, [new KeyFrame(0, 100)]);
