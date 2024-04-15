@@ -46,6 +46,8 @@ export class VideoEntity implements Video {
       let lastShapes: VideoFrameShapes | undefined;
 
       mSprite.frames.forEach(mFrame => {
+        const isEmpty = mFrame.layout == null && mFrame.transform == null;
+
         const layout = {
           x: mFrame.layout?.x ?? 0.0,
           y: mFrame.layout?.y ?? 0.0,
@@ -220,6 +222,7 @@ export class VideoEntity implements Video {
           nx,
           ny,
           maskPath,
+          isEmpty: isEmpty,
         });
       });
       this.sprites.push(vSprite);

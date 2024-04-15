@@ -68,58 +68,60 @@ async function convertSvgaToLottie(svgaDirectoryPath, fileName) {
     // 拷贝关键帧
     for (var j = 0; j < sprite.frames.length; j++) {
       const frame = sprite.frames[j];
-      if (anchorX == 0 && anchorY == 0) {
-        anchorX = frame.layout.width / 2.0;
-        anchorY = frame.layout.height / 2.0;
+      if (!frame.isEmpty) {
+        if (anchorX == 0 && anchorY == 0) {
+          anchorX = frame.layout.width / 2.0;
+          anchorY = frame.layout.height / 2.0;
+        }
+  
+        const pointX = frame.layout.x + frame.layout.width / 2.0;
+        const pointY = frame.layout.y + frame.layout.height / 2.0;
+        const { a, b, c, d, tx, ty } = frame.transform;
+        const newX = a * pointX + c * pointY + tx;
+        const newY = b * pointX + d * pointY + ty;
+        const scaleX = Math.sqrt(a * a + b * b);
+        const scaleY = Math.sqrt(c * c + d * d);
+        const rotation = Math.atan2(b, a) * (180 / Math.PI);
+  
+        positionKeyFrames.push({
+          t: j,
+          s: [newX, newY, 0],
+          i: {
+            x: tanA,
+            y: tanA,
+          },
+          o: {
+            x: tanB,
+            y: tanB,
+          },
+          ti: [0, 0, 0],
+          to: [0, 0, 0],
+        });
+        scaleKeyFrames.push({
+          t: j,
+          s: [scaleX * 100, scaleY * 100, 100],
+          i: {
+            x: [tanA, tanA, tanA],
+            y: [tanA, tanA, tanA],
+          },
+          o: {
+            x: [tanB, tanB, tanB],
+            y: [tanB, tanB, tanB],
+          },
+        });
+        rotationKeyFrames.push({
+          t: j,
+          s: [rotation],
+          i: {
+            x: [tanA],
+            y: [tanA],
+          },
+          o: {
+            x: [tanB],
+            y: [tanB],
+          },
+        });
       }
-
-      const pointX = frame.layout.x + frame.layout.width / 2.0;
-      const pointY = frame.layout.y + frame.layout.height / 2.0;
-      const { a, b, c, d, tx, ty } = frame.transform;
-      const newX = a * pointX + c * pointY + tx;
-      const newY = b * pointX + d * pointY + ty;
-      const scaleX = Math.sqrt(a * a + b * b);
-      const scaleY = Math.sqrt(c * c + d * d);
-      const rotation = Math.atan2(b, a) * (180 / Math.PI);
-
-      positionKeyFrames.push({
-        t: j,
-        s: [newX, newY, 0],
-        i: {
-          x: tanA,
-          y: tanA,
-        },
-        o: {
-          x: tanB,
-          y: tanB,
-        },
-        ti: [0, 0, 0],
-        to: [0, 0, 0],
-      });
-      scaleKeyFrames.push({
-        t: j,
-        s: [scaleX * 100, scaleY * 100, 100],
-        i: {
-          x: [tanA, tanA, tanA],
-          y: [tanA, tanA, tanA],
-        },
-        o: {
-          x: [tanB, tanB, tanB],
-          y: [tanB, tanB, tanB],
-        },
-      });
-      rotationKeyFrames.push({
-        t: j,
-        s: [rotation],
-        i: {
-          x: [tanA],
-          y: [tanA],
-        },
-        o: {
-          x: [tanB],
-          y: [tanB],
-        },
-      });
     }
 
     const keyFrames = {

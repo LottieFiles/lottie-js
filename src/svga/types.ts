@@ -156,6 +156,7 @@ export interface VideoFrame {
   clipPath: string;
   maskPath: MaskPath | null;
   shapes: VideoFrameShapes;
+  isEmpty: boolean;
 }
 
 export interface MovieSprite {
