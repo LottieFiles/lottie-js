@@ -1,9 +1,22 @@
 const fs = require('fs');
+const path = require('path');
 const zlib = require('zlib');
 const { Parser, Animation, ImageLayer } = require('@lottiefiles/lottie-js');
 
 async function run() {
-  var data = fs.readFileSync( __dirname + '/res/pngMove.svga');
+  const directoryPath = path.join(__dirname, '/res/svga');
+  fs.readdir(directoryPath, function (err, files) {
+    if (err) {
+      return console.log('Unable to scan directory: ' + err);
+    }
+    files.forEach(function (file) {
+      Promise.resolve(convertSvgaToLottie(directoryPath, file));
+    });
+  });
+}
+
+async function convertSvgaToLottie(svgaDirectoryPath, fileName) {
+  var data = fs.readFileSync(path.join(svgaDirectoryPath, fileName));
   const arrayBuffer = data.buffer.slice(data.byteOffset, data.byteOffset + data.byteLength);
   var input = new Uint8Array(arrayBuffer);
   const inflatedData = zlib.inflateSync(input);
@@ -60,16 +73,18 @@ async function run() {
         anchorY = frame.layout.height / 2.0;
       }
 
-      const pointX = frame.layout.x + (frame.layout.width / 2.0);
-      const pointY = frame.layout.y + (frame.layout.height / 2.0);
+      const pointX = frame.layout.x + frame.layout.width / 2.0;
+      const pointY = frame.layout.y + frame.layout.height / 2.0;
       const { a, b, c, d, tx, ty } = frame.transform;
       const newX = a * pointX + c * pointY + tx;
       const newY = b * pointX + d * pointY + ty;
-      if (j  < 10) {
-        console.log(frame.transform);
-      }
+      const scaleX = Math.sqrt(a * a + b * b);
+      const scaleY = Math.sqrt(c * c + d * d);
+      const rotation = Math.atan2(b, a) * (180 / Math.PI);
+
       positionKeyFrames.push({
         t: j,
+        s: [newX, newY, 0],
         i: {
           x: tanA,
           y: tanA,
@@ -78,12 +93,12 @@ async function run() {
           x: tanB,
           y: tanB,
         },
-        s: [newX, newY, 0],
         ti: [0, 0, 0],
         to: [0, 0, 0],
       });
       scaleKeyFrames.push({
         t: j,
+        s: [scaleX * 100, scaleY * 100, 100],
         i: {
           x: [tanA, tanA, tanA],
           y: [tanA, tanA, tanA],
@@ -92,10 +107,10 @@ async function run() {
           x: [tanB, tanB, tanB],
           y: [tanB, tanB, tanB],
         },
-        s: [a * 100, d * 100, 100],
       });
       rotationKeyFrames.push({
         t: j,
+        s: [rotation],
         i: {
           x: [tanA],
           y: [tanA],
@@ -104,7 +119,6 @@ async function run() {
           x: [tanB],
           y: [tanB],
         },
-        s: [Math.atan2(b, c) * 180],
       });
     }
 
@@ -157,17 +171,18 @@ async function run() {
     });
     anim.layers.push(imageLayer);
   }
-  // console.log(anim);
-
-  // Get the new JSON
   const svga2lottie = JSON.stringify(anim);
-  // Write JSON data to a local file
-  fs.writeFile('res/svga2lottie.json', svga2lottie, err => {
+  // console.log(svga2lottie);
+
+  const svgaFolder = '/svga';
+  const lottieDirectoryPath = svgaDirectoryPath.slice(0, -svgaFolder.length) + '/lottie';
+  const lottieFileName = fileName.replace('.svga', '.json');
+  fs.writeFile(path.join(lottieDirectoryPath, lottieFileName), svga2lottie, err => {
     if (err) {
       console.error('Error writing JSON to file:', err);
       return;
     }
-    console.log('JSON data has been written to svga2lottie.json');
+    console.log('JSON data has been written to ' + lottieFileName);
   });
 }
 
