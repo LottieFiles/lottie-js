@@ -1,11 +1,11 @@
 const fs = require('fs');
 const path = require('path');
 const zlib = require('zlib');
-const { Parser, Animation, ImageLayer } = require('@lottiefiles/lottie-js');
+const { Parser, Animation, ShapeLayer, ImageLayer } = require('@lottiefiles/lottie-js');
 
 async function run() {
-  const anim = await Animation.fromURL('https://assets1.lottiefiles.com/packages/lf20_u4j3xm6r.json');
-  console.log(anim);
+  const anim = await Animation.fromURL('	https://lottie2svga-1253681635.cos.ap-shanghai.myqcloud.com/RectMove.json');
+  console.log(anim.layers[0].shapes);
 
   const directoryPath = path.join(__dirname, '/res/svga');
   fs.readdir(directoryPath, function (err, files) {
@@ -158,8 +158,12 @@ async function convertSvgaToLottie(svgaDirectoryPath, fileName) {
       },
     };
 
-    if (str.endsWith(".vector")) {
-
+    if (sprite.imageKey.endsWith(".vector")) {
+      const shapeLayer = new ShapeLayer();
+      shapeLayer.fromJSON({
+        
+      });
+      anim.layers.push(shapeLayer);
     } else {
       const imageLayer = new ImageLayer();
       imageLayer.fromJSON({
