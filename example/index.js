@@ -4,6 +4,9 @@ const zlib = require('zlib');
 const { Parser, Animation, ImageLayer } = require('@lottiefiles/lottie-js');
 
 async function run() {
+  const anim = await Animation.fromURL('https://assets1.lottiefiles.com/packages/lf20_u4j3xm6r.json');
+  console.log(anim);
+
   const directoryPath = path.join(__dirname, '/res/svga');
   fs.readdir(directoryPath, function (err, files) {
     if (err) {
@@ -73,7 +76,7 @@ async function convertSvgaToLottie(svgaDirectoryPath, fileName) {
           anchorX = frame.layout.width / 2.0;
           anchorY = frame.layout.height / 2.0;
         }
-  
+
         const pointX = frame.layout.x + frame.layout.width / 2.0;
         const pointY = frame.layout.y + frame.layout.height / 2.0;
         const { a, b, c, d, tx, ty } = frame.transform;
@@ -82,7 +85,7 @@ async function convertSvgaToLottie(svgaDirectoryPath, fileName) {
         const scaleX = Math.sqrt(a * a + b * b);
         const scaleY = Math.sqrt(c * c + d * d);
         const rotation = Math.atan2(b, a) * (180 / Math.PI);
-  
+
         positionKeyFrames.push({
           t: j,
           s: [newX, newY, 0],
@@ -155,23 +158,27 @@ async function convertSvgaToLottie(svgaDirectoryPath, fileName) {
       },
     };
 
-    const imageLayer = new ImageLayer();
-    imageLayer.fromJSON({
-      ao: 0,
-      bm: 0,
-      cl: 'png',
-      ddd: 0,
-      ind: 1,
-      ip: 0,
-      ks: keyFrames,
-      nm: sprite.imageKey + '.png',
-      op: sprite.frames.length,
-      refId: sprite.imageKey,
-      sr: 1,
-      st: 0,
-      ty: 2,
-    });
-    anim.layers.push(imageLayer);
+    if (str.endsWith(".vector")) {
+
+    } else {
+      const imageLayer = new ImageLayer();
+      imageLayer.fromJSON({
+        ao: 0,
+        bm: 0,
+        cl: 'png',
+        ddd: 0,
+        ind: 1,
+        ip: 0,
+        ks: keyFrames,
+        nm: sprite.imageKey + '.png',
+        op: sprite.frames.length,
+        refId: sprite.imageKey,
+        sr: 1,
+        st: 0,
+        ty: 2,
+      });
+      anim.layers.push(imageLayer);
+    }
   }
   const svga2lottie = JSON.stringify(anim);
   // console.log(svga2lottie);
@@ -189,11 +196,7 @@ async function convertSvgaToLottie(svgaDirectoryPath, fileName) {
 }
 
 function get_size(base64) {
-  //确认处理的是png格式的数据
   if (base64.substring(0, 22) === 'data:image/png;base64,') {
-    // base64 是用四个字符来表示3个字节
-    // 我们只需要截取base64前32个字符(不计开头那22个字符)便可（24 / 3 * 4）
-    // 这里的data包含12个字符，9个字节，除去第1个字节，后面8个字节就是我们想要的宽度和高度
     const data = base64.substring(22 + 20, 22 + 32);
     const base64Characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
     const nums = [];
