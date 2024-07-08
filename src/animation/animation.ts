@@ -354,6 +354,9 @@ export class Animation {
 
     if ('meta' in json) {
       this.meta.fromJSON(json.meta);
+    } else {
+      this.meta.fromJSON({});
+      this.meta.generator = undefined;
     }
 
     if ('fonts' in json) {
