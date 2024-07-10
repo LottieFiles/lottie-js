@@ -51,7 +51,7 @@ export class Meta {
    */
   public fromJSON(json: Record<string, any>): Meta {
     this.author = json.a;
-    this.keywords = 'k' in json ? json.k.split(',').map((w: string) => w.trim()) : [json.k];
+    this.keywords = 'k' in json ? json.k.split(',').map((w: string) => w.trim()) : [];
     this.generator = json.g;
     this.description = json.d;
     this.themeColor = json.tc;
