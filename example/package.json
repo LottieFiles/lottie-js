@@ -9,6 +9,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@lottiefiles/lottie-js": "*"
+    "@lottiefiles/lottie-js": "file:../"
   }
 }
