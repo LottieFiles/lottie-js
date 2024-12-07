@@ -1,10 +1,10 @@
 import { TextCaps, TextJustify } from '../constants';
-import { Color, ColorRgb } from './color';
+import { Color } from './color';
 import { Value } from './value';
 
 export class TextDocument implements Value {
   public fontFamily = '';
-  public fontColor: Color = new ColorRgb(0, 0, 0);
+  public fontColor?: Color;
   public fontSize = 0;
   public text = '';
 
