@@ -13,13 +13,13 @@ without having to learn the entire complex structure of a Lottie file.
 
 1. Install
 
-```
+```sh
 yarn add @lottiefiles/lottie-js@0.0.1
 ```
 
 2. Use
 
-```
+```js
 import { Animation } from '@lottiefiles/lottie-js';
 
 async function loadAnimation() {
@@ -79,7 +79,7 @@ Development work on the toolkit requires Nodejs and Yarn.
 
 #### Setting up
 
-```
+```sh
 git clone https://github.com/LottieFiles/lottie-js
 
 cd lottie-js
@@ -89,12 +89,12 @@ yarn install
 
 #### Running test suite
 
-```
+```sh
 yarn test
 ```
 
 #### Building
 
-```
+```sh
 yarn build
 ```
